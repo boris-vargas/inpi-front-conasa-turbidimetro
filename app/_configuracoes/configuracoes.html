@@ -1,0 +1,8 @@
+<section class="content" ng-controller="ConfigController as cfgCtrl">
+  <div class="panel-default" ng-if="(cfgCtrl.getUser().acesso > 1)">
+    <exclamacao texto="Você não tem acesso a esta área, contate o administrador">
+  </div>
+  <div class="panel-default" ng-if="(cfgCtrl.getUser().acesso <= 1)">
+      <div ng-include="'/_configuracoes/accordionConfig01.html'"></div>
+  </div>
+</section>

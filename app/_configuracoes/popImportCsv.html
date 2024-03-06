@@ -1,0 +1,32 @@
+    <div class="modal-header">
+      <h4 class="modal-title"><i class="fa fa-file-excel-o fa-2x"></i>&nbsp;{{textoPopUp}}</h4>
+    </div>
+
+    <div class="col-md-12">
+      <div class="box-body table-responsive">
+        <p>O arquivo deve conter a coluna <strong>"timestamp"</strong> no formato YYYY-MM-DD HH:mm:ss e <strong>"valor" </strong>no formato numérico</p>
+      </div>
+    </div>
+
+    <div class="box-body table-responsive">
+      <hr>
+      <p style="margin-left: 20px;">Selecione o arquivo .csv para upload </p>
+      <form role="form" class="form-horizontal" name="bulkDirectForm" method="post" enctype="multipart/form-data" novalidate>
+        <div class="box-body">
+          <div class="form-group">
+            <div class="col-sm-12">
+              <input type="file" class="form-control" id="bulkDirectFile" placeholder="CSV file with phone numbers and amount" ng-model="prd.bulk_direct_file" required accept=".csv">
+            </div>
+            <br>
+            <br>
+            <div class="modal-footer">
+              <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
+              <button class="btn btn-warning" type="button" ng-click="cancelar()">Cancel</button>
+              <i ng-if="processing" class="fa fa-cog fa-spin fa-2x fa-fw"></i>
+            </div>
+          </div>
+        </div>
+      </form>
+
+    </div>
+

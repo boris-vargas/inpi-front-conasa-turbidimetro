@@ -1,0 +1,71 @@
+<a href class="dropdown-toggle" data-toggle="dropdown"  ng-if="!navCtrl.cpuinfos.status">
+<i class="fa fa-stethoscope"></i>
+<!-- <span class="label label-danger"></span> -->
+</a>
+<ul class="dropdown-menu">
+  <!-- <li class="header">You have 9 tasks</li> -->
+  <li >
+    <!-- inner menu: contains the actual data -->
+    <ul class="menu" >
+      <li>
+        <!-- Task item -->
+        <a href="#" style="height:44px;">
+          <h3   style="font-size:12px;">
+            <i class='fa fa-thermometer-full'></i> CPU Temperatura
+            <small style="font-size:9px;" class="pull-right">{{navCtrl.cpuinfos.cpuTemperature.main | number:2 }} °C</small>
+
+          </h3>
+          <div class="progress xs">
+
+            <div class="progress-bar progress-bar-red" ng-style="{width: (navCtrl.cpuinfos.cpuTemperature.main)*2.5}" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
+              <span class="sr-only">20% Complete</span>
+            </div>
+          </div>
+        </a>
+      </li>
+      <li>
+        <!-- Task item -->
+        <a href="#" style="height:44px;">
+          <h3   style="font-size:12px;">
+            <i class='fa fa-cogs'></i> CPU load server
+            <small style="font-size:9px;" class="pull-right">{{navCtrl.cpuinfos.currentLoad.currentload | number:2}} %</small>
+          </h3>
+          <div class="progress xs">
+
+            <div class="progress-bar progress-bar-aqua" ng-style="{width: navCtrl.cpuinfos.currentLoad.currentload *2.5}" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
+              <span class="sr-only">20% Complete</span>
+            </div>
+          </div>
+        </a>
+      </li>      <!-- end task item -->
+
+      <!-- end task item -->
+      <li>
+        <!-- Task item -->
+        <a href="#" style="height:44px;">
+          <h3  style="font-size:12px;">
+            <i class='fa fa-database'></i> Disco usado <small>(total 8GB)</small>
+            <small style="font-size:9px;" class="pull-right">{{(navCtrl.cpuinfos.mem.used/100000000) | number : 2}} GB</small>
+          </h3>
+          <div class="progress xs">
+            <div class="progress-bar progress-bar-green" ng-style="{width: ((((navCtrl.cpuinfos.mem.used/100000000)*100)/8)*2.5)}" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
+              <span class="sr-only">60% Complete</span>
+            </div>
+          </div>
+        </a>
+      </li>
+      <!-- end task item -->
+      <li>
+        <a href="#" style="height:44px;">
+          <h3  style="font-size:12px;">
+            <i class='fa fa-id-card-o'></i> Número de série: {{navCtrl.novoNumeroSerie}} 
+          </h3>
+        </a>
+      </li>
+      <!-- end task item -->
+    </ul>
+  </li>
+  <li style="height:10px;">
+    <a href="#"></a>
+  </li>
+</ul>

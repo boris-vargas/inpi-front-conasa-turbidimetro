@@ -1,0 +1,41 @@
+
+<a href class="dropdown-toggle" data-toggle="dropdown">
+<img src="/assets/imgs/{{::navCtrl.getUser().foto_path}}" class="user-image" alt="User Image">
+<span class="hidden-xs" style="font-size:12px;">{{::navCtrl.getUser().nome}}</span>
+</a>
+<ul class="dropdown-menu">
+  <!-- User image -->
+  <li class="user-header" style="height:215px;">
+    <img src="/assets/imgs/{{::navCtrl.getUser().foto_path}}" class="img-circle" alt="User Image">
+    <p>
+      {{::navCtrl.getUser().nome}}
+      <small>{{::navCtrl.getUser().email}}</small>
+      <!-- <small>Fone: {{::navCtrl.getUser().telefone}}</small>
+      <small>Matrícula: {{::navCtrl.getUser().matricula}}</small> -->
+      <small>Acesso: {{::navCtrl.getUser().acesso | acesso}}</small>
+    </p>
+  </li>
+  <!-- Menu Body -->
+  <!-- <li class="user-body">
+    <div class="row">
+      <div class="col-xs-4 text-center">
+        <a href>Seguidores</a>
+      </div>
+      <div class="col-xs-4 text-center">
+        <a href>Vendas</a>
+      </div>
+      <div class="col-xs-4 text-center">
+        <a href>Amigos</a>
+      </div>
+    </div>
+  </li> -->
+  <!-- Menu Footer-->
+  <li class="user-footer">
+    <!-- <div class="pull-left">
+      <a href class="btn btn-default btn-xs">Perfil</a>
+    </div> -->
+    <div class="pull-right">
+      <a href class="btn btn-default btn-xs" ng-click="navCtrl.logout()">Sair</a>
+    </div>
+  </li>
+</ul>

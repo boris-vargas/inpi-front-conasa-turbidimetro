@@ -1,0 +1,35 @@
+<!-- <strong>Copyright &copy; {{ consts.year }}
+  <a href="{{ consts.site }}" target="_blank">{{ consts.owner }}</a>.
+</strong>
+<small> Conectado a API: {{ consts.apiUrl }}</small> -->
+
+<div ng-controller="footerController as footerCtrl">
+  <div class="box-body table-responsive no-padding">
+            <table class="table table-hover header-fixed">
+              <thead>
+              <tr class="warning" style="font-size:11px;text-align:center;">
+                <th style="text-align:center; width:120px;">Data hora</th>
+                <th style="text-align:left; width:200px;">Descrição</th>
+                <th style="text-align:center;">Equipamento</th>
+                <th style="text-align:center; width:100px;">Menu navegação</th>
+                <th style="text-align:center;">Valor</th>
+                <th style="text-align:center;">Acão</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr ng-style="alarme.prioridade==0 && {'color':'red'}  || alarme.prioridade==1 && {'color':'orange'}  || alarme.prioridade==2 && {'color':'blue'}  || alarme.prioridade >=3 && {'color':'#808080'} " style="font-size:11px;" ng-repeat="alarme in footerCtrl.alarmes">
+                <td style="text-align:center; width:120px;">{{alarme.data_ocorrido | utcBrasilShortDate}}</td>
+                <td style="text-align:left; width:200px;">{{alarme.descricao}}</td>
+                <td style="text-align:center;">{{alarme.equipamento}}</td>
+                <td style="text-align:center; width:100px;">{{alarme.navegacao}}</td>
+                <td style="text-align:center;">{{alarme.valor}}</td>
+                <td style="text-align:center;">
+                  <button class="btn btn-danger btn-xs" ng-disabled="true" mw-confirm-click="eleController.materialDelete($index)" mw-confirm-click-message="Deseja realmente apagar o registro?" uib-tooltip="Remove material"><i class="fa fa-trash-o" ></i></button>
+                  <button class="btn btn-warning btn-xs" ng-click="eleController.materialEdit($index)" ng-disabled="true"><i class="fa fa-pencil" uib-tooltip="Edita material"></i></button>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+
+</div>
+</div>

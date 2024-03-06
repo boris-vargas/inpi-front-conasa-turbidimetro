@@ -1,0 +1,91 @@
+<div class="sidebar"  ng-controller="menuController as menuCtrl">
+	<div class="user-panel" ng-include="'/template/menu/user.html'"></div>
+	<!-- <div ng-include="'/template/menu/searchForm.html'"></div> -->
+	<ul class="sidebar-menu">
+		<li class="header">NAVEGAÇÃO PRINCIPAL</li>
+		<li>
+			<a ui-sref="dashboard">
+				<i class="fa fa-tachometer"></i> <span style="font-size:12px;">Dashboard</span>
+			</a>
+		</li>
+
+
+		<li ng-if="menuCtrl.menus[0].menu1_nome.length>1">
+			<a ui-sref="menu1">
+					<i ng-class="menuCtrl.menus[0].menu1_icon"></i> <span style="font-size:12px;">{{menuCtrl.menus[0].menu1_nome}}</span>
+			</a>
+		</li>
+
+		<li ng-if="menuCtrl.menus[0].menu2_nome.length>1">
+			<a ui-sref="menu2">
+				<i ng-class="menuCtrl.menus[0].menu2_icon"></i> <span style="font-size:12px;">{{menuCtrl.menus[0].menu2_nome}}</span>
+			</a>
+		</li>
+
+		<li ng-if="menuCtrl.menus[0].menu3_nome.length>1">
+			<a ui-sref="menu3">
+				<i ng-class="menuCtrl.menus[0].menu3_icon"></i> <span style="font-size:12px;">{{menuCtrl.menus[0].menu3_nome}}</span>
+			</a>
+		</li>
+
+		<li ng-if="menuCtrl.menus[0].menu4_nome.length>1">
+			<a ui-sref="menu4">
+				<i ng-class="menuCtrl.menus[0].menu4_icon"></i> <span style="font-size:12px;">{{menuCtrl.menus[0].menu4_nome}}</span>
+			</a>
+		</li>
+
+		<li ng-if="menuCtrl.menus[0].menu5_nome.length>1">
+			<a ui-sref="menu5">
+				<i ng-class="menuCtrl.menus[0].menu5_icon"></i> <span style="font-size:12px;">{{menuCtrl.menus[0].menu5_nome}}</span>
+			</a>
+		</li>
+
+		<li ng-if="menuCtrl.menus[0].menu6_nome.length>1">
+			<a ui-sref="menu6">
+				<i ng-class="menuCtrl.menus[0].menu6_icon"></i> <span style="font-size:12px;">{{menuCtrl.menus[0].menu6_nome}}</span>
+			</a>
+		</li>
+
+		<li ng-if="menuCtrl.menus[0].menu7_nome.length>1">
+			<a ui-sref="menu7">
+				<i ng-class="menuCtrl.menus[0].menu7_icon"></i> <span style="font-size:12px;">{{menuCtrl.menus[0].menu7_nome}}</span>
+			</a>
+		</li>
+
+		<li ng-if="menuCtrl.menus[0].menu8_nome.length>1">
+			<a ui-sref="menu8">
+				<i ng-class="menuCtrl.menus[0].menu8_icon"></i> <span style="font-size:12px;">{{menuCtrl.menus[0].menu8_nome}}</span>
+			</a>
+		</li>
+
+		<li ng-if="menuCtrl.menus[0].menu9_nome.length>1">
+			<a ui-sref="menu9">
+				<i ng-class="menuCtrl.menus[0].menu9_icon"></i> <span style="font-size:12px;">{{menuCtrl.menus[0].menu9_nome}}</span>
+			</a>
+		</li>
+
+		<li ng-if="menuCtrl.menus[0].menu10_nome.length>1">
+			<a ui-sref="menu10">
+				<i ng-class="menuCtrl.menus[0].menu10_icon"></i> <span style="font-size:12px;">{{menuCtrl.menus[0].menu10_nome}}</span>
+			</a>
+		</li>
+
+
+		<li>
+			<a ui-sref="configuracoes">
+				<i class="fa fa-cog"></i> <span style="font-size:12px;">Componentes</span>
+			</a>
+		</li>
+
+	<li>
+			<a ui-sref="configureinpi">
+				<i class="fa fa-microchip"></i> <span style="font-size:12px;">Configurações</span>
+			</a>
+		</li>
+
+
+	</ul>
+
+
+
+</div>

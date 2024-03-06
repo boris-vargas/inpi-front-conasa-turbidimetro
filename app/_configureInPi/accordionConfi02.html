@@ -1,0 +1,2322 @@
+
+<uib-accordion ng-click="cfgPiCtrl.acordion2()">
+  <div uib-accordion-group class="panel-default" is-open="cfgPiCtrl.openAc2">
+    <uib-accordion-heading>
+      <i class="pull-left fa fa-microchip"></i><Label style="font-size:12px;">Configurações de hardware</label><i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': cfgPiCtrl.openAc2, 'glyphicon-chevron-right': !cfgPiCtrl.openAc2}"></i>
+      </uib-accordion-heading>
+        <!-- //++++++++++++++++++++++++++++++++++++++++++++++
+        //Configurações de rede do INPI-PLC
+        //++++++++++++++++++++++++++++++++++++++++++++++ -->
+        <div class="box box-primary" ng-if="true">
+          <div class="box-body table-responsive no-padding">
+            <div class="col-xs-12 col-md-12">
+              <label class="control-label">Informações de rede local</label>
+              <table class="table table-hover">
+                <tr class="info" style="text-align: center; font-size:12px;">
+                  <th style="text-align: left; font-size:12px;">Rede</th>
+                  <th style="text-align: center; font-size:12px;">Modo</th>
+                  <th style="text-align: center; font-size:12px;">IP</th>
+                  <th style="text-align: center; font-size:12px;">Gateway</th>
+                  <th style="text-align: center; font-size:12px;">DNS</th>
+                  <th style="text-align: center; font-size:12px;">MAC</th>
+                  <th style="text-align: center; font-size:12px;">Ação</th>
+
+                </tr>
+                <tr style="text-align: center; font-size:12px;">
+                  <td style="text-align: left" ng-style="cfgPiCtrl.styleWifiTable"><i class="fa fa-wifi" aria-hidden="true"></i> {{cfgPiCtrl.networkStatus.wifiname}}</td>
+                  <td style="text-align: center" ng-style="cfgPiCtrl.styleWifiTable">{{cfgPiCtrl.networkStatus.dhcpwifi?'DHCP':'IP Manual'}}</td>
+                  <td style="text-align: center" ng-style="cfgPiCtrl.styleWifiTable">{{cfgPiCtrl.networkStatus.ipdhcpwifi}}</td>
+                  <td style="text-align: center" ng-style="cfgPiCtrl.styleWifiTable">{{cfgPiCtrl.networkStatus.dhcpwifi?'':cfgPiCtrl.networkStatus.gatewaywifi}}</td>
+                  <td style="text-align: center" ng-style="cfgPiCtrl.styleWifiTable">{{cfgPiCtrl.networkStatus.dhcpwifi?'':cfgPiCtrl.networkStatus.dnswifi}}</td>
+                  <td style="text-align: center" ng-style="cfgPiCtrl.styleWifiTable">{{cfgPiCtrl.networkStatus.wifimac}}</td>
+                  <td style="text-align: center;vertical-align: middle;" ng-style="cfgPiCtrl.styleWifiTable">
+                    <button class="btn btn-primary btn-xs" ng-disabled="false" ng-click="cfgPiCtrl.setNetworkSettings('sm','.modal-parent', 'wifi')" uib-tooltip="Configura rede"><i class="fa fa-sign-in" ></i></button>
+                  </td>
+                </tr>
+                <tr style="text-align: center; font-size:12px;">
+                  <td style="text-align: left"><i class="fa fa-exchange" aria-hidden="true"></i> Local(ETH)</td>
+                  <td style="text-align: center">{{cfgPiCtrl.networkStatus.dhcpeth?'DHCP':'IP Manual'}}</td>
+                  <td style="text-align: center">{{cfgPiCtrl.networkStatus.ipdhcpeth}}</td>
+                  <td style="text-align: center">{{cfgPiCtrl.networkStatus.dhcpeth?'':cfgPiCtrl.networkStatus.gatewayeth}}</td>
+                  <td style="text-align: center">{{cfgPiCtrl.networkStatus.dhcpeth?'':cfgPiCtrl.networkStatus.dnseth}}</td>
+                  <td style="text-align: center">{{cfgPiCtrl.networkStatus.ethmac}}</td>
+                  <td style="text-align: center;vertical-align: middle;">
+                    <button class="btn btn-primary btn-xs" ng-disabled="false" ng-click="cfgPiCtrl.setNetworkSettings('sm','.modal-parent', 'eth')" uib-tooltip="Configura rede"><i class="fa fa-sign-in" ></i></button>
+                  </td>
+                </tr>
+                <tr style="text-align: center; font-size:12px;">
+                  <td style="text-align: left"><i class="fa fa-cloud" aria-hidden="true"></i> IP(público)</td>
+                  <td style="text-align: center">DHCP</td>
+                  <td style="text-align: center">{{cfgPiCtrl.remoteInfos.internet.ipv4}}</td>
+                </tr>
+              </table>
+<!--               <div class=""style="margin-left:6px;margin-bottom: 15px;margin-top: -20px;" >
+                <input class="" type="checkbox" id="inlineCheckboxDHCP" mw-confirm-click="cfgPiCtrl.habilitaDhcpClick()" mw-confirm-click-message="Deseja realmente apagar o registro?" uib-tooltip="Remover objeto" ng-model="cfgPiCtrl.habilitaDhcp" ng-click="cfgPiCtrl.habilitaDhcpClickEver()" >
+                <label style="font-size:12px;"class=""  for="inlineCheckboxDHCP"> Habilita DHCP cliente Wifi</label>
+              </div> -->
+            </div>
+
+          </div>
+
+ 
+
+
+        </div>
+        <!-- //++++++++++++++++++++++++++++++++++++++++++++++
+        //Configurações de rede internet do INPI-PLC
+        //++++++++++++++++++++++++++++++++++++++++++++++ -->
+<!--         <div class="box box-primary" ng-if="true">
+          <div class="box-body table-responsive no-padding">
+            <div class="col-xs-12 col-md-12">
+              <label class="control-label">Informações de rede pública(internet)</label>
+              <table class="table table-hover" ng-if="cfgPiCtrl.remoteInfos.internet.ipv4!=''" >
+                <tr class="info" style="text-align: center; font-size:12px;">
+                  <th style="text-align: left; font-size:12px;">IPv4</th>
+                  <th style="text-align: center; font-size:12px;">IPv6</th>
+                  <th style="text-align: center; font-size:12px;">CEP</th>
+                  <th style="text-align: center; font-size:12px;">Cidade</th>
+                  <th style="text-align: center; font-size:12px;">Estado</th>
+                  <th style="text-align: center; font-size:12px;">País</th>
+                  <th style="text-align: center; font-size:12px;">Latitude</th>
+                  <th style="text-align: center; font-size:12px;">Longitude</th>
+                  <th style="text-align: center; font-size:12px;">Provedor</th>
+
+                </tr>
+                <tr style="text-align: center; font-size:12px;">
+                  <td style="text-align: left"><i class="fa fa-cloud" aria-hidden="true"></i> {{cfgPiCtrl.remoteInfos.internet.ipv4}}</td>
+                  <td style="text-align: center">{{cfgPiCtrl.remoteInfos.internet.ipv6}}</td>
+                  <td style="text-align: center">{{cfgPiCtrl.remoteInfos.internet.cep}}</td>
+                  <td style="text-align: center">{{cfgPiCtrl.remoteInfos.internet.cidade}}</td>
+                  <td style="text-align: center">{{cfgPiCtrl.remoteInfos.internet.estado}}</td>
+                  <td style="text-align: center">{{cfgPiCtrl.remoteInfos.internet.pais}}</td>
+                  <td style="text-align: center">{{cfgPiCtrl.remoteInfos.internet.lat}}</td>
+                  <td style="text-align: center">{{cfgPiCtrl.remoteInfos.internet.lon}}</td>
+                  <td style="text-align: center">{{cfgPiCtrl.remoteInfos.internet.provedor}}</td>
+                </tr>
+              </table>
+
+              <exclamacao ng-if="cfgPiCtrl.remoteInfos.internet.ipv4==''" texto="Não foi possível conectar com a internet, por favor verifique os cabos e os parâmentros de rede" color="red"></exclamacao>
+
+            </div>
+            <button style="margin: 10px;"class="btn btn-success btn-xs" ng-click="cfgPiCtrl.updateInternetIpStart()" ng-disabled="false"><i class="fa fa-search" uib-tooltip="Atualizar informações internet"></i> Scan internet</button>          
+          </div>
+        </div> -->
+        <!-- //++++++++++++++++++++++++++++++++++++++++++++++
+        //Configurações redes wifi in-TechP
+        //++++++++++++++++++++++++++++++++++++++++++++++ -->
+        <div class="box box-primary" ng-if="true">
+          <div class="box-body table-responsive no-padding">
+            <div class="col-xs-12 col-md-12">
+              <label class="control-label">Redes wifi encontradas</label>
+              <table class="table table-hover">
+                <tr class="info" style="text-align: center; font-size:12px;">
+                  <th style="text-align: left; font-size:12px;">Nome da rede - SSID</th>
+                  <th style="text-align: center; font-size:12px;">Sinal</th>
+                  <th style="text-align: center; font-size:12px;">Ação</th>
+
+                </tr>
+                <tr ng-repeat="rede in cfgPiCtrl.wifilist " style="text-align: center; font-size:12px;">
+                  <td style="text-align: left"><i class="fa fa-wifi" aria-hidden="true"></i> {{rede.ssid}}</td>
+                  <td style="text-align: center">{{rede.signalLevel}}%</td>
+                  <td style="text-align: center;vertical-align: middle;">
+                    <button class="btn btn-primary btn-xs" ng-disabled="false" ng-click="cfgPiCtrl.openModalConectWifi('sm','.modal-parent', $index)" uib-tooltip="Conectar nesta rede"><i class="fa fa-sign-in" ></i></button>
+                  </td>
+
+                </tr>
+              </table>
+
+            </div>
+            <button style="margin: 10px;"class="btn btn-success btn-xs" ng-click="cfgPiCtrl.inciaProcuraRedeWifi()" ng-disabled="false"><i class="fa fa-search" uib-tooltip="Scan redes wifi"></i> Scan rede wifi</button>
+          </div>
+        </div>
+
+        <!-- //++++++++++++++++++++++++++++++++++++++++++++++
+        //Configurações modulos na rede 485 in-TechP
+        //++++++++++++++++++++++++++++++++++++++++++++++ -->
+        <div class="box box-primary" ng-if="!cfgPiCtrl.procurandoElementosRede">
+          <div class="box-body table-responsive no-padding">
+            <div class="col-xs-12 col-md-12">
+              <label class="control-label">Elementos encontrados no barramento de rede</label>
+              <table class="table table-hover">
+                <tr class="info" style="text-align: center; font-size:12px;">
+                  <th style="text-align: center; font-size:12px;">Tipo de módulo</th>
+                  <th style="text-align: center; font-size:12px;">Endereço</th>
+                  <th style="text-align: center; font-size:12px;">Datasheet</th>
+                </tr>
+                <tr ng-repeat="modulo in cfgPiCtrl.modulosScan " style="text-align: center; font-size:12px; cursor:pointer;">
+                  <td ng-click="cfgPiCtrl.selecionaModulo(modulo.id,modulo.tipo)" ng-if="modulo.tipo==0" style="text-align: left;"><img style="height:40%;" class="img pull-left"src="/assets/imgs/cpu.png"></img><span uib-tooltip="clique para configurar o módulo" style="margin-left:10px; vertical-align:middle;">{{modulo.tipo | tipomodulo}}</span></td>
+                  <td ng-click="cfgPiCtrl.selecionaModulo(modulo.id, modulo.tipo)" ng-if="modulo.tipo==1" style="text-align: left;"><img style="height:40%;" class="img pull-left"src="/assets/imgs/cpu-io.png"></img><span uib-tooltip="clique para configurar o módulo" style="margin-left:10px; vertical-align:middle;">{{modulo.tipo | tipomodulo}}</span></td>
+                  <td ng-click="cfgPiCtrl.selecionaModulo(modulo.id,modulo.tipo)" ng-if="modulo.tipo==2" style="text-align: left;"><img style="height:40%;" class="img pull-left"src="/assets/imgs/di.png"></img><span uib-tooltip="clique para configurar o módulo" style="margin-left:10px; vertical-align:middle;">{{modulo.tipo | tipomodulo}}</span></td>
+                  <td ng-click="cfgPiCtrl.selecionaModulo(modulo.id,modulo.tipo)" ng-if="modulo.tipo==3" style="text-align: left;"><img style="height:40%;" class="img pull-left"src="/assets/imgs/do.png"></img><span uib-tooltip="clique para configurar o módulo" style="margin-left:10px; vertical-align:middle;">{{modulo.tipo | tipomodulo}}</span></td>
+                  <td ng-click="cfgPiCtrl.selecionaModulo(modulo.id,modulo.tipo)" ng-if="modulo.tipo==4" style="text-align: left;"><img style="height:40%;" class="img pull-left"src="/assets/imgs/ai.png"></img><span uib-tooltip="clique para configurar o módulo" style="margin-left:10px; vertical-align:middle;">{{modulo.tipo | tipomodulo}}</span></td>
+                  <td ng-click="cfgPiCtrl.selecionaModulo(modulo.id,modulo.tipo)" ng-if="modulo.tipo==5" style="text-align: left;"><img style="height:40%;" class="img pull-left"src="/assets/imgs/do-triac.png"></img><span uib-tooltip="clique para configurar o módulo" style="margin-left:10px; vertical-align:middle;">{{modulo.tipo | tipomodulo}}</span></td>
+                  <td ng-click="cfgPiCtrl.selecionaModulo(modulo.id,modulo.tipo)" ng-if="modulo.tipo==6" style="text-align: left;"><img style="height:40%;" class="img pull-left"src="/assets/imgs/do-tr.png"></img><span uib-tooltip="clique para configurar o módulo" style="margin-left:10px; vertical-align:middle;">{{modulo.tipo | tipomodulo}}</span></td>
+                  <td ng-click="cfgPiCtrl.selecionaModulo(modulo.id,modulo.tipo)" ng-if="modulo.tipo==7" style="text-align: left;"><img style="height:40%;" class="img pull-left"src="/assets/imgs/ao.png"></img><span uib-tooltip="clique para configurar o módulo" style="margin-left:10px; vertical-align:middle;">{{modulo.tipo | tipomodulo}}</span></td>
+                  <td ng-click="cfgPiCtrl.selecionaModulo(modulo.id,modulo.tipo)" ng-if="modulo.tipo>7" style="text-align: left;"><span uib-tooltip="clique para configurar o módulo" style="margin-left:10px; vertical-align:middle;">Módulo desconhecido</span></td>               
+                  <td ng-click="cfgPiCtrl.selecionaModulo(modulo.id,modulo.tipo)" style="text-align: center">{{modulo.id}}</td>
+                  <td style="text-align: center;vertical-align: middle;">
+                    <button class="btn btn-primary btn-xs" ng-disabled="false" ng-click="cfgPiCtrl.openDatasheet($index)" uib-tooltip="Ver documentação"><i class="fa fa-sign-in" ></i></button>
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <button style="margin: 10px;"class="btn btn-success btn-xs" ng-click="cfgPiCtrl.openModalQuantNodes('sm',10)" ng-disabled="false"><i class="fa fa-search" uib-tooltip="Reboot clp"></i> Scan INPI-NET</button>
+          </div>
+        </div>
+
+        <!-- //++++++++++++++++++++++++++++++++++++++++++++++
+        //Procurando elementos de rede modulos in-TechP
+        //++++++++++++++++++++++++++++++++++++++++++++++ -->
+        <div class="box box-primary" ng-if="cfgPiCtrl.procurandoElementosRede">
+          <div class="box-body table-responsive no-padding">
+            <div class="col-xs-12 col-md-12">
+
+              <wait-api></wait-api>
+
+            </div>
+          </div>
+        </div>
+
+
+
+        <div class="box box-primary" ng-if="!cfgPiCtrl.procurandoElementosRede">
+          <div class="box-body">
+
+  <!--           <div class="col-xs-12 col-md-6">
+              <label class="control-label"><i class="fa fa-edit"></i> Módulo no PLCPi</label>
+              <div class="input-group">
+                <div class="input-group-addon">
+                  <i class="fa fa-microchip"></i>
+                </div>
+                <select class="form-control input-sm" style="width: 100%;"  ng-model="cfgPiCtrl.componente_modulo_plcpi" ng-change="cfgPiCtrl.updateModule(cfgPiCtrl.componente_modulo_plcpi)">
+                  <option value="sem-selecao" >Selecione     módulo...</option>
+                  <option value="inPi-PLC" >Area do controlador - INPI-PLC</option>
+                  <option value="inPi-onboard-in" >4 entradas digitais 2 analógicas onboard - INPI-IDA-4DI-2AI</option>
+                  <option value="inPi-off-in-8DI">8 entradas digitais - INPI-INP-8DI-A</option>
+                  <option value="inPi-off-out-4DO">4 saídas digitais - INPI-OUT-4DO-R</option>
+                  <option value="inPi-off-in-4AI">4 entradas analógicas - INPI-INA-4AI-A</option>
+                  <option value="inPi-off-out-4AO">4 saídas analógicas - INPI-OUT-4AO-A</option>
+                  <option value="inPi-off-out-8DO-TR">8 saídas digitais transistor - INPI-OUT-8DO-TR</option>
+                  <option value="inPi-off-out-8DO-TRIAC">8 saídas digitais TRIAC - INPI-OUT-8DO-TRIAC</option>
+                  <option value="generico">genérico</option>
+                </select>
+              </div>
+            </div> -->
+
+  <!--           <div class="col-xs-12 col-md-6">
+              <label class="control-label"><i class="fa fa-edit"></i> Endereço</label>
+              <div class="input-group">
+                <div class="input-group-addon">
+                  <i class="fa fa-street-view"></i>
+
+                </div>
+                <select class="form-control input-sm" style="width: 100%;" ng-model="cfgPiCtrl.enderecos_modulo_default.id" ng-change="cfgPiCtrl.updateIdModule()" >
+                  <option ng-selected="{{endereco_modulo.id == cfgPiCtrl.enderecos_modulo_default.id}}" ng-repeat="endereco_modulo in cfgPiCtrl.enderecos_modulo" value="{{endereco_modulo.id}}">{{endereco_modulo.id}}</option>
+                </select>
+              </div>
+            </div>
+          -->
+  <!--           <div class="col-xs-12 col-md-12" ng-if="(cfgPiCtrl.mismatchModule) && cfgPiCtrl.componente_modulo_plcpi!='sem-selecao'">
+              <exclamacao texto="O módulo selecionado não corresponde com o hardware que está online" color="red" ></exclamacao>
+            </div>
+            <div class="col-xs-12 col-md-12" ng-if="(cfgPiCtrl.bufferCompLeituraFcon==' - offline'  && cfgPiCtrl.componente_modulo_plcpi!='sem-selecao')">
+              <exclamacao texto="O módulo está sem comunicação. Verifique o endereço e os cabos"  color="red"></exclamacao>
+            </div> -->
+            <!-- +++++++++++++++++++++++++++++++++++
+            Sinais do módulo inPi-onboard-in
+            +++++++++++++++++++++++++++++++++++ -->
+            <div class="col-xs-12 col-md-12" ng-if="((cfgPiCtrl.componente_modulo_plcpi=='inPi-onboard-in') && !cfgPiCtrl.mismatchModule && cfgPiCtrl.bufferCompLeituraFcon==' - online')">
+              <div class="container-fluid">
+                <h4>Sinais do módulo onboard {{cfgPiCtrl.bufferCompLeituraFcon}}</h4>
+                <div class="panel panel-default">
+                  <div class="panel-body">
+
+                    <div class="col-xs-12 col-md-6">
+                      <div class="container-fluid">
+                        <h4>Digitais</h4>
+                        <div class="panel panel-default">
+                          <div class="panel-body" style="height:90px;">
+
+
+                            <div class="col-xs-12 col-md-2">
+                              <label class="border-label">Entr. 0 +:{{cfgPiCtrl.counterCh0}}</label>
+                              <div ng-if="cfgPiCtrl.bufferCompLeitura[1]==1" class="moduleledon"></div>
+                              <div ng-if="cfgPiCtrl.bufferCompLeitura[1]!=1" class="moduleledoff"></div>
+                            </div>
+
+                            <div class="col-xs-12 col-md-2">
+                              <label class="border-label">Entr. 1 +:{{cfgPiCtrl.counterCh1}}</label>
+                              <div ng-if="cfgPiCtrl.bufferCompLeitura[4]==1" class="moduleledon"></div>
+                              <div ng-if="cfgPiCtrl.bufferCompLeitura[4]!=1" class="moduleledoff"></div>
+                            </div>
+
+                            <div class="col-xs-12 col-md-2">
+                              <label class="border-label">Unidades /segundo entrada 0</label>
+                              <div class="border"><span>{{cfgPiCtrl.bufferCompLeitura[15]}}</span></div>
+                            </div>
+
+                            <div class="col-xs-12 col-md-2">
+                              <label class="border-label">Unidades /segundo entrada 1</label>
+                              <div class="border"><span>{{cfgPiCtrl.bufferCompLeitura[16]}}</span></div>
+                            </div>
+
+                            <div class="col-xs-12 col-md-2" style="cursor: pointer;" ng-disabled="cfgPiCtrl.cfgPiCtrl.bufferCompLeitura[34]==0" ng-click="cfgPiCtrl.toogleFuncWriteComissionametoOnboard(cfgPiCtrl.enderecos_modulo_default.id,33,0)">
+                              <label class="border-label">Saída 0 +:{{cfgPiCtrl.bufferCompLeitura[12]}}</label>
+                              <div ng-if="(cfgPiCtrl.bufferCompLeitura[11]==1)" class="moduleledon"></div>
+                              <div ng-if="(cfgPiCtrl.bufferCompLeitura[11]!=1)" class="moduleledoff"></div>
+                            </div>
+
+                            <div class="col-xs-12 col-md-2" style="cursor: pointer;" ng-disabled="cfgPiCtrl.cfgPiCtrl.bufferCompLeitura[34]==0" ng-click="cfgPiCtrl.toogleFuncWriteComissionametoOnboard(cfgPiCtrl.enderecos_modulo_default.id,33,1)">
+                              <label class="border-label">Saída 1 +:{{cfgPiCtrl.bufferCompLeitura[14]}}</label>
+                              <div ng-if="(cfgPiCtrl.bufferCompLeitura[13]==1)" class="moduleledon"></div>
+                              <div ng-if="(cfgPiCtrl.bufferCompLeitura[13]!=1)" class="moduleledoff"></div>
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-xs-12 col-md-6">
+                      <div class="container-fluid">
+                        <h4>Entradas analógicas</h4>
+                        <div class="panel panel-default">
+                          <div class="panel-body" ng-style="cfgPiCtrl.getUser().email=='dev@intech-automacao.com.br' && {'height':'90px'}  || {'height':'90px'}">
+
+                            <div class="col-xs-12 col-md-2" ng-if="cfgPiCtrl.getUser().email=='dev@intech-automacao.com.br' && cfgPiCtrl.modeCh0!='2'">
+                              <label class="border-label">Canal 0 Abs. A/D</label>
+                              <div class="border"><span>{{cfgPiCtrl.bufferCompLeitura[23]}}</span></div>
+                            </div>
+
+
+                            <div class="col-xs-12 col-md-2" ng-if="cfgPiCtrl.getUser().email=='dev@intech-automacao.com.br' && cfgPiCtrl.modeCh0!='2'">
+                              <label class="border-label">Canal 0 Relat A/D</label>
+                              <div class="border"><span>{{cfgPiCtrl.bufferCompLeitura[7]}}</span></div>
+                            </div>
+
+                            <div class="col-xs-12 col-md-2" ng-if="cfgPiCtrl.modeCh0=='2'" >
+                              <label class="border-label">Entr. 2</label>
+                              <div ng-if="cfgPiCtrl.bufferCompLeitura[9]==1 && cfgPiCtrl.modeCh0=='2'" class="moduleledon"></div>
+                              <div ng-if="cfgPiCtrl.bufferCompLeitura[9]!=1 && cfgPiCtrl.modeCh0=='2'" class="moduleledoff"></div>
+                            </div>
+
+
+                            <div class="col-xs-12 col-md-2" ng-if="cfgPiCtrl.getUser().email=='dev@intech-automacao.com.br' && cfgPiCtrl.modeCh0!='2'">
+                              <label class="border-label">Canal 0 Esc. A/D</label>
+                              <div class="border"><span>{{cfgPiCtrl.bufferCompLeitura[9]}}</span></div>
+                            </div>
+
+                            <div class="col-xs-12 col-md-6" ng-if="cfgPiCtrl.getUser().email!='dev@intech-automacao.com.br' && cfgPiCtrl.modeCh0!='2'">
+                              <label class="border-label">Canal 0 Esc. A/D</label>
+                              <div class="border"><span>{{cfgPiCtrl.bufferCompLeitura[9]}}</span></div>
+                            </div>
+
+                            <div class="col-xs-12 col-md-2" ng-if="cfgPiCtrl.getUser().email=='dev@intech-automacao.com.br'  && cfgPiCtrl.modeCh1!='2'">
+                              <label class="border-label">Canal 1 Abs. A/D</label>
+                              <div class="border"><span>{{cfgPiCtrl.bufferCompLeitura[29]}}</span></div>
+                            </div>
+
+
+                            <div class="col-xs-12 col-md-2" ng-if="cfgPiCtrl.getUser().email=='dev@intech-automacao.com.br'   && cfgPiCtrl.modeCh1!='2'">
+                              <label class="border-label">Canal 1 Relat A/D</label>
+                              <div class="border"><span>{{cfgPiCtrl.bufferCompLeitura[8]}}</span></div>
+                            </div>
+
+
+
+                            <div class="col-xs-12 col-md-2" ng-if="cfgPiCtrl.modeCh1=='2'" >
+                              <label class="border-label">Entr. 3</label>
+                              <div ng-if="cfgPiCtrl.bufferCompLeitura[10]==1 && cfgPiCtrl.modeCh1=='2'" class="moduleledon"></div>
+                              <div ng-if="cfgPiCtrl.bufferCompLeitura[10]!=1 && cfgPiCtrl.modeCh1=='2'" class="moduleledoff"></div>
+                            </div>
+
+
+
+                            <div class="col-xs-12 col-md-2" ng-if="cfgPiCtrl.getUser().email=='dev@intech-automacao.com.br'   && cfgPiCtrl.modeCh1!='2'">
+                              <label class="border-label">Canal 1 Esc. A/D</label>
+                              <div class="border"><span>{{cfgPiCtrl.bufferCompLeitura[10]}}</span></div>
+                            </div>
+
+                            <div class="col-xs-12 col-md-6" ng-if="cfgPiCtrl.getUser().email!='dev@intech-automacao.com.br'   && cfgPiCtrl.modeCh1!='2'">
+                              <label class="border-label">Canal 1 Esc. A/D</label>
+                              <div class="border"><span>{{cfgPiCtrl.bufferCompLeitura[10]}}</span></div>
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-xs-12 col-md-12">
+                      <div class="container-fluid">
+                        <h4>Comissionamento</h4>
+                        <div class="panel panel-default">
+                          <div class="panel-body">
+
+                            <div class="">
+                              <input class="" type="checkbox" id="inlineCheckbox1" ng-click="cfgPiCtrl.modoTesteOnboard()" >
+                              <label style="font-size:12px;"class=""  for="inlineCheckbox1"> Modo teste (habilita acionamento das saídas)</label>
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-xs-12 col-md-12">
+                      <div class="container-fluid">
+                        <h4>Configurações</h4>
+                        <div class="panel panel-default">
+                          <div class="panel-body">
+
+                            <div class="col-xs-12 col-md-6">
+                              <input class="" type="checkbox" ng-click="cfgPiCtrl.HabInput0Onboard()" ng-model="cfgPiCtrl.HabInput0OnboardVarInit">
+                              <label style="font-size:12px;"class=""  > Habilita interrução Entr.0(2khz)</label>
+                            </div>
+
+                            <div class="col-xs-12 col-md-6">
+                              <input class="" type="checkbox" ng-click="cfgPiCtrl.HabInput1Onboard()" ng-model="cfgPiCtrl.HabInput1OnboardVarInit" >
+                              <label style="font-size:12px;"class="" > Habilita interrução Entr.1(2khz)</label>
+                            </div>
+
+                            <div class="col-xs-12 col-md-3">
+                              <div>
+                                <label class="control-label" ><i class="fa fa-edit"></i> Filtro entradas digitais (ms)</label>
+                                <input style="text-align:center;" type="text" class="form-control input-sm" placeholder="" ng-model="cfgPiCtrl.filterInputsOnboard" only-number>
+                              </div>
+                            </div>
+
+                            <div class="col-xs-12 col-md-12">
+                            <!--Linha em branco -->                            
+                            </div>
+                          
+                            <div class="col-xs-5 col-md-5">
+                              <label class="control-label"><i class="fa fa-edit"></i> Endereço</label>
+                              <!-- <button type="button" class="btn btn-success" ng-click="contController.novoRegistroCont()" ng-disabled="contController.is_cont_edit"><i class="fa fa-plus"uib-tooltip="Novo registro"></i></button> -->
+                              <div class="input-group">
+                                <div class="input-group-addon">
+                                  <i class="fa fa-street-view"></i>
+
+                                </div>
+                                <select class="form-control input-sm" style="width: 100%;" ng-model="cfgPiCtrl.enderecos_modulo_novo.id" >
+                                  <option ng-selected="{{endereco_modulo.id == cfgPiCtrl.enderecos_modulo_novo.id}}" ng-repeat="endereco_modulo in cfgPiCtrl.enderecos_modulo" value="{{endereco_modulo.id}}">{{endereco_modulo.id}}</option>
+                                </select>
+                              </div>
+                            </div>
+
+                            <div class="col-xs-2 col-md-2">
+                              <label class="control-label" style="margin-top:10px;"><i class="fa fa-edit"></i> Paridade</label>
+                              <div class="input-group">
+                                <div class="input-group-addon">
+                                  <i class="fa fa-fighter-jet"></i>
+                                </div>
+                                <select class="form-control input-sm" style="width: 100%;" ng-model="cfgPiCtrl.paridade">
+                                  <option value="0">None</option>
+                                  <option value="2">Even</option>
+                                  <option value="4">Odd</option>
+                                </select>
+                              </div>
+                            </div>
+
+
+                            <div class="col-xs-5 col-md-5">
+                              <label class="control-label"><i class="fa fa-edit"></i> Baudrate</label>
+                              <!-- <button type="button" class="btn btn-success" ng-click="contController.novoRegistroCont()" ng-disabled="contController.is_cont_edit"><i class="fa fa-plus"uib-tooltip="Novo registro"></i></button> -->
+                              <div class="input-group">
+                                <div class="input-group-addon">
+                                  <i class="fa fa-fighter-jet"></i>
+
+                                </div>
+                                <select class="form-control input-sm" style="width: 100%;" ng-model="cfgPiCtrl.baudrate_mod_novo.id" ng-disabled="false">
+                                  <option ng-selected="{{baudrate_mod.id == cfgPiCtrl.baudrate_mod_novo.id}}" ng-repeat="baudrate_mod in cfgPiCtrl.baudrate_mod" value="{{baudrate_mod.id}}">{{baudrate_mod.id}}</option>
+                                </select>
+                              </div>
+                            </div>
+
+                            <div class="col-xs-12 col-md-4">
+                              <label class="control-label"><i class="fa fa-edit"></i> Modo canal analógico CH0</label>
+                              <div class="input-group">
+                                <div class="input-group-addon">
+                                  <i class="fa fa-microchip"></i>
+                                </div>
+                                <select class="form-control input-sm" style="width: 100%;"  ng-model="cfgPiCtrl.modeCh0" ng-change="cfgPiCtrl.updateModeCh()">
+                                  <option value="0" >0-20mA</option>
+                                  <option value="1" >4-20mA</option>
+                                  <option value="2" >Digital</option>
+                                </select>
+                              </div>
+                            </div>                          
+
+                            <div class="col-xs-12 col-md-2">
+                              <div ng-if="cfgPiCtrl.getUser().email=='dev@intech-automacao.com.br' && cfgPiCtrl.modeCh0!=2">
+                                <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> Min.A/D ch0(A)</label>
+                                <input style="text-align:center;" type="text" class="form-control input-sm" placeholder="" ng-model="cfgPiCtrl.mapMinOffsetch0" ng-disabled="cfgPiCtrl.modeCh0 == '0'" only-number>
+                              </div>
+                            </div>
+
+                            <div class="col-xs-12 col-md-2">
+                              <div ng-if="cfgPiCtrl.getUser().email=='dev@intech-automacao.com.br' && cfgPiCtrl.modeCh0!=2">
+                                <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> Máx.A/D ch0(A)</label>
+                                <input style="text-align:center;" type="text" class="form-control input-sm" placeholder="" ng-model="cfgPiCtrl.mapMaxOffsetch0" only-number>
+                              </div>
+                            </div>
+
+                            <div class="col-xs-12 col-md-2"  ng-if="cfgPiCtrl.modeCh0!=2">
+                              <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> Escala mín. ch0</label>
+                              <input style="text-align:center;" type="text" class="form-control input-sm" placeholder="" ng-model="cfgPiCtrl.mapMinEscalach0" only-number>
+                            </div>
+
+                            <div class="col-xs-12 col-md-2" ng-if="cfgPiCtrl.modeCh0!=2">
+                              <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> Escala máx. ch0</label>
+                              <input style="text-align:center;" type="text" class="form-control input-sm" placeholder="" ng-model="cfgPiCtrl.mapMaxEscalach0" only-number>
+                            </div>
+
+                            <div class="row"></div>
+
+                            <div class="col-xs-12 col-md-4">
+                              <label class="control-label"><i class="fa fa-edit"></i> Modo canal analógico CH1</label>
+                              <div class="input-group">
+                                <div class="input-group-addon">
+                                  <i class="fa fa-microchip"></i>
+                                </div>
+                                <select class="form-control input-sm" style="width: 100%;"  ng-model="cfgPiCtrl.modeCh1" ng-change="cfgPiCtrl.updateModeCh()">
+                                  <option value="0" >0-20mA</option>
+                                  <option value="1" >4-20mA</option>
+                                  <option value="2" >Digital</option>
+                                </select>
+                              </div>
+                            </div> 
+                            <div class="col-xs-12 col-md-2">
+                              <div ng-if="cfgPiCtrl.getUser().email=='dev@intech-automacao.com.br'  && cfgPiCtrl.modeCh1!=2">
+                                <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> Min.A/D ch1(A)</label>
+                                <input style="text-align:center;" type="text" class="form-control input-sm" placeholder="" ng-model="cfgPiCtrl.mapMinOffsetch1" ng-disabled="cfgPiCtrl.modeCh1 == '0'" only-number>
+                              </div>
+                            </div>
+
+                            <div class="col-xs-12 col-md-2">
+                              <div ng-if="cfgPiCtrl.getUser().email=='dev@intech-automacao.com.br'  && cfgPiCtrl.modeCh1!=2">
+                                <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> Máx.A/D ch1(A)</label>
+                                <input style="text-align:center;" type="text" class="form-control input-sm" placeholder="" ng-model="cfgPiCtrl.mapMaxOffsetch1" only-number>
+                              </div>
+                            </div>
+
+                            <div class="col-xs-12 col-md-2" ng-if="cfgPiCtrl.modeCh1!=2">
+                              <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> Escala mín. ch1</label>
+                              <input style="text-align:center;" type="text" class="form-control input-sm" placeholder="" ng-model="cfgPiCtrl.mapMinEscalach1" only-number>
+                            </div>
+
+                            <div class="col-xs-12 col-md-2" ng-if="cfgPiCtrl.modeCh1!=2">
+                              <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> Escala máx. ch1</label>
+                              <input style="text-align:center;" type="text" class="form-control input-sm" placeholder="" ng-model="cfgPiCtrl.mapMaxEscalach1" only-number>
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div style="float: right; margin-right:30px; margin-top:15px;">
+                      <label style="font-size:12px; text-align:right; margin-right:5px;" > Envia parâmetros</label>
+                      <button class="btn btn-warning btn-xs" ng-click="cfgPiCtrl.gravaDadosinPionboardin(cfgPiCtrl.componente_modulo_plcpi)" ng-disabled="cfgPiCtrl.verifyStatusWaitToRead"><i class="fa fa-pencil" uib-tooltip="grava dados na placa"></i></button>
+                      <i ng-if="cfgPiCtrl.verifyStatusWaitToRead" class="fa fa-cog fa-spin fa-1x fa-fw"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- +++++++++++++++++++++++++++++++++++
+            Sinais do módulo inPi-off-in-4AI
+            +++++++++++++++++++++++++++++++++++ -->
+            <div class="col-xs-12 col-md-12" ng-if="((cfgPiCtrl.componente_modulo_plcpi=='inPi-off-in-4AI') && !cfgPiCtrl.mismatchModule && cfgPiCtrl.bufferCompLeituraFcon==' - online')">
+              <div class="container-fluid">
+                <h4>Sinais do módulo - INPI-INA-4AI-A {{cfgPiCtrl.bufferCompLeituraFcon}}</h4>
+                <div class="panel panel-default">
+                  <div class="panel-body">            
+                    <div class="col-xs-12 col-md-12">
+                      <div class="container-fluid">
+                        <h4>Entradas analógicas</h4>
+                        <div class="panel panel-default">
+                          <div class="panel-body" ng-style="cfgPiCtrl.getUser().email=='dev@intech-automacao.com.br' && {'height':'170px'}  || {'height':'100px'}">
+                            <div class="col-xs-12 col-md-2" ng-if="cfgPiCtrl.getUser().email=='dev@intech-automacao.com.br'">
+                              <label class="border-label">Canal 0 Abs. A/D</label>
+                              <div class="border"><span>{{cfgPiCtrl.bufferCompLeitura[12]}}</span></div>
+                            </div>
+
+                            <div class="col-xs-12 col-md-2" ng-if="cfgPiCtrl.getUser().email=='dev@intech-automacao.com.br'">
+                              <label class="border-label">Canal 0 Relat A/D</label>
+                              <div class="border"><span>{{cfgPiCtrl.bufferCompLeitura[1]}}</span></div>
+                            </div>
+
+                            <div class="col-xs-12 col-md-2" ng-if="cfgPiCtrl.getUser().email=='dev@intech-automacao.com.br'">
+                              <label class="border-label">Canal 0 Esc. A/D</label>
+                              <div class="border"><span>{{cfgPiCtrl.bufferCompLeitura[5]}}</span></div>
+                            </div>
+
+                            <div class="col-xs-12 col-md-3" ng-if="cfgPiCtrl.getUser().email!='dev@intech-automacao.com.br'">
+                              <label class="border-label">Canal 0 Esc. A/D</label>
+                              <div class="border"><span>{{cfgPiCtrl.bufferCompLeitura[5]}}</span></div>
+                            </div>
+
+                            <div class="col-xs-12 col-md-2"ng-if="cfgPiCtrl.getUser().email=='dev@intech-automacao.com.br'">
+                              <label class="border-label">Canal 1 Abs. A/D</label>
+                              <div class="border"><span>{{cfgPiCtrl.bufferCompLeitura[19]}}</span></div>
+                            </div>
+
+                            <div class="col-xs-12 col-md-2" ng-if="cfgPiCtrl.getUser().email=='dev@intech-automacao.com.br'">
+                              <label class="border-label">Canal 1 Relat A/D</label>
+                              <div class="border"><span>{{cfgPiCtrl.bufferCompLeitura[2]}}</span></div>
+                            </div>
+
+                            <div class="col-xs-12 col-md-2" ng-if="cfgPiCtrl.getUser().email=='dev@intech-automacao.com.br'">
+                              <label class="border-label">Canal 1 Esc. A/D</label>
+                              <div class="border"><span>{{cfgPiCtrl.bufferCompLeitura[6]}}</span></div>
+                            </div>
+
+                            <div class="col-xs-12 col-md-3" ng-if="cfgPiCtrl.getUser().email!='dev@intech-automacao.com.br'">
+                              <label class="border-label">Canal 1 Esc. A/D</label>
+                              <div class="border"><span>{{cfgPiCtrl.bufferCompLeitura[6]}}</span></div>
+                            </div>
+
+                            <div class="col-xs-12 col-md-2" ng-if="cfgPiCtrl.getUser().email=='dev@intech-automacao.com.br'">
+                              <label class="border-label">Canal 2 Abs. A/D</label>
+                              <div class="border"><span>{{cfgPiCtrl.bufferCompLeitura[25]}}</span></div>
+                            </div>
+
+
+                            <div class="col-xs-12 col-md-2" ng-if="cfgPiCtrl.getUser().email=='dev@intech-automacao.com.br'">
+                              <label class="border-label">Canal 2 Relat A/D</label>
+                              <div class="border"><span>{{cfgPiCtrl.bufferCompLeitura[3]}}</span></div>
+                            </div>
+
+
+                            <div class="col-xs-12 col-md-2" ng-if="cfgPiCtrl.getUser().email=='dev@intech-automacao.com.br'">
+                              <label class="border-label">Canal 2 Esc. A/D</label>
+                              <div class="border"><span>{{cfgPiCtrl.bufferCompLeitura[7]}}</span></div>
+                            </div>
+
+                            <div class="col-xs-12 col-md-3" ng-if="cfgPiCtrl.getUser().email!='dev@intech-automacao.com.br'">
+                              <label class="border-label">Canal 2 Esc. A/D</label>
+                              <div class="border"><span>{{cfgPiCtrl.bufferCompLeitura[7]}}</span></div>
+                            </div>
+
+                            <div class="col-xs-12 col-md-2" ng-if="cfgPiCtrl.getUser().email=='dev@intech-automacao.com.br'">
+                              <label class="border-label">Canal 3 Abs. A/D</label>
+                              <div class="border"><span>{{cfgPiCtrl.bufferCompLeitura[31]}}</span></div>
+                            </div>
+
+
+                            <div class="col-xs-12 col-md-2" ng-if="cfgPiCtrl.getUser().email=='dev@intech-automacao.com.br'">
+                              <label class="border-label">Canal 3 Relat A/D</label>
+                              <div class="border"><span>{{cfgPiCtrl.bufferCompLeitura[4]}}</span></div>
+                            </div>
+
+
+                            <div class="col-xs-12 col-md-2" ng-if="cfgPiCtrl.getUser().email=='dev@intech-automacao.com.br'">
+                              <label class="border-label">Canal 3 Esc. A/D</label>
+                              <div class="border"><span>{{cfgPiCtrl.bufferCompLeitura[8]}}</span></div>
+                            </div>
+
+                            <div class="col-xs-12 col-md-3" ng-if="cfgPiCtrl.getUser().email!='dev@intech-automacao.com.br'">
+                              <label class="border-label">Canal 3 Esc. A/D</label>
+                              <div class="border"><span>{{cfgPiCtrl.bufferCompLeitura[8]}}</span></div>
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-xs-12 col-md-12">
+                      <div class="container-fluid">
+                        <h4>Configurações</h4>
+                        <div class="panel panel-default">
+                          <div class="panel-body">
+
+                            <div class="col-xs-6 col-md-6">
+                              <label class="control-label"><i class="fa fa-edit"></i> Novo endereço</label>
+                              <!-- <button type="button" class="btn btn-success" ng-click="contController.novoRegistroCont()" ng-disabled="contController.is_cont_edit"><i class="fa fa-plus"uib-tooltip="Novo registro"></i></button> -->
+                              <div class="input-group">
+                                <div class="input-group-addon">
+                                  <i class="fa fa-street-view"></i>
+
+                                </div>
+                                <select class="form-control input-sm" style="width: 100%;" ng-model="cfgPiCtrl.enderecos_modulo_novo.id" >
+                                  <option ng-selected="{{endereco_modulo.id == cfgPiCtrl.enderecos_modulo_novo.id}}" ng-repeat="endereco_modulo in cfgPiCtrl.enderecos_modulo" value="{{endereco_modulo.id}}">{{endereco_modulo.id}}</option>
+                                </select>
+                              </div>
+                            </div>
+
+                            <div class="col-xs-6 col-md-6">
+                              <label class="control-label"><i class="fa fa-edit"></i> Novo baudrate</label>
+                              <!-- <button type="button" class="btn btn-success" ng-click="contController.novoRegistroCont()" ng-disabled="contController.is_cont_edit"><i class="fa fa-plus"uib-tooltip="Novo registro"></i></button> -->
+                              <div class="input-group">
+                                <div class="input-group-addon">
+                                  <i class="fa fa-fighter-jet"></i>
+
+                                </div>
+                                <select class="form-control input-sm" style="width: 100%;" ng-model="cfgPiCtrl.baudrate_mod_novo.id" ng-disabled="false">
+                                  <option ng-selected="{{baudrate_mod.id == cfgPiCtrl.baudrate_mod_novo.id}}" ng-repeat="baudrate_mod in cfgPiCtrl.baudrate_mod" value="{{baudrate_mod.id}}">{{baudrate_mod.id}}</option>
+                                </select>
+                              </div>
+                            </div>
+
+                            <div class="col-xs-12 col-md-2">
+                              <label class="control-label"><i class="fa fa-edit"></i> Modo</label>
+                              <div class="input-group">
+                                <div class="input-group-addon">
+                                  <i class="fa fa-microchip"></i>
+                                </div>
+                                <select class="form-control input-sm" style="width: 100%;"  ng-model="cfgPiCtrl.modeCh0" ng-change="cfgPiCtrl.updateModeCh()">
+                                  <option value="0" >0-10V</option>
+                                  <option value="1" >0-20mA</option>
+                                  <option value="2" >4-20mA</option>
+                                </select>
+                              </div>
+                            </div>
+
+                            <div class="col-xs-12 col-md-2" >
+                              <div ng-if="cfgPiCtrl.getUser().email=='dev@intech-automacao.com.br'">
+                                <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> Min.A/D ch0(A)</label>
+                                <input style="text-align:center;" type="text" class="form-control input-sm" placeholder="" ng-model="cfgPiCtrl.mapMinOffsetch0" ng-disabled="cfgPiCtrl.modeCh0!='2'" only-number>
+                              </div>
+                            </div>
+
+                            <div class="col-xs-12 col-md-2">
+                              <div ng-if="cfgPiCtrl.getUser().email=='dev@intech-automacao.com.br'">
+                                <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> Máx.A/D ch0(A)</label>
+                                <input style="text-align:center;" type="text" class="form-control input-sm" placeholder="" ng-model="cfgPiCtrl.mapMaxOffsetch0" ng-disabled="cfgPiCtrl.modeCh0 < 1" only-number>
+                              </div>  
+                            </div>
+
+                            <div class="col-xs-12 col-md-2">
+                              <div ng-if="cfgPiCtrl.getUser().email=='dev@intech-automacao.com.br'">
+                                <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> Máx.A/D ch0(V)</label>
+                                <input style="text-align:center;" type="text" class="form-control input-sm" placeholder="" ng-model="cfgPiCtrl.mapMaxVdcOffsetch0"  ng-disabled="cfgPiCtrl.modeCh0 > 0"only-number>
+                              </div>  
+                            </div>
+
+
+                            <div class="col-xs-12 col-md-2">
+                              <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> Escala mín. ch0</label>
+                              <input style="text-align:center;" type="text" class="form-control input-sm" placeholder="" ng-model="cfgPiCtrl.mapMinEscalach0" only-number>
+                            </div>
+
+                            <div class="col-xs-12 col-md-2">
+                              <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> Escala máx. ch0</label>
+                              <input style="text-align:center;" type="text" class="form-control input-sm" placeholder="" ng-model="cfgPiCtrl.mapMaxEscalach0" only-number>
+                            </div>
+
+
+                            <div class="col-xs-12 col-md-2">
+                              <label class="control-label"><i class="fa fa-edit"></i> Modo</label>
+                              <div class="input-group">
+                                <div class="input-group-addon">
+                                  <i class="fa fa-microchip"></i>
+                                </div>
+                                <select class="form-control input-sm" style="width: 100%;"  ng-model="cfgPiCtrl.modeCh1" ng-change="cfgPiCtrl.updateModeCh()">
+                                  <option value="0" >0-10V</option>
+                                  <option value="1" >0-20mA</option>
+                                  <option value="2" >4-20mA</option>
+                                </select>
+                              </div>
+                            </div>
+
+
+                            <div class="col-xs-12 col-md-2">
+                              <div ng-if="cfgPiCtrl.getUser().email=='dev@intech-automacao.com.br'">
+                                <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> Min.A/D ch1(A)</label>
+                                <input style="text-align:center;" type="text" class="form-control input-sm" placeholder="" ng-model="cfgPiCtrl.mapMinOffsetch1" ng-disabled="cfgPiCtrl.modeCh1!='2'" only-number>
+                              </div>  
+                            </div>
+
+                            <div class="col-xs-12 col-md-2">
+                              <div ng-if="cfgPiCtrl.getUser().email=='dev@intech-automacao.com.br'">
+                                <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> Máx.A/D ch1(A)</label>
+                                <input style="text-align:center;" type="text" class="form-control input-sm" placeholder="" ng-model="cfgPiCtrl.mapMaxOffsetch1"  ng-disabled="cfgPiCtrl.modeCh1 < 1"only-number>
+                              </div>
+                            </div>
+
+
+                            <div class="col-xs-12 col-md-2">
+                              <div ng-if="cfgPiCtrl.getUser().email=='dev@intech-automacao.com.br'">
+                                <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> Máx.A/D ch1(V)</label>
+                                <input style="text-align:center;" type="text" class="form-control input-sm" placeholder="" ng-model="cfgPiCtrl.mapMaxVdcOffsetch1" ng-disabled="cfgPiCtrl.modeCh1 > 0" only-number>
+                              </div>
+                            </div>
+
+
+                            <div class="col-xs-12 col-md-2">
+                              <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> Escala mín. ch1</label>
+                              <input style="text-align:center;" type="text" class="form-control input-sm" placeholder="" ng-model="cfgPiCtrl.mapMinEscalach1" only-number>
+                            </div>
+
+                            <div class="col-xs-12 col-md-2">
+                              <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> Escala máx. ch1</label>
+                              <input style="text-align:center;" type="text" class="form-control input-sm" placeholder="" ng-model="cfgPiCtrl.mapMaxEscalach1" only-number>
+                            </div>
+
+
+
+                            <div class="col-xs-12 col-md-2">
+                              <label class="control-label"><i class="fa fa-edit"></i> Modo</label>
+                              <div class="input-group">
+                                <div class="input-group-addon">
+                                  <i class="fa fa-microchip"></i>
+                                </div>
+                                <select class="form-control input-sm" style="width: 100%;"  ng-model="cfgPiCtrl.modeCh2" ng-change="cfgPiCtrl.updateModeCh()">
+                                  <option value="0" >0-10V</option>
+                                  <option value="1" >0-20mA</option>
+                                  <option value="2" >4-20mA</option>
+                                </select>
+                              </div>
+                            </div>
+
+                            <div class="col-xs-12 col-md-2">
+                              <div ng-if="cfgPiCtrl.getUser().email=='dev@intech-automacao.com.br'">
+                                <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> Min.A/D ch2(A)</label>
+                                <input style="text-align:center;" type="text" class="form-control input-sm" placeholder="" ng-model="cfgPiCtrl.mapMinOffsetch2" ng-disabled="cfgPiCtrl.modeCh2!='2'" only-number>
+                              </div>
+                            </div>
+
+                            <div class="col-xs-12 col-md-2">
+                              <div ng-if="cfgPiCtrl.getUser().email=='dev@intech-automacao.com.br'">
+                                <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> Máx.A/D ch2(A)</label>
+                                <input style="text-align:center;" type="text" class="form-control input-sm" placeholder="" ng-model="cfgPiCtrl.mapMaxOffsetch2" ng-disabled="cfgPiCtrl.modeCh2 < 1" only-number>
+                              </div>
+                            </div>
+
+                            <div class="col-xs-12 col-md-2">
+                              <div ng-if="cfgPiCtrl.getUser().email=='dev@intech-automacao.com.br'">
+                                <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> Máx.A/D ch2(V)</label>
+                                <input style="text-align:center;" type="text" class="form-control input-sm" placeholder="" ng-model="cfgPiCtrl.mapMaxVdcOffsetch2"  ng-disabled="cfgPiCtrl.modeCh2 > 0" only-number>
+                              </div>
+                            </div>
+
+
+                            <div class="col-xs-12 col-md-2">
+                              <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> Escala mín. ch2</label>
+                              <input style="text-align:center;" type="text" class="form-control input-sm" placeholder="" ng-model="cfgPiCtrl.mapMinEscalach2" only-number>
+                            </div>
+
+                            <div class="col-xs-12 col-md-2">
+                              <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> Escala máx. ch2</label>
+                              <input style="text-align:center;" type="text" class="form-control input-sm" placeholder="" ng-model="cfgPiCtrl.mapMaxEscalach2" only-number>
+                            </div>
+
+
+
+                            <div class="col-xs-12 col-md-2">
+                              <label class="control-label"><i class="fa fa-edit"></i> Modo</label>
+                              <div class="input-group">
+                                <div class="input-group-addon">
+                                  <i class="fa fa-microchip"></i>
+                                </div>
+                                <select class="form-control input-sm" style="width: 100%;"  ng-model="cfgPiCtrl.modeCh3" ng-change="cfgPiCtrl.updateModeCh()">
+                                  <option value="0" >0-10V</option>
+                                  <option value="1" >0-20mA</option>
+                                  <option value="2" >4-20mA</option>
+                                </select>
+                              </div>
+                            </div>
+
+                            <div class="col-xs-12 col-md-2">
+                              <div ng-if="cfgPiCtrl.getUser().email=='dev@intech-automacao.com.br'">
+                                <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> Min.A/D ch3(A)</label>
+                                <input style="text-align:center;" type="text" class="form-control input-sm" placeholder="" ng-model="cfgPiCtrl.mapMinOffsetch3" ng-disabled="cfgPiCtrl.modeCh3!='2'" only-number>
+                              </div>
+                            </div>
+
+                            <div class="col-xs-12 col-md-2">
+                              <div ng-if="cfgPiCtrl.getUser().email=='dev@intech-automacao.com.br'">
+                                <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> Máx.A/D ch3(A)</label>
+                                <input style="text-align:center;" type="text" class="form-control input-sm" placeholder="" ng-model="cfgPiCtrl.mapMaxOffsetch3" ng-disabled="cfgPiCtrl.modeCh3 < 1" only-number>
+                              </div>
+                            </div>
+
+                            <div class="col-xs-12 col-md-2">
+                              <div ng-if="cfgPiCtrl.getUser().email=='dev@intech-automacao.com.br'">
+                                <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> Máx.A/D ch3(V)</label>
+                                <input style="text-align:center;" type="text" class="form-control input-sm" placeholder="" ng-model="cfgPiCtrl.mapMaxVdcOffsetch3" ng-disabled="cfgPiCtrl.modeCh3 > 0" only-number>
+                              </div>
+                            </div>
+
+
+                            <div class="col-xs-12 col-md-2">
+                              <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> Escala mín. ch3</label>
+                              <input style="text-align:center;" type="text" class="form-control input-sm" placeholder="" ng-model="cfgPiCtrl.mapMinEscalach3" only-number>
+                            </div>
+
+                            <div class="col-xs-12 col-md-2">
+                              <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> Escala máx. ch3</label>
+                              <input style="text-align:center;" type="text" class="form-control input-sm" placeholder="" ng-model="cfgPiCtrl.mapMaxEscalach3" only-number>
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div style="float: right; margin-right:30px; margin-top:15px;">
+                      <label style="font-size:12px; text-align:right; margin-right:5px;" > Envia parâmetros</label>
+                      <button class="btn btn-warning btn-xs" ng-click="cfgPiCtrl.gravaDadosinPionboardin(cfgPiCtrl.componente_modulo_plcpi)" ng-disabled="false"><i class="fa fa-pencil" uib-tooltip="grava dados na placa"></i></button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- +++++++++++++++++++++++++++++++++++
+            Sinais do módulo inPi-off-out-4AO
+            +++++++++++++++++++++++++++++++++++ -->
+            <div class="col-xs-12 col-md-12" ng-if="((cfgPiCtrl.componente_modulo_plcpi=='inPi-off-out-4AO') && !cfgPiCtrl.mismatchModule && cfgPiCtrl.bufferCompLeituraFcon==' - online')">
+              <div class="container-fluid">
+                <h4>Sinais do módulo - INPI-OUT-4AO-A {{cfgPiCtrl.bufferCompLeituraFcon}}</h4>
+
+                <div class="panel panel-default">
+                  <div class="panel-body">
+
+                    <div class="col-xs-12 col-md-12">
+                      <div class="container-fluid">
+                        <h4>Saídas analógicas</h4>
+                        <div class="panel panel-default">
+                          <div class="panel-body" style="height:145px;">
+
+                            <div class="col-xs-12 col-md-3">
+                              <label class="border-label">Canal 0 saída D/A</label>
+                              <div class="border"><span>{{cfgPiCtrl.bufferCompLeitura[1]}}</span></div>
+                            </div>
+
+                            <div class="col-xs-12 col-md-3">
+                              <label class="border-label">Canal 1 saída D/A</label>
+                              <div class="border"><span>{{cfgPiCtrl.bufferCompLeitura[2]}}</span></div>
+                            </div>
+
+                            <div class="col-xs-12 col-md-3">
+                              <label class="border-label">Canal 2 saída D/A</label>
+                              <div class="border"><span>{{cfgPiCtrl.bufferCompLeitura[3]}}</span></div>
+                            </div>
+
+                            <div class="col-xs-12 col-md-3">
+                              <label class="border-label">Canal 3 saída D/A</label>
+                              <div class="border"><span>{{cfgPiCtrl.bufferCompLeitura[4]}}</span></div>
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-xs-12 col-md-12">
+                      <div class="container-fluid">
+                        <h4>Configurações</h4>
+                        <div class="panel panel-default">
+                          <div class="panel-body">
+
+                            <div class="col-xs-6 col-md-6">
+                              <label class="control-label"><i class="fa fa-edit"></i> Novo endereço</label>
+                              <!-- <button type="button" class="btn btn-success" ng-click="contController.novoRegistroCont()" ng-disabled="contController.is_cont_edit"><i class="fa fa-plus"uib-tooltip="Novo registro"></i></button> -->
+                              <div class="input-group">
+                                <div class="input-group-addon">
+                                  <i class="fa fa-street-view"></i>
+
+                                </div>
+                                <select class="form-control input-sm" style="width: 100%;" ng-model="cfgPiCtrl.enderecos_modulo_novo.id" >
+                                  <option ng-selected="{{endereco_modulo.id == cfgPiCtrl.enderecos_modulo_novo.id}}" ng-repeat="endereco_modulo in cfgPiCtrl.enderecos_modulo" value="{{endereco_modulo.id}}">{{endereco_modulo.id}}</option>
+                                </select>
+                              </div>
+                            </div>
+
+                            <div class="col-xs-6 col-md-6">
+                              <label class="control-label"><i class="fa fa-edit"></i> Novo baudrate</label>
+                              <!-- <button type="button" class="btn btn-success" ng-click="contController.novoRegistroCont()" ng-disabled="contController.is_cont_edit"><i class="fa fa-plus"uib-tooltip="Novo registro"></i></button> -->
+                              <div class="input-group">
+                                <div class="input-group-addon">
+                                  <i class="fa fa-fighter-jet"></i>
+
+                                </div>
+                                <select class="form-control input-sm" style="width: 100%;" ng-model="cfgPiCtrl.baudrate_mod_novo.id" ng-disabled="false">
+                                  <option ng-selected="{{baudrate_mod.id == cfgPiCtrl.baudrate_mod_novo.id}}" ng-repeat="baudrate_mod in cfgPiCtrl.baudrate_mod" value="{{baudrate_mod.id}}">{{baudrate_mod.id}}</option>
+                                </select>
+                              </div>
+                            </div>
+
+                            <div class="col-xs-12 col-md-4">
+                              <label class="control-label"><i class="fa fa-edit"></i> Modo</label>
+                              <div class="input-group">
+                                <div class="input-group-addon">
+                                  <i class="fa fa-microchip"></i>
+                                </div>
+                                <select class="form-control input-sm" style="width: 100%;"  ng-model="cfgPiCtrl.modeCh0" ng-change="cfgPiCtrl.updateModeCh()">
+                                  <option value="0" >0-10V</option>
+                                  <option value="1" >0-20mA</option>
+                                  <option value="2" >4-20mA</option>
+                                </select>
+                              </div>
+                            </div>
+
+                            <div class="col-xs-12 col-md-1" >
+                              <div ng-if="cfgPiCtrl.getUser().email=='dev@intech-automacao.com.br'">
+                                <label class="control-label" for="inputSuccess">Min.ch0(zero)</label>
+                                <input style="text-align:center;" type="text" class="form-control input-sm" placeholder="" ng-model="cfgPiCtrl.mapMinOffsetZeroch0" ng-disabled="cfgPiCtrl.modeCh0=='2'" only-number>
+                              </div>
+                            </div>
+
+                            <div class="col-xs-12 col-md-1" >
+                              <div ng-if="cfgPiCtrl.getUser().email=='dev@intech-automacao.com.br'">
+                                <label class="control-label" for="inputSuccess">Min.ch0(A)</label>
+                                <input style="text-align:center;" type="text" class="form-control input-sm" placeholder="" ng-model="cfgPiCtrl.mapMinOffsetch0" ng-disabled="cfgPiCtrl.modeCh0!='2'" only-number>
+                              </div>
+                            </div>
+
+                            <div class="col-xs-12 col-md-1">
+                              <div ng-if="cfgPiCtrl.getUser().email=='dev@intech-automacao.com.br'">
+                                <label class="control-label" for="inputSuccess">Máx.ch0(A)</label>
+                                <input style="text-align:center;" type="text" class="form-control input-sm" placeholder="" ng-model="cfgPiCtrl.mapMaxOffsetch0" ng-disabled="cfgPiCtrl.modeCh0 < 1" only-number>
+                              </div>  
+                            </div>
+
+                            <div class="col-xs-12 col-md-1">
+                              <div ng-if="cfgPiCtrl.getUser().email=='dev@intech-automacao.com.br'">
+                                <label class="control-label" for="inputSuccess">Máx.ch0(V)</label>
+                                <input style="text-align:center;" type="text" class="form-control input-sm" placeholder="" ng-model="cfgPiCtrl.mapMaxVdcOffsetch0"  ng-disabled="cfgPiCtrl.modeCh0 > 0" only-number>
+                              </div>  
+                            </div>
+
+
+                            <div class="col-xs-12 col-md-2">
+                              <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> Escala mín. ch0</label>
+                              <input style="text-align:center;" type="text" class="form-control input-sm" placeholder="" ng-model="cfgPiCtrl.mapMinEscalach0" ng-disabled="cfgPiCtrl.getUser().email!='dev@intech-automacao.com.br'" only-number>
+                            </div>
+
+                            <div class="col-xs-12 col-md-2">
+                              <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> Escala máx. ch0</label>
+                              <input style="text-align:center;" type="text" class="form-control input-sm" placeholder="" ng-model="cfgPiCtrl.mapMaxEscalach0" ng-disabled="cfgPiCtrl.getUser().email!='dev@intech-automacao.com.br'" only-number>
+                            </div>
+
+                            <div class="col-xs-12 col-md-4">
+                              <label class="control-label"><i class="fa fa-edit"></i> Modo</label>
+                              <div class="input-group">
+                                <div class="input-group-addon">
+                                  <i class="fa fa-microchip"></i>
+                                </div>
+                                <select class="form-control input-sm" style="width: 100%;"  ng-model="cfgPiCtrl.modeCh1" ng-change="cfgPiCtrl.updateModeCh()">
+                                  <option value="0" >0-10V</option>
+                                  <option value="1" >0-20mA</option>
+                                  <option value="2" >4-20mA</option>
+                                </select>
+                              </div>
+                            </div>
+
+                            <div class="col-xs-12 col-md-1" >
+                              <div ng-if="cfgPiCtrl.getUser().email=='dev@intech-automacao.com.br'">
+                                <label class="control-label" for="inputSuccess">Min.ch1(zero)</label>
+                                <input style="text-align:center;" type="text" class="form-control input-sm" placeholder="" ng-model="cfgPiCtrl.mapMinOffsetZeroch1" ng-disabled="cfgPiCtrl.modech1=='2'" only-number>
+                              </div>
+                            </div>
+
+                            <div class="col-xs-12 col-md-1" >
+                              <div ng-if="cfgPiCtrl.getUser().email=='dev@intech-automacao.com.br'">
+                                <label class="control-label" for="inputSuccess">Min.ch1(A)</label>
+                                <input style="text-align:center;" type="text" class="form-control input-sm" placeholder="" ng-model="cfgPiCtrl.mapMinOffsetch1" ng-disabled="cfgPiCtrl.modeCh1!='2'" only-number>
+                              </div>
+                            </div>
+
+                            <div class="col-xs-12 col-md-1">
+                              <div ng-if="cfgPiCtrl.getUser().email=='dev@intech-automacao.com.br'">
+                                <label class="control-label" for="inputSuccess">Máx.ch1(A)</label>
+                                <input style="text-align:center;" type="text" class="form-control input-sm" placeholder="" ng-model="cfgPiCtrl.mapMaxOffsetch1" ng-disabled="cfgPiCtrl.modeCh1 < 1" only-number>
+                              </div>  
+                            </div>
+
+                            <div class="col-xs-12 col-md-1">
+                              <div ng-if="cfgPiCtrl.getUser().email=='dev@intech-automacao.com.br'">
+                                <label class="control-label" for="inputSuccess">Máx.ch1(V)</label>
+                                <input style="text-align:center;" type="text" class="form-control input-sm" placeholder="" ng-model="cfgPiCtrl.mapMaxVdcOffsetch1"  ng-disabled="cfgPiCtrl.modeCh1 > 0" only-number>
+                              </div>  
+                            </div>
+
+                            <div class="col-xs-12 col-md-2">
+                              <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> Escala mín. ch1</label>
+                              <input style="text-align:center;" type="text" class="form-control input-sm" placeholder="" ng-model="cfgPiCtrl.mapMinEscalach1" ng-disabled="cfgPiCtrl.getUser().email!='dev@intech-automacao.com.br'" only-number>
+                            </div>
+
+                            <div class="col-xs-12 col-md-2">
+                              <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> Escala máx. ch1</label>
+                              <input style="text-align:center;" type="text" class="form-control input-sm" placeholder="" ng-model="cfgPiCtrl.mapMaxEscalach1" ng-disabled="cfgPiCtrl.getUser().email!='dev@intech-automacao.com.br'" only-number>
+                            </div>
+
+                            <div class="col-xs-12 col-md-4">
+                              <label class="control-label"><i class="fa fa-edit"></i> Modo</label>
+                              <div class="input-group">
+                                <div class="input-group-addon">
+                                  <i class="fa fa-microchip"></i>
+                                </div>
+                                <select class="form-control input-sm" style="width: 100%;"  ng-model="cfgPiCtrl.modeCh2" ng-change="cfgPiCtrl.updateModeCh()">
+                                  <option value="0" >0-10V</option>
+                                  <option value="1" >0-20mA</option>
+                                  <option value="2" >4-20mA</option>
+                                </select>
+                              </div>
+                            </div>
+
+                            <div class="col-xs-12 col-md-1" >
+                              <div ng-if="cfgPiCtrl.getUser().email=='dev@intech-automacao.com.br'">
+                                <label class="control-label" for="inputSuccess">Min.ch2(zero)</label>
+                                <input style="text-align:center;" type="text" class="form-control input-sm" placeholder="" ng-model="cfgPiCtrl.mapMinOffsetZeroch2" ng-disabled="cfgPiCtrl.modech2=='2'" only-number>
+                              </div>
+                            </div>
+
+                            <div class="col-xs-12 col-md-1" >
+                              <div ng-if="cfgPiCtrl.getUser().email=='dev@intech-automacao.com.br'">
+                                <label class="control-label" for="inputSuccess">Min.ch2(A)</label>
+                                <input style="text-align:center;" type="text" class="form-control input-sm" placeholder="" ng-model="cfgPiCtrl.mapMinOffsetch2" ng-disabled="cfgPiCtrl.modeCh2!='2'" only-number>
+                              </div>
+                            </div>
+
+                            <div class="col-xs-12 col-md-1">
+                              <div ng-if="cfgPiCtrl.getUser().email=='dev@intech-automacao.com.br'">
+                                <label class="control-label" for="inputSuccess">Máx.ch2(A)</label>
+                                <input style="text-align:center;" type="text" class="form-control input-sm" placeholder="" ng-model="cfgPiCtrl.mapMaxOffsetch2" ng-disabled="cfgPiCtrl.modeCh2 < 1" only-number>
+                              </div>  
+                            </div>
+
+                            <div class="col-xs-12 col-md-1">
+                              <div ng-if="cfgPiCtrl.getUser().email=='dev@intech-automacao.com.br'">
+                                <label class="control-label" for="inputSuccess">Máx.ch2(V)</label>
+                                <input style="text-align:center;" type="text" class="form-control input-sm" placeholder="" ng-model="cfgPiCtrl.mapMaxVdcOffsetch2"  ng-disabled="cfgPiCtrl.modeCh2 > 0" only-number>
+                              </div>  
+                            </div>
+
+                            <div class="col-xs-12 col-md-2">
+                              <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> Escala mín. ch2</label>
+                              <input style="text-align:center;" type="text" class="form-control input-sm" placeholder="" ng-model="cfgPiCtrl.mapMinEscalach2" ng-disabled="cfgPiCtrl.getUser().email!='dev@intech-automacao.com.br'" only-number>
+                            </div>
+
+                            <div class="col-xs-12 col-md-2">
+                              <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> Escala máx. ch2</label>
+                              <input style="text-align:center;" type="text" class="form-control input-sm" placeholder="" ng-model="cfgPiCtrl.mapMaxEscalach2" ng-disabled="cfgPiCtrl.getUser().email!='dev@intech-automacao.com.br'" only-number>
+                            </div>
+
+                            <div class="col-xs-12 col-md-4">
+                              <label class="control-label"><i class="fa fa-edit"></i> Modo</label>
+                              <div class="input-group">
+                                <div class="input-group-addon">
+                                  <i class="fa fa-microchip"></i>
+                                </div>
+                                <select class="form-control input-sm" style="width: 100%;"  ng-model="cfgPiCtrl.modeCh3" ng-change="cfgPiCtrl.updateModeCh()">
+                                  <option value="0" >0-10V</option>
+                                  <option value="1" >0-20mA</option>
+                                  <option value="2" >4-20mA</option>
+                                </select>
+                              </div>
+                            </div>
+
+                            <div class="col-xs-12 col-md-1" >
+                              <div ng-if="cfgPiCtrl.getUser().email=='dev@intech-automacao.com.br'">
+                                <label class="control-label" for="inputSuccess">Min.ch3(zero)</label>
+                                <input style="text-align:center;" type="text" class="form-control input-sm" placeholder="" ng-model="cfgPiCtrl.mapMinOffsetZeroch3" ng-disabled="cfgPiCtrl.modeCh3=='2'" only-number>
+                              </div>
+                            </div>
+
+                            <div class="col-xs-12 col-md-1" >
+                              <div ng-if="cfgPiCtrl.getUser().email=='dev@intech-automacao.com.br'">
+                                <label class="control-label" for="inputSuccess">Min.ch3(A)</label>
+                                <input style="text-align:center;" type="text" class="form-control input-sm" placeholder="" ng-model="cfgPiCtrl.mapMinOffsetch3" ng-disabled="cfgPiCtrl.modeCh3!='2'" only-number>
+                              </div>
+                            </div>
+
+                            <div class="col-xs-12 col-md-1">
+                              <div ng-if="cfgPiCtrl.getUser().email=='dev@intech-automacao.com.br'">
+                                <label class="control-label" for="inputSuccess">Máx.ch3(A)</label>
+                                <input style="text-align:center;" type="text" class="form-control input-sm" placeholder="" ng-model="cfgPiCtrl.mapMaxOffsetch3" ng-disabled="cfgPiCtrl.modeCh3 < 1" only-number>
+                              </div>  
+                            </div>
+
+                            <div class="col-xs-12 col-md-1">
+                              <div ng-if="cfgPiCtrl.getUser().email=='dev@intech-automacao.com.br'">
+                                <label class="control-label" for="inputSuccess">Máx.ch3(V)</label>
+                                <input style="text-align:center;" type="text" class="form-control input-sm" placeholder="" ng-model="cfgPiCtrl.mapMaxVdcOffsetch3"  ng-disabled="cfgPiCtrl.modeCh3 > 0" only-number>
+                              </div>  
+                            </div>
+
+
+                            <div class="col-xs-12 col-md-2">
+                              <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> Escala mín. ch3</label>
+                              <input style="text-align:center;" type="text" class="form-control input-sm" placeholder="" ng-model="cfgPiCtrl.mapMinEscalach3" ng-disabled="cfgPiCtrl.getUser().email!='dev@intech-automacao.com.br'" only-number>
+                            </div>
+
+                            <div class="col-xs-12 col-md-2">
+                              <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> Escala máx. ch3</label>
+                              <input style="text-align:center;" type="text" class="form-control input-sm" placeholder="" ng-model="cfgPiCtrl.mapMaxEscalach3" ng-disabled="cfgPiCtrl.getUser().email!='dev@intech-automacao.com.br'" only-number>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-xs-12 col-md-12">
+                      <div class="container-fluid">
+                        <h4>Comissionamento</h4>
+                        <div class="panel panel-default">
+                          <div class="panel-body">
+
+                            <div class="">
+                              <input class="" type="checkbox" id="inlineCheckbox1" ng-click="cfgPiCtrl.modoTeste4Ao()" ng-model="cfgPiCtrl.force4AoValues" >
+                              <label style="font-size:12px;"class=""  for="inlineCheckbox1"> Modo teste (habilita escrita de valores nas saídas)</label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="col-xs-12 col-md-12">
+                      <div class="container-fluid">
+                        <h4>Força valores modo comissionamento</h4>
+                        <div class="panel panel-default">
+                          <div class="panel-body" >
+
+
+                            <div class="col-xs-12 col-md-2">
+                              <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> Canal 0</label>
+                              <div class="input-group">
+                               <input ng-disabled="!cfgPiCtrl.force4AoValues" style="text-align:center;" type="text" class="form-control input-sm" ng-model="cfgPiCtrl.forceValue4AoCh[0]" only-number>
+                               <div class="input-group-btn">
+                                <button type="button" class="btn btn-primary btn-xs"><i style="heigth:10px; width:10px;" class="fa fa-sign-in" uib-tooltip="escrever valor"ng-click="cfgPiCtrl.forceValue4Ao(12,0)"></i></button>
+                              </div>
+                            </div>
+                          </div>
+                             <div class="col-xs-12 col-md-2">
+                              <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> Canal 1</label>
+                              <div class="input-group">
+                               <input ng-disabled="!cfgPiCtrl.force4AoValues" style="text-align:center;" type="text" class="form-control input-sm" ng-model="cfgPiCtrl.forceValue4AoCh[1]" only-number>
+                               <div class="input-group-btn">
+                                <button type="button" class="btn btn-primary btn-xs"><i style="heigth:10px; width:10px;" class="fa fa-sign-in" uib-tooltip="escrever valor"ng-click="cfgPiCtrl.forceValue4Ao(19,1)"></i></button>
+                              </div>
+                            </div>
+                          </div> 
+
+                            <div class="col-xs-12 col-md-2">
+                              <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> Canal 2</label>
+                              <div class="input-group">
+                               <input ng-disabled="!cfgPiCtrl.force4AoValues" style="text-align:center;" type="text" class="form-control input-sm" ng-model="cfgPiCtrl.forceValue4AoCh[2]" only-number>
+                               <div class="input-group-btn">
+                                <button type="button" class="btn btn-primary btn-xs"><i style="heigth:10px; width:10px;" class="fa fa-sign-in" uib-tooltip="escrever valor"ng-click="cfgPiCtrl.forceValue4Ao(26,2)"></i></button>
+                              </div>
+                            </div>
+                          </div>
+
+                            <div class="col-xs-12 col-md-2">
+                              <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> Canal 3</label>
+                              <div class="input-group">
+                               <input ng-disabled="!cfgPiCtrl.force4AoValues" style="text-align:center;" type="text" class="form-control input-sm" ng-model="cfgPiCtrl.forceValue4AoCh[3]" only-number>
+                               <div class="input-group-btn">
+                                <button type="button" class="btn btn-primary btn-xs"><i style="heigth:10px; width:10px;" class="fa fa-sign-in" uib-tooltip="escrever valor"ng-click="cfgPiCtrl.forceValue4Ao(33,3)"></i></button>
+                              </div>
+                            </div>
+                          </div>                          
+
+            <div class="col-xs-12 col-md-12">
+              <label style="font-size: 9px;" class="control-label" for="inputSuccess">*Valores de 0..10000 (0-100%)</label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="float: right; margin-right:30px; margin-top:15px;">
+      <label style="font-size:12px; text-align:right; margin-right:5px;" > Envia parâmetros</label>
+      <button class="btn btn-warning btn-xs" ng-click="cfgPiCtrl.gravaDadosinPionboardin(cfgPiCtrl.componente_modulo_plcpi)" ng-disabled="false"><i class="fa fa-pencil" uib-tooltip="grava dados na placa"></i></button>
+    </div>
+  </div>
+</div>
+</div>
+</div>    
+            <!-- +++++++++++++++++++++++++++++++++++
+            Sinais do módulo inPi-off-in-8DI
+            +++++++++++++++++++++++++++++++++++ -->
+            <div class="col-xs-12 col-md-12" ng-if="((cfgPiCtrl.componente_modulo_plcpi=='inPi-off-in-8DI') && !cfgPiCtrl.mismatchModule && cfgPiCtrl.bufferCompLeituraFcon==' - online')">
+              <div class="container-fluid">
+                <h4>Sinais do módulo - INPI-INP-8DI {{cfgPiCtrl.bufferCompLeituraFcon}}</h4>
+                <div class="panel panel-default">
+                  <div class="panel-body">
+
+                    <div class="col-xs-12 col-md-12">
+                      <div class="container-fluid">
+                        <h4>Entradas digitais</h4>
+                        <div class="panel panel-default">
+                          <div class="panel-body" style="height:260px;">
+                            <div class="col-xs-12 col-md-3">
+                              <label class="border-label">Canal 0 +:{{cfgPiCtrl.counterCh0}}</label>
+                              <label class="border-label">Unidades /segundo</label>
+                              <div class="border"><span>{{cfgPiCtrl.bufferCompLeitura[2]}}</span></div>
+                              <div ng-if="cfgPiCtrl.bufferCompLeitura[1]==1" class="moduleledon"></div>
+                              <div ng-if="cfgPiCtrl.bufferCompLeitura[1]!=1" class="moduleledoff"></div>
+                            </div>
+
+                            <div class="col-xs-12 col-md-3">
+                              <label class="border-label">Canal 1 +:{{cfgPiCtrl.counterCh1}}</label>
+                              <label class="border-label">Unidades /segundo</label>
+                              <div class="border"><span>{{cfgPiCtrl.bufferCompLeitura[4]}}</span></div>
+                              <div ng-if="cfgPiCtrl.bufferCompLeitura[3]==1" class="moduleledon"></div>
+                              <div ng-if="cfgPiCtrl.bufferCompLeitura[3]!=1" class="moduleledoff"></div>
+                            </div>
+
+                            <div class="col-xs-12 col-md-3">
+                              <label class="border-label">Canal 2 +:{{cfgPiCtrl.counterCh2}}</label>
+                              <label class="border-label">Unidades /segundo</label>
+                              <div class="border"><span>{{cfgPiCtrl.bufferCompLeitura[6]}}</span></div>
+                              <div ng-if="cfgPiCtrl.bufferCompLeitura[5]==1" class="moduleledon"></div>
+                              <div ng-if="cfgPiCtrl.bufferCompLeitura[5]!=1" class="moduleledoff"></div>
+                            </div>
+
+                            <div class="col-xs-12 col-md-3">
+                              <label class="border-label">Canal 3 +:{{cfgPiCtrl.counterCh3}}</label>
+                              <label class="border-label">Unidades /segundo</label>
+                              <div class="border"><span>{{cfgPiCtrl.bufferCompLeitura[8]}}</span></div>
+                              <div ng-if="cfgPiCtrl.bufferCompLeitura[7]==1" class="moduleledon"></div>
+                              <div ng-if="cfgPiCtrl.bufferCompLeitura[7]!=1" class="moduleledoff"></div>
+                            </div>
+
+                            <div class="col-xs-12 col-md-3">
+                              <label class="border-label">Canal 4 +:{{cfgPiCtrl.counterCh4}}</label>
+                              <label class="border-label">Unidades /segundo</label>
+                              <div class="border"><span>{{cfgPiCtrl.bufferCompLeitura[10]}}</span></div>
+                              <div ng-if="cfgPiCtrl.bufferCompLeitura[9]==1" class="moduleledon"></div>
+                              <div ng-if="cfgPiCtrl.bufferCompLeitura[9]!=1" class="moduleledoff"></div>
+                            </div>
+
+                            <div class="col-xs-12 col-md-3">
+                              <label class="border-label">Canal 5 +:{{cfgPiCtrl.counterCh5}}</label>
+                              <label class="border-label">Unidades /segundo</label>
+                              <div class="border"><span>{{cfgPiCtrl.bufferCompLeitura[12]}}</span></div>
+                              <div ng-if="cfgPiCtrl.bufferCompLeitura[11]==1" class="moduleledon"></div>
+                              <div ng-if="cfgPiCtrl.bufferCompLeitura[11]!=1" class="moduleledoff"></div>
+                            </div>
+
+                            <div class="col-xs-12 col-md-3">
+                              <label class="border-label">Canal 6 +:{{cfgPiCtrl.counterCh6}}</label>
+                              <label class="border-label">Unidades /segundo</label>
+                              <div class="border"><span>{{cfgPiCtrl.bufferCompLeitura[14]}}</span></div>
+                              <div ng-if="cfgPiCtrl.bufferCompLeitura[13]==1" class="moduleledon"></div>
+                              <div ng-if="cfgPiCtrl.bufferCompLeitura[13]!=1" class="moduleledoff"></div>
+                            </div>
+
+                            <div class="col-xs-12 col-md-3">
+                              <label class="border-label">Canal 7 +:{{cfgPiCtrl.counterCh7}}</label>
+                              <label class="border-label">Unidades /segundo</label>
+                              <div class="border"><span>{{cfgPiCtrl.bufferCompLeitura[16]}}</span></div>
+                              <div ng-if="cfgPiCtrl.bufferCompLeitura[15]==1" class="moduleledon"></div>
+                              <div ng-if="cfgPiCtrl.bufferCompLeitura[15]!=1" class="moduleledoff"></div>
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-xs-12 col-md-12">
+                      <div class="container-fluid">
+                        <h4>Configurações</h4>
+                        <div class="panel panel-default">
+                          <div class="panel-body">
+
+
+                            <div class="col-xs-12 col-md-6">
+                              <input class="" type="checkbox" ng-click="cfgPiCtrl.HabInput08Di()" ng-model="cfgPiCtrl.HabInput08DiVarInit">
+                              <label style="font-size:12px;"class=""  > Habilita interrução Entr.0(2khz)</label>
+                            </div>
+
+                            <div class="col-xs-12 col-md-6">
+                              <input class="" type="checkbox" ng-click="cfgPiCtrl.HabInput18Di()" ng-model="cfgPiCtrl.HabInput18DiVarInit" >
+                              <label style="font-size:12px;"class="" > Habilita interrução Entr.1(2khz)</label>
+                            </div>
+
+                            <div class="col-xs-12 col-md-3">
+                              <div>
+                                <label class="control-label" ><i class="fa fa-edit"></i> Filtro entradas digitais (ms)</label>
+                                <input style="text-align:center;" type="text" class="form-control input-sm" placeholder="" ng-model="cfgPiCtrl.filterInputs8Di" only-number>
+                              </div>
+                            </div>
+
+                            <div class="col-xs-12 col-md-12">
+                            <!--Linha em branco -->                            
+                            </div>
+
+
+                            <div class="col-xs-6 col-md-6">
+                              <label class="control-label"><i class="fa fa-edit"></i> Novo endereço</label>
+                              <!-- <button type="button" class="btn btn-success" ng-click="contController.novoRegistroCont()" ng-disabled="contController.is_cont_edit"><i class="fa fa-plus"uib-tooltip="Novo registro"></i></button> -->
+                              <div class="input-group">
+                                <div class="input-group-addon">
+                                  <i class="fa fa-street-view"></i>
+
+                                </div>
+                                <select class="form-control input-sm" style="width: 100%;" ng-model="cfgPiCtrl.enderecos_modulo_novo.id" >
+                                  <option ng-selected="{{endereco_modulo.id == cfgPiCtrl.enderecos_modulo_novo.id}}" ng-repeat="endereco_modulo in cfgPiCtrl.enderecos_modulo" value="{{endereco_modulo.id}}">{{endereco_modulo.id}}</option>
+                                </select>
+                              </div>
+                            </div>
+
+                            <div class="col-xs-6 col-md-6">
+                              <label class="control-label"><i class="fa fa-edit"></i> Novo baudrate</label>
+                              <!-- <button type="button" class="btn btn-success" ng-click="contController.novoRegistroCont()" ng-disabled="contController.is_cont_edit"><i class="fa fa-plus"uib-tooltip="Novo registro"></i></button> -->
+                              <div class="input-group">
+                                <div class="input-group-addon">
+                                  <i class="fa fa-fighter-jet"></i>
+
+                                </div>
+                                <select class="form-control input-sm" style="width: 100%;" ng-model="cfgPiCtrl.baudrate_mod_novo.id" ng-disabled="false">
+                                  <option ng-selected="{{baudrate_mod.id == cfgPiCtrl.baudrate_mod_novo.id}}" ng-repeat="baudrate_mod in cfgPiCtrl.baudrate_mod" value="{{baudrate_mod.id}}">{{baudrate_mod.id}}</option>
+                                </select>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div style="float: right; margin-right:30px; margin-top:15px;">
+                      <label style="font-size:12px; text-align:right; margin-right:5px;" > Envia parâmetros</label>
+                      <button class="btn btn-warning btn-xs" ng-click="cfgPiCtrl.gravaDadosinPionboardin(cfgPiCtrl.componente_modulo_plcpi)" ng-disabled="false"><i class="fa fa-pencil" uib-tooltip="grava dados na placa"></i></button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- +++++++++++++++++++++++++++++++++++
+            Sinais do módulo inPi-off-out-4DO
+            +++++++++++++++++++++++++++++++++++ -->
+            <div class="col-xs-12 col-md-12" ng-if="((cfgPiCtrl.componente_modulo_plcpi=='inPi-off-out-4DO') && !cfgPiCtrl.mismatchModule   && cfgPiCtrl.bufferCompLeituraFcon==' - online')">
+              <div class="container-fluid">
+                <h4>Sinais do módulo - INPI-OUT-4DO-R {{cfgPiCtrl.bufferCompLeituraFcon}}</h4>
+                <div class="panel panel-default">
+                  <div class="panel-body">
+
+                    <div class="col-xs-12 col-md-12">
+                      <div class="container-fluid">
+                        <h4>Saídas digitais</h4>
+                        <div class="panel panel-default">
+                          <div class="panel-body" style="height:90px;">
+                            <div class="col-xs-2 col-md-3" style="cursor: pointer;" ng-click="cfgPiCtrl.toogleFuncWriteComissionameto(cfgPiCtrl.enderecos_modulo_default.id,34,0)">
+                              <label class="border-label">Canal 0 +:{{cfgPiCtrl.bufferCompLeitura[2]}}</label>
+                              <div ng-if="(cfgPiCtrl.globalBittest(cfgPiCtrl.bufferCompLeitura[34],0) || cfgPiCtrl.bufferCompLeitura[1]==1)" ng-style="cfgPiCtrl.globalBittest(cfgPiCtrl.bufferCompLeitura[34],0)==true && {'background':'radial-gradient(circle closest-side,#ff0000 0%,#ff0000 50%,rgba(0,0,0,0) 100%)'}  || cfgPiCtrl.globalBittest(cfgPiCtrl.bufferCompLeitura[34],0)==false && {'background':'radial-gradient(circle closest-side,#00ff00 0%,#00ff00 50%,rgba(0,0,0,0) 100%)'}" class="moduleledon"></div>
+                              <div ng-if="(!cfgPiCtrl.globalBittest(cfgPiCtrl.bufferCompLeitura[34],0) && cfgPiCtrl.bufferCompLeitura[1]!=1)" class="moduleledoff"></div>
+                            </div>
+
+                            <div class="col-xs-2 col-md-3" style="cursor: pointer;" ng-click="cfgPiCtrl.toogleFuncWriteComissionameto(cfgPiCtrl.enderecos_modulo_default.id,34,1)">
+                              <label class="border-label">Canal 1 +:{{cfgPiCtrl.bufferCompLeitura[4]}}</label>
+                              <div ng-if="(cfgPiCtrl.globalBittest(cfgPiCtrl.bufferCompLeitura[34],1) || cfgPiCtrl.bufferCompLeitura[3]==1)" ng-style="cfgPiCtrl.globalBittest(cfgPiCtrl.bufferCompLeitura[34],1)==true && {'background':'radial-gradient(circle closest-side,#ff0000 0%,#ff0000 50%,rgba(0,0,0,0) 100%)'}  || cfgPiCtrl.globalBittest(cfgPiCtrl.bufferCompLeitura[34],1)==false && {'background':'radial-gradient(circle closest-side,#00ff00 0%,#00ff00 50%,rgba(0,0,0,0) 100%)'}" class="moduleledon"></div>
+                              <div ng-if="(!cfgPiCtrl.globalBittest(cfgPiCtrl.bufferCompLeitura[34],1) && cfgPiCtrl.bufferCompLeitura[3]!=1)" class="moduleledoff"></div>
+                            </div>
+
+                            <div class="col-xs-2 col-md-3" style="cursor: pointer;" ng-click="cfgPiCtrl.toogleFuncWriteComissionameto(cfgPiCtrl.enderecos_modulo_default.id,34,2)">
+                              <label class="border-label">Canal 2 +:{{cfgPiCtrl.bufferCompLeitura[6]}}</label>
+                              <div ng-if="(cfgPiCtrl.globalBittest(cfgPiCtrl.bufferCompLeitura[34],2) || cfgPiCtrl.bufferCompLeitura[5]==1)" ng-style="cfgPiCtrl.globalBittest(cfgPiCtrl.bufferCompLeitura[34],2)==true && {'background':'radial-gradient(circle closest-side,#ff0000 0%,#ff0000 50%,rgba(0,0,0,0) 100%)'}  || cfgPiCtrl.globalBittest(cfgPiCtrl.bufferCompLeitura[34],2)==false && {'background':'radial-gradient(circle closest-side,#00ff00 0%,#00ff00 50%,rgba(0,0,0,0) 100%)'}" class="moduleledon"></div>
+                              <div ng-if="(!cfgPiCtrl.globalBittest(cfgPiCtrl.bufferCompLeitura[34],2) && cfgPiCtrl.bufferCompLeitura[5]!=1)" class="moduleledoff"></div>
+                            </div>
+
+                            <div class="col-xs-2 col-md-3" style="cursor: pointer;" ng-click="cfgPiCtrl.toogleFuncWriteComissionameto(cfgPiCtrl.enderecos_modulo_default.id,34,3)">
+                              <label class="border-label">Canal 3 +:{{cfgPiCtrl.bufferCompLeitura[8]}}</label>
+                              <div ng-if="(cfgPiCtrl.globalBittest(cfgPiCtrl.bufferCompLeitura[34],3) || cfgPiCtrl.bufferCompLeitura[7]==1)" ng-style="cfgPiCtrl.globalBittest(cfgPiCtrl.bufferCompLeitura[34],3)==true && {'background':'radial-gradient(circle closest-side,#ff0000 0%,#ff0000 50%,rgba(0,0,0,0) 100%)'}  || cfgPiCtrl.globalBittest(cfgPiCtrl.bufferCompLeitura[34],3)==false && {'background':'radial-gradient(circle closest-side,#00ff00 0%,#00ff00 50%,rgba(0,0,0,0) 100%)'}" class="moduleledon"></div>
+                              <div ng-if="(!cfgPiCtrl.globalBittest(cfgPiCtrl.bufferCompLeitura[34],3) && cfgPiCtrl.bufferCompLeitura[7]!=1)" class="moduleledoff"></div>
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-xs-12 col-md-12">
+                      <div class="container-fluid">
+                        <h4>Comissionamento</h4>
+                        <div class="panel panel-default">
+                          <div class="panel-body">
+
+                            <div class="">
+                              <input class="" type="checkbox" id="inlineCheckbox1" ng-click="cfgPiCtrl.modoTeste()" >
+                              <label style="font-size:12px;"class=""  for="inlineCheckbox1"> Modo teste (habilita acionamento das saídas)</label>
+                            </div>
+
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-xs-12 col-md-12">
+                      <div class="container-fluid">
+                        <h4>Configurações</h4>
+                        <div class="panel panel-default">
+                          <div class="panel-body">
+
+                            <div class="col-xs-6 col-md-6">
+                              <label class="control-label"><i class="fa fa-edit"></i> Novo endereço</label>
+                              <!-- <button type="button" class="btn btn-success" ng-click="contController.novoRegistroCont()" ng-disabled="contController.is_cont_edit"><i class="fa fa-plus"uib-tooltip="Novo registro"></i></button> -->
+                              <div class="input-group">
+                                <div class="input-group-addon">
+                                  <i class="fa fa-street-view"></i>
+
+                                </div>
+                                <select class="form-control input-sm" style="width: 100%;" ng-model="cfgPiCtrl.enderecos_modulo_novo.id" >
+                                  <option ng-selected="{{endereco_modulo.id == cfgPiCtrl.enderecos_modulo_novo.id}}" ng-repeat="endereco_modulo in cfgPiCtrl.enderecos_modulo" value="{{endereco_modulo.id}}">{{endereco_modulo.id}}</option>
+                                </select>
+                              </div>
+                            </div>
+
+                            <div class="col-xs-6 col-md-6">
+                              <label class="control-label"><i class="fa fa-edit"></i> Novo baudrate</label>
+                              <!-- <button type="button" class="btn btn-success" ng-click="contController.novoRegistroCont()" ng-disabled="contController.is_cont_edit"><i class="fa fa-plus"uib-tooltip="Novo registro"></i></button> -->
+                              <div class="input-group">
+                                <div class="input-group-addon">
+                                  <i class="fa fa-fighter-jet"></i>
+
+                                </div>
+                                <select class="form-control input-sm" style="width: 100%;" ng-model="cfgPiCtrl.baudrate_mod_novo.id" ng-disabled="false">
+                                  <option ng-selected="{{baudrate_mod.id == cfgPiCtrl.baudrate_mod_novo.id}}" ng-repeat="baudrate_mod in cfgPiCtrl.baudrate_mod" value="{{baudrate_mod.id}}">{{baudrate_mod.id}}</option>
+                                </select>
+                              </div>
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div style="float: right; margin-right:30px; margin-top:15px;">
+                      <label style="font-size:12px; text-align:right; margin-right:5px;" > Envia parâmetros</label>
+                      <button class="btn btn-warning btn-xs" ng-click="cfgPiCtrl.gravaDadosinPionboardin(cfgPiCtrl.componente_modulo_plcpi)" ng-disabled="false"><i class="fa fa-pencil" uib-tooltip="grava dados na placa"></i></button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- +++++++++++++++++++++++++++++++++++
+            Sinais do módulo inPi-off-out-8DO-TR Transistor
+            +++++++++++++++++++++++++++++++++++ -->
+            <div class="col-xs-12 col-md-12" ng-if="((cfgPiCtrl.componente_modulo_plcpi=='inPi-off-out-8DO-TR') && !cfgPiCtrl.mismatchModule && cfgPiCtrl.bufferCompLeituraFcon==' - online')">
+              <div class="container-fluid">
+                <h4>Sinais do módulo - INPI-OUT-8DO-TR {{cfgPiCtrl.bufferCompLeituraFcon}}</h4>
+                <div class="panel panel-default">
+                  <div class="panel-body">  
+
+                    <div class="col-xs-12 col-md-12">
+
+                      <div class="container-fluid">
+                        <h4>Saídas digitais transistor</h4>
+                        <div class="panel panel-default">
+                          <div class="panel-body" >
+
+
+                            <div class="col-xs-12 col-md-2" >
+                              <label class="control-label" for="inputSuccess">Rampa de intensidade canal 0</label>
+                              <input style="text-align:center;" type="text" class="form-control input-sm" placeholder="" ng-model="cfgPiCtrl.rampingDoTrCh0" only-number >
+                            </div>
+
+                            <div class="col-xs-12 col-md-2" >
+                              <label class="control-label" for="inputSuccess">Rampa de intensidade canal 1</label>
+                              <input style="text-align:center;" type="text" class="form-control input-sm" placeholder="" ng-model="cfgPiCtrl.rampingDoTrCh1" only-number >
+                            </div>
+
+                            <div class="col-xs-12 col-md-2" >
+                              <label class="control-label" for="inputSuccess">Rampa de intensidade canal 2</label>
+                              <input style="text-align:center;" type="text" class="form-control input-sm" placeholder="" ng-model="cfgPiCtrl.rampingDoTrCh2" only-number >
+                            </div>
+
+                            <div class="col-xs-12 col-md-2" >
+                              <label class="control-label" for="inputSuccess">Rampa de intensidade canal 3</label>
+                              <input style="text-align:center;" type="text" class="form-control input-sm" placeholder="" ng-model="cfgPiCtrl.rampingDoTrCh3" only-number >
+                            </div>
+
+                            <div class="col-xs-12 col-md-2" >
+                              <label class="control-label" for="inputSuccess">Rampa de intensidade canal 4</label>
+                              <input style="text-align:center;" type="text" class="form-control input-sm" placeholder="" ng-model="cfgPiCtrl.rampingDoTrCh4" only-number >
+                            </div>
+
+                            <div class="col-xs-12 col-md-2" >
+                              <label class="control-label" for="inputSuccess">Rampa de intensidade canal 5</label>
+                              <input style="text-align:center;" type="text" class="form-control input-sm" placeholder="" ng-model="cfgPiCtrl.rampingDoTrCh5" only-number >
+                            </div>
+
+         <!--                    <div class="col-xs-12 col-md-3" >
+                              <label class="control-label" for="inputSuccess">Rampa de intensidade canal 6</label>
+                              <input type="text" class="form-control input-sm" placeholder="" ng-model="cfgPiCtrl.rampingDoTrCh6" only-number >
+                            </div>
+
+                            <div class="col-xs-12 col-md-3" >
+                              <label class="control-label" for="inputSuccess">Rampa de intensidade canal 7</label>
+                              <input type="text" class="form-control input-sm" placeholder="" ng-model="cfgPiCtrl.rampingDoTrCh7" only-number >
+                            </div> -->
+
+                            <div class="col-xs-12 col-md-12">
+                             <label style="font-size: 9px;" class="control-label" for="inputSuccess">*Rampa de intensidade 0=sem rampa, 1=50ms, 2=100ms, 3=150ms...20=1000ms...40=2000ms...</label>
+                           </div>
+
+
+                         </div>
+                       </div>
+                     </div>
+                   </div>
+
+                   <div class="col-xs-12 col-md-12">
+                    <div class="container-fluid">
+                      <h4>Comissionamento</h4>
+                      <div class="panel panel-default">
+                        <div class="panel-body">
+
+                          <div class="">
+                            <input class="" type="checkbox" id="inlineCheckbox1" ng-click="cfgPiCtrl.modoTesteTra()" ng-model="cfgPiCtrl.forceTraValues" >
+                            <label style="font-size:12px;"class=""  for="inlineCheckbox1"> Modo teste (habilita escrita de valores nas saídas)</label>
+                          </div>
+
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+
+                  <div class="col-xs-12 col-md-12">
+                    <div class="container-fluid">
+                      <h4>Força valores modo comissionamento</h4>
+                      <div class="panel panel-default">
+                        <div class="panel-body" >
+
+
+                          <div class="col-xs-12 col-md-2">
+                            <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> Canal 0</label>
+                            <div class="input-group">
+                             <input style="text-align:center;" type="text" class="form-control input-sm" ng-model="cfgPiCtrl.forceValueTransistorCh[0]" only-number>
+                             <div class="input-group-btn">
+                              <button type="button" class="btn btn-primary btn-xs"><i style="heigth:10px; width:10px;" class="fa fa-sign-in" uib-tooltip="escrever valor"ng-click="cfgPiCtrl.forceValueTra(23,0)"></i></button>
+                            </div>
+                          </div>
+                        </div>
+
+
+                        <div class="col-xs-12 col-md-2">
+                          <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> Canal 1</label>
+                          <div class="input-group">
+                           <input style="text-align:center;" type="text" class="form-control input-sm" ng-model="cfgPiCtrl.forceValueTransistorCh[1]" only-number>
+                           <div class="input-group-btn">
+                            <button type="button" class="btn btn-primary btn-xs"><i style="heigth:10px; width:10px;" class="fa fa-sign-in" uib-tooltip="escrever valor"ng-click="cfgPiCtrl.forceValueTra(24,1)"></i></button>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-xs-12 col-md-2">
+                        <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> Canal 2</label>
+                        <div class="input-group">
+                         <input style="text-align:center;" type="text" class="form-control input-sm" ng-model="cfgPiCtrl.forceValueTransistorCh[2]" only-number>
+                         <div class="input-group-btn">
+                          <button type="button" class="btn btn-primary btn-xs"><i style="heigth:10px; width:10px;" class="fa fa-sign-in" uib-tooltip="escrever valor"ng-click="cfgPiCtrl.forceValueTra(25,2)"></i></button>
+                        </div>
+                      </div>
+                    </div>                     
+
+
+                    <div class="col-xs-12 col-md-2">
+                      <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> Canal 3</label>
+                      <div class="input-group">
+                       <input style="text-align:center;" type="text" class="form-control input-sm" ng-model="cfgPiCtrl.forceValueTransistorCh[3]" only-number>
+                       <div class="input-group-btn">
+                        <button type="button" class="btn btn-primary btn-xs"><i style="heigth:10px; width:10px;" class="fa fa-sign-in" uib-tooltip="escrever valor"ng-click="cfgPiCtrl.forceValueTra(26,3)"></i></button>
+                      </div>
+                    </div>
+                  </div>                       
+
+
+                  <div class="col-xs-12 col-md-2">
+                    <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> Canal 4</label>
+                    <div class="input-group">
+                     <input style="text-align:center;" type="text" class="form-control input-sm" ng-model="cfgPiCtrl.forceValueTransistorCh[4]" only-number>
+                     <div class="input-group-btn">
+                      <button type="button" class="btn btn-primary btn-xs"><i style="heigth:10px; width:10px;" class="fa fa-sign-in" uib-tooltip="escrever valor"ng-click="cfgPiCtrl.forceValueTra(27,4)"></i></button>
+                    </div>
+                  </div>
+                </div>                        
+
+                <div class="col-xs-12 col-md-2">
+                  <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> Canal 5</label>
+                  <div class="input-group">
+                   <input style="text-align:center;" type="text" class="form-control input-sm" ng-model="cfgPiCtrl.forceValueTransistorCh[5]" only-number>
+                   <div class="input-group-btn">
+                    <button type="button" class="btn btn-primary btn-xs"><i style="heigth:10px; width:10px;" class="fa fa-sign-in" uib-tooltip="escrever valor"ng-click="cfgPiCtrl.forceValueTra(28,5)"></i></button>
+                  </div>
+                </div>
+              </div>    
+
+
+              <div class="col-xs-12 col-md-2">
+                <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> Canal 6</label>
+                <div class="input-group">
+                 <input style="text-align:center;" type="text" class="form-control input-sm" ng-model="cfgPiCtrl.forceValueTransistorCh[6]" only-number>
+                 <div class="input-group-btn">
+                  <button type="button" class="btn btn-primary btn-xs"><i style="heigth:10px; width:10px;" class="fa fa-sign-in" uib-tooltip="escrever valor"ng-click="cfgPiCtrl.forceValueTra(29,6)"></i></button>
+                </div>
+              </div>
+            </div>   
+
+
+            <div class="col-xs-12 col-md-2">
+              <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> Canal 7</label>
+              <div class="input-group">
+               <input style="text-align:center;" type="text" class="form-control input-sm" ng-model="cfgPiCtrl.forceValueTransistorCh[7]" only-number>
+               <div class="input-group-btn">
+                <button type="button" class="btn btn-primary btn-xs"><i style="heigth:10px; width:10px;" class="fa fa-sign-in" uib-tooltip="escrever valor"ng-click="cfgPiCtrl.forceValueTra(30,7)"></i></button>
+              </div>
+            </div>
+          </div>    
+
+          <div class="col-xs-12 col-md-12">
+            <label style="font-size: 9px;" class="control-label" for="inputSuccess">*Valores de 0..10000 (0-100%)</label>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-xs-12 col-md-12">
+    <div class="container-fluid">
+      <h4>Configurações</h4>
+      <div class="panel panel-default">
+        <div class="panel-body">
+
+          <div class="col-xs-6 col-md-6">
+            <label class="control-label"><i class="fa fa-edit"></i> Novo endereço</label>
+            <!-- <button type="button" class="btn btn-success" ng-click="contController.novoRegistroCont()" ng-disabled="contController.is_cont_edit"><i class="fa fa-plus"uib-tooltip="Novo registro"></i></button> -->
+            <div class="input-group">
+              <div class="input-group-addon">
+                <i class="fa fa-street-view"></i>
+
+              </div>
+              <select class="form-control input-sm" style="width: 100%;" ng-model="cfgPiCtrl.enderecos_modulo_novo.id" >
+                <option ng-selected="{{endereco_modulo.id == cfgPiCtrl.enderecos_modulo_novo.id}}" ng-repeat="endereco_modulo in cfgPiCtrl.enderecos_modulo" value="{{endereco_modulo.id}}">{{endereco_modulo.id}}</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="col-xs-6 col-md-6">
+            <label class="control-label"><i class="fa fa-edit"></i> Novo baudrate</label>
+            <!-- <button type="button" class="btn btn-success" ng-click="contController.novoRegistroCont()" ng-disabled="contController.is_cont_edit"><i class="fa fa-plus"uib-tooltip="Novo registro"></i></button> -->
+            <div class="input-group">
+              <div class="input-group-addon">
+                <i class="fa fa-fighter-jet"></i>
+
+              </div>
+              <select class="form-control input-sm" style="width: 100%;" ng-model="cfgPiCtrl.baudrate_mod_novo.id" ng-disabled="false">
+                <option ng-selected="{{baudrate_mod.id == cfgPiCtrl.baudrate_mod_novo.id}}" ng-repeat="baudrate_mod in cfgPiCtrl.baudrate_mod" value="{{baudrate_mod.id}}">{{baudrate_mod.id}}</option>
+              </select>
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="float: right; margin-right:30px; margin-top:15px;">
+    <label style="font-size:12px; text-align:right; margin-right:5px;" > Envia parâmetros</label>
+    <button class="btn btn-warning btn-xs" ng-click="cfgPiCtrl.gravaDadosinPionboardin(cfgPiCtrl.componente_modulo_plcpi)" ng-disabled="false"><i class="fa fa-pencil" uib-tooltip="grava dados na placa"></i></button>
+  </div>
+</div>
+</div>
+</div>
+</div>
+
+
+            <!-- +++++++++++++++++++++++++++++++++++
+            Sinais do módulo inPi-off-out-8DO-TRIAC
+            +++++++++++++++++++++++++++++++++++ -->
+            <div class="col-xs-12 col-md-12" ng-if="((cfgPiCtrl.componente_modulo_plcpi=='inPi-off-out-8DO-TRIAC') && !cfgPiCtrl.mismatchModule && cfgPiCtrl.bufferCompLeituraFcon==' - online')">
+              <div class="container-fluid">
+                <h4>Sinais do módulo - INPI-OUT-8DO-TR {{cfgPiCtrl.bufferCompLeituraFcon}}</h4>
+                <div class="panel panel-default">
+                  <div class="panel-body">
+
+                    <div class="col-xs-12 col-md-12">
+                      <div class="container-fluid">
+                        <h4>Saídas digitais TRIAC</h4>
+                        <div class="panel panel-default">
+                          <div class="panel-body" >
+
+
+                            <div class="col-xs-12 col-md-2" >
+                              <label class="control-label" for="inputSuccess">Rampa de intensidade canal 0</label>
+                              <input style="text-align:center;" type="text" class="form-control input-sm" placeholder="" ng-model="cfgPiCtrl.rampingDoTriacCh0" only-number >
+                            </div>
+
+                            <div class="col-xs-12 col-md-2" >
+                              <label class="control-label" for="inputSuccess">Rampa de intensidade canal 1</label>
+                              <input style="text-align:center;" type="text" class="form-control input-sm" placeholder="" ng-model="cfgPiCtrl.rampingDoTriacCh1" only-number >
+                            </div>
+
+                            <div class="col-xs-12 col-md-2" >
+                              <label class="control-label" for="inputSuccess">Rampa de intensidade canal 2</label>
+                              <input style="text-align:center;" type="text" class="form-control input-sm" placeholder="" ng-model="cfgPiCtrl.rampingDoTriacCh2" only-number >
+                            </div>
+
+                            <div class="col-xs-12 col-md-2" >
+                              <label class="control-label" for="inputSuccess">Rampa de intensidade canal 3</label>
+                              <input style="text-align:center;" type="text" class="form-control input-sm" placeholder="" ng-model="cfgPiCtrl.rampingDoTriacCh3" only-number >
+                            </div>
+
+                            <div class="col-xs-12 col-md-2" >
+                              <label class="control-label" for="inputSuccess">Rampa de intensidade canal 4</label>
+                              <input style="text-align:center;" type="text" class="form-control input-sm" placeholder="" ng-model="cfgPiCtrl.rampingDoTriacCh4" only-number >
+                            </div>
+
+                            <div class="col-xs-12 col-md-2" >
+                              <label class="control-label" for="inputSuccess">Rampa de intensidade canal 5</label>
+                              <input style="text-align:center;" type="text" class="form-control input-sm" placeholder="" ng-model="cfgPiCtrl.rampingDoTriacCh5" only-number >
+                            </div>
+
+                            <div class="col-xs-12 col-md-2" >
+                              <label class="control-label" for="inputSuccess">Rampa de intensidade canal 6</label>
+                              <input style="text-align:center;" type="text" class="form-control input-sm" placeholder="" ng-model="cfgPiCtrl.rampingDoTriacCh6" only-number >
+                            </div>
+
+                            <div class="col-xs-12 col-md-2" >
+                              <label class="control-label" for="inputSuccess">Rampa de intensidade canal 7</label>
+                              <input style="text-align:center;" type="text" class="form-control input-sm" placeholder="" ng-model="cfgPiCtrl.rampingDoTriacCh7" only-number >
+                            </div> 
+
+                            <div class="col-xs-12 col-md-12">
+                             <label style="font-size: 9px;" class="control-label" for="inputSuccess">*Rampa de intensidade 0=sem rampa, 1=50ms, 2=100ms, 3=150ms...20=1000ms...40=2000ms...</label>
+                           </div>
+
+
+                         </div>
+                       </div>
+                     </div>
+                   </div>
+
+                   <div class="col-xs-12 col-md-12">
+                    <div class="container-fluid">
+                      <h4>Comissionamento</h4>
+                      <div class="panel panel-default">
+                        <div class="panel-body">
+
+                          <div class="">
+                            <input class="" type="checkbox" id="inlineCheckbox1" ng-click="cfgPiCtrl.modoTesteTriac()" ng-model="cfgPiCtrl.forceTriacValues" >
+                            <label style="font-size:12px;"class=""  for="inlineCheckbox1"> Modo teste (habilita escrita de valores)</label>
+                          </div>
+
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>                  
+
+
+
+
+
+
+                  <div class="col-xs-12 col-md-12">
+                    <div class="container-fluid">
+                      <h4>Força valores modo comissionamento</h4>
+                      <div class="panel panel-default">
+                        <div class="panel-body" >
+
+                          <div class="col-xs-12 col-md-2">
+                            <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> Canal 0</label>
+                            <div class="input-group">
+                             <input style="text-align:center;" type="text" class="form-control input-sm" ng-model="cfgPiCtrl.forceValueTriacCh[0]" only-number>
+                             <div class="input-group-btn">
+                              <button type="button" class="btn btn-primary btn-xs"><i style="heigth:10px; width:10px;" class="fa fa-sign-in" uib-tooltip="escrever valor"ng-click="cfgPiCtrl.forceValueTriac(26,0)"></i></button>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-xs-12 col-md-2">
+                          <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> Canal 1</label>
+                          <div class="input-group">
+                           <input style="text-align:center;" type="text" class="form-control input-sm" ng-model="cfgPiCtrl.forceValueTriacCh[1]" only-number>
+                           <div class="input-group-btn">
+                            <button type="button" class="btn btn-primary btn-xs"><i style="heigth:10px; width:10px;" class="fa fa-sign-in" uib-tooltip="escrever valor"ng-click="cfgPiCtrl.forceValueTriac(27,1)"></i></button>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-xs-12 col-md-2">
+                        <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> Canal 2</label>
+                        <div class="input-group">
+                         <input style="text-align:center;" type="text" class="form-control input-sm" ng-model="cfgPiCtrl.forceValueTriacCh[2]" only-number>
+                         <div class="input-group-btn">
+                          <button type="button" class="btn btn-primary btn-xs"><i style="heigth:10px; width:10px;" class="fa fa-sign-in" uib-tooltip="escrever valor"ng-click="cfgPiCtrl.forceValueTriac(28,2)"></i></button>
+                        </div>
+                      </div>
+                    </div>
+
+
+                    <div class="col-xs-12 col-md-2">
+                      <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> Canal 3</label>
+                      <div class="input-group">
+                       <input style="text-align:center;" type="text" class="form-control input-sm" ng-model="cfgPiCtrl.forceValueTriacCh[3]" only-number>
+                       <div class="input-group-btn">
+                        <button type="button" class="btn btn-primary btn-xs"><i style="heigth:10px; width:10px;" class="fa fa-sign-in" uib-tooltip="escrever valor"ng-click="cfgPiCtrl.forceValueTriac(29,3)"></i></button>
+                      </div>
+                    </div>
+                  </div>
+
+
+
+                  <div class="col-xs-12 col-md-2">
+                    <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> Canal 4</label>
+                    <div class="input-group">
+                     <input style="text-align:center;" type="text" class="form-control input-sm" ng-model="cfgPiCtrl.forceValueTriacCh[4]" only-number>
+                     <div class="input-group-btn">
+                      <button type="button" class="btn btn-primary btn-xs"><i style="heigth:10px; width:10px;" class="fa fa-sign-in" uib-tooltip="escrever valor"ng-click="cfgPiCtrl.forceValueTriac(30,4)"></i></button>
+                    </div>
+                  </div>
+                </div>
+
+
+
+                <div class="col-xs-12 col-md-2">
+                  <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> Canal 5</label>
+                  <div class="input-group">
+                   <input style="text-align:center;" type="text" class="form-control input-sm" ng-model="cfgPiCtrl.forceValueTriacCh[5]" only-number>
+                   <div class="input-group-btn">
+                    <button type="button" class="btn btn-primary btn-xs"><i style="heigth:10px; width:10px;" class="fa fa-sign-in" uib-tooltip="escrever valor"ng-click="cfgPiCtrl.forceValueTriac(31,5)"></i></button>
+                  </div>
+                </div>
+              </div>
+
+
+
+              <div class="col-xs-12 col-md-2">
+                <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> Canal 6</label>
+                <div class="input-group">
+                 <input style="text-align:center;" type="text" class="form-control input-sm" ng-model="cfgPiCtrl.forceValueTriacCh[6]" only-number>
+                 <div class="input-group-btn">
+                  <button type="button" class="btn btn-primary btn-xs"><i style="heigth:10px; width:10px;" class="fa fa-sign-in" uib-tooltip="escrever valor"ng-click="cfgPiCtrl.forceValueTriac(32,6)"></i></button>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="col-xs-12 col-md-2">
+              <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> Canal 7</label>
+              <div class="input-group">
+               <input style="text-align:center;" type="text" class="form-control input-sm" ng-model="cfgPiCtrl.forceValueTriacCh[7]" only-number>
+               <div class="input-group-btn">
+                <button type="button" class="btn btn-primary btn-xs"><i style="heigth:10px; width:10px;" class="fa fa-sign-in" uib-tooltip="escrever valor"ng-click="cfgPiCtrl.forceValueTriac(33,7)"></i></button>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="col-xs-12 col-md-12">
+           <label style="font-size: 9px;" class="control-label" for="inputSuccess">*valores entre 0 e 10000 (0-100%)</label>
+         </div>
+
+
+       </div>
+     </div>
+   </div>
+ </div>
+
+ <div class="col-xs-12 col-md-12">
+  <div class="container-fluid">
+    <h4>Configurações</h4>
+    <div class="panel panel-default">
+      <div class="panel-body">
+
+        <div class="col-xs-6 col-md-6">
+          <label class="control-label"><i class="fa fa-edit"></i> Novo endereço</label>
+          <!-- <button type="button" class="btn btn-success" ng-click="contController.novoRegistroCont()" ng-disabled="contController.is_cont_edit"><i class="fa fa-plus"uib-tooltip="Novo registro"></i></button> -->
+          <div class="input-group">
+            <div class="input-group-addon">
+              <i class="fa fa-street-view"></i>
+
+            </div>
+            <select class="form-control input-sm" style="width: 100%;" ng-model="cfgPiCtrl.enderecos_modulo_novo.id" >
+              <option ng-selected="{{endereco_modulo.id == cfgPiCtrl.enderecos_modulo_novo.id}}" ng-repeat="endereco_modulo in cfgPiCtrl.enderecos_modulo" value="{{endereco_modulo.id}}">{{endereco_modulo.id}}</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="col-xs-6 col-md-6">
+          <label class="control-label"><i class="fa fa-edit"></i> Novo baudrate</label>
+          <!-- <button type="button" class="btn btn-success" ng-click="contController.novoRegistroCont()" ng-disabled="contController.is_cont_edit"><i class="fa fa-plus"uib-tooltip="Novo registro"></i></button> -->
+          <div class="input-group">
+            <div class="input-group-addon">
+              <i class="fa fa-fighter-jet"></i>
+
+            </div>
+            <select class="form-control input-sm" style="width: 100%;" ng-model="cfgPiCtrl.baudrate_mod_novo.id" ng-disabled="false">
+              <option ng-selected="{{baudrate_mod.id == cfgPiCtrl.baudrate_mod_novo.id}}" ng-repeat="baudrate_mod in cfgPiCtrl.baudrate_mod" value="{{baudrate_mod.id}}">{{baudrate_mod.id}}</option>
+            </select>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div style="float: right; margin-right:30px; margin-top:15px;">
+  <label style="font-size:12px; text-align:right; margin-right:5px;" > Envia parâmetros</label>
+  <button class="btn btn-warning btn-xs" ng-click="cfgPiCtrl.gravaDadosinPionboardin(cfgPiCtrl.componente_modulo_plcpi)" ng-disabled="false"><i class="fa fa-pencil" uib-tooltip="grava dados na placa"></i></button>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+
+
+
+            <!-- +++++++++++++++++++++++++++++++++++
+            Sinais do módulo inPi-PLC
+            +++++++++++++++++++++++++++++++++++ -->
+            <div class="col-xs-12 col-md-12" ng-if="((cfgPiCtrl.componente_modulo_plcpi=='inPi-PLC') && !cfgPiCtrl.mismatchModule   && cfgPiCtrl.bufferCompLeituraFcon==' - online')">
+              <div class="container-fluid">
+                <h4>Área de memória do controlador - INPI-CPU {{cfgPiCtrl.bufferCompLeituraFcon}}</h4>
+                <div class="panel panel-default">
+                  <div class="panel-body">
+
+                    <div class="col-xs-12 col-md-12">
+                      <div class="container-fluid">
+                        <h6>Registros internos[{{cfgPiCtrl.offsetReg}}..{{cfgPiCtrl.offsetReg+99}}]</h6>
+                        <div class="panel panel-default">
+                          <div class="panel-body">
+
+                            <div class="col-xs-12 col-md-12">  
+                              <div class="box-body table-responsive no-padding">
+                                <table class="table">
+                                  <tr  style="font-size:12px;">
+                                    <th style="text-align: center;">+</th>
+                                    <th style="text-align: center;">+0</th>
+                                    <th style="text-align: center;">+1</th>
+                                    <th style="text-align: center;">+2</th>
+                                    <th style="text-align: center;">+3</th>
+                                    <th style="text-align: center;">+4</th>
+                                    <th style="text-align: center;">+5</th>
+                                    <th style="text-align: center;">+6</th>
+                                    <th style="text-align: center;">+7</th>
+                                    <th style="text-align: center;">+8</th>
+                                    <th style="text-align: center;">+9</th>
+                                  </tr>
+                                  <tr >
+                                    <td style="font-size:12px; text-align: center; vertical-align: middle;">+{{0 + cfgPiCtrl.offsetReg}}</td>
+                                    
+                                    <td ng-if="cfgPiCtrl.offsetReg == 0"style="font-size:12px; text-align: center; vertical-align: middle;" ng-style="cfgPiCtrl.offsetReg == 0 && {'background':'radial-gradient(circle closest-side,#ff9900 0%,#ff9900 50%,rgba(0,0,0,0) 100%)'}">{{cfgPiCtrl.bufferCompLeitura[0+cfgPiCtrl.offsetReg]}}</td>
+
+                                    <td ng-if="cfgPiCtrl.offsetReg != 0" style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 0+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[0+cfgPiCtrl.offsetReg]}}</td>
+                                    
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 1+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[1+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 2+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[2+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 3+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[3+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 4+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[4+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 5+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[5+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 6+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[6+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 7+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[7+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 8+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[8+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 9+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[9+cfgPiCtrl.offsetReg]}}</td>
+                                  </tr>
+                                  <tr >
+                                    <td style="font-size:12px; text-align: center; vertical-align: middle;">+{{10 + cfgPiCtrl.offsetReg}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 10+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[10+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 11+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[11+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 12+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[12+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 13+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[13+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 14+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[14+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 15+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[15+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 16+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[16+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 17+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[17+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 18+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[18+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 19+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[19+cfgPiCtrl.offsetReg]}}</td>
+                                  </tr>
+                                  <tr >
+                                    <td style="font-size:12px; text-align: center; vertical-align: middle;">+{{20 + cfgPiCtrl.offsetReg}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 20+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[20+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 21+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[21+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 22+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[22+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 23+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[23+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 24+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[24+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 25+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[25+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 26+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[26+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 27+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[27+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 28+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[28+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 29+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[29+cfgPiCtrl.offsetReg]}}</td>
+                                  </tr>
+                                  <tr >
+                                    <td style="font-size:12px; text-align: center; vertical-align: middle;">+{{30 + cfgPiCtrl.offsetReg}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 30+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[30+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 31+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[31+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 32+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[32+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 33+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[33+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 34+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[34+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 35+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[35+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 36+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[36+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 37+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[37+cfgPiCtrl.offsetReg]}}</td>
+                                    
+                                    <td ng-if="cfgPiCtrl.offsetReg == 0"style="font-size:12px; text-align: center; vertical-align: middle;" ng-style="cfgPiCtrl.offsetReg == 0 && {'background':'radial-gradient(circle closest-side,#ff9900 0%,#ff9900 50%,rgba(0,0,0,0) 100%)'}">{{cfgPiCtrl.bufferCompLeitura[38+cfgPiCtrl.offsetReg]}}</td>
+                                    
+                                    <td ng-if="cfgPiCtrl.offsetReg != 0"style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 38+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[38+cfgPiCtrl.offsetReg]}}</td>
+
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 39+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[39+cfgPiCtrl.offsetReg]}}</td>
+                                  </tr>
+                                  <tr >
+                                    <td style="font-size:12px; text-align: center; vertical-align: middle;">+{{40 + cfgPiCtrl.offsetReg}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 40+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[40+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 41+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[41+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 42+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[42+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 43+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[43+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 44+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[44+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 45+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[45+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 46+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[46+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 47+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[47+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 48+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[48+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 49+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[49+cfgPiCtrl.offsetReg]}}</td>
+                                  </tr>
+                                  <tr >
+                                    <td style="font-size:12px; text-align: center; vertical-align: middle;">+{{50 + cfgPiCtrl.offsetReg}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 50+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[50+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 51+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[51+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 52+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[52+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 53+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[53+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 54+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[54+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 55+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[55+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 56+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[56+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 57+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[57+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 58+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[58+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 59+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[59+cfgPiCtrl.offsetReg]}}</td>
+                                  </tr>
+                                  <tr >
+                                    <td style="font-size:12px; text-align: center; vertical-align: middle;">+{{60 + cfgPiCtrl.offsetReg}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 60+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[60+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 61+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[61+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 62+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[62+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 63+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[63+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 64+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[64+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 65+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[65+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 66+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[66+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 67+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[67+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 68+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[68+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 69+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[69+cfgPiCtrl.offsetReg]}}</td>
+                                  </tr>
+                                  <tr >
+                                    <td style="font-size:12px; text-align: center; vertical-align: middle;">+{{70 + cfgPiCtrl.offsetReg}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 70+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[70+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 71+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[71+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 72+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[72+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 73+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[73+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 74+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[74+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 75+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[75+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 76+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[76+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 77+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[77+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 78+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[78+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 79+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[79+cfgPiCtrl.offsetReg]}}</td>
+                                  </tr>
+                                  <tr >
+                                    <td style="font-size:12px; text-align: center; vertical-align: middle;">+{{80 + cfgPiCtrl.offsetReg}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 80+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[80+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 81+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[81+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 82+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[82+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 83+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[83+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 84+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[84+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 85+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[85+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 86+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[86+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 87+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[87+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 88+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[88+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 89+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[89+cfgPiCtrl.offsetReg]}}</td>
+                                  </tr>
+                                  <tr >
+                                    <td style="font-size:12px; text-align: center; vertical-align: middle;">+{{90 + cfgPiCtrl.offsetReg}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 90+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[90+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 91+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[91+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 92+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[92+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 93+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[93+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 94+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[94+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 95+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[95+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 96+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[96+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 97+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[97+cfgPiCtrl.offsetReg]}}</td>
+                                    <td style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 98+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[98+cfgPiCtrl.offsetReg]}}</td>
+
+                                    <td ng-if="cfgPiCtrl.offsetReg == 1000"style="font-size:12px; text-align: center; vertical-align: middle;" ng-style="cfgPiCtrl.offsetReg == 1000 && {'background':'radial-gradient(circle closest-side,#ff9900 0%,#ff9900 50%,rgba(0,0,0,0) 100%)'}">{{cfgPiCtrl.bufferCompLeitura[99+cfgPiCtrl.offsetReg]}}</td>
+                                    
+                                    <td ng-if="cfgPiCtrl.offsetReg != 1000"style="cursor: pointer; font-size:12px; text-align: center; vertical-align: middle;" ng-click="cfgPiCtrl.openModalReg('sm', '.modal-parent', 99+cfgPiCtrl.offsetReg)">{{cfgPiCtrl.bufferCompLeitura[99+cfgPiCtrl.offsetReg]}}</td>
+
+                                  </tr>
+
+                                </table>
+
+
+                              </div>
+                            </div>
+
+                            <div class="col-xs-1 col-md-1" >
+                              <div class="legenda"><label class="legenda-label"> Utilizado pelo sistema</label></div>
+                            </div>
+
+                            <div class="row">
+                              <div class="col-sm-12"></div>
+                              <div class="col-sm-12">
+                                <div class="dataTables_paginate paging_simple_numbers">
+                                  <ul class="pagination">
+                                    <li class="paginate_button previous mouse-pointer" ng-click="cfgPiCtrl.decRegOffsetPlcPi()"><a style="font-size:12px;">Anterior</a>
+                                    </li>
+
+                                    <li class="paginate_button next mouse-pointer" ng-click="cfgPiCtrl.incRegOffsetPlcPi()"><a style="font-size:12px;">Próximo</a>
+                                    </li>
+                                  </ul>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="col-xs-12 col-md-12" >
+                              <div class=""><label class="" style="font-size:10px;"> &#187 Número de série: {{cfgPiCtrl.versaoApp().serial}}</label></div>
+                            </div>
+                            <div class="col-xs-12 col-md-12" >
+                              <div class=""><label class="" style="font-size:10px;"> &#187 Software: {{cfgPiCtrl.versaoApp().vsoftware}}</label></div>
+                            </div>
+                            <div class="col-xs-12 col-md-12" >
+                              <div class=""><label class="" style="font-size:10px;"> &#187 Firmware: {{cfgPiCtrl.versaoApp().vfirmware}}</label></div>
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div style="float: right; margin-right:30px; margin-top:15px;" ng-if="(cfgPiCtrl.componente_modulo_plcpi!='inPi-PLC')">
+                      <label style="font-size:12px; text-align:right; margin-right:5px;" > Envia parâmetros</label>
+                      <button class="btn btn-warning btn-xs" ng-click="cfgPiCtrl.gravaDadosinPionboardin(cfgPiCtrl.componente_modulo_plcpi)" ng-disabled="false"><i class="fa fa-pencil" uib-tooltip="grava dados na placa"></i></button>
+                    </div>
+
+
+                    <div class="col-xs-5 col-md-5">
+                      <label class="control-label" style="margin-top:10px;"><i class="fa fa-edit"></i> Baudrate (módulos)</label>
+                      <!-- <button type="button" class="btn btn-success" ng-click="contController.novoRegistroCont()" ng-disabled="contController.is_cont_edit"><i class="fa fa-plus"uib-tooltip="Novo registro"></i></button> -->
+                      <div class="input-group">
+                        <div class="input-group-addon">
+                          <i class="fa fa-fighter-jet"></i>
+                        </div>
+                        <select class="form-control input-sm" style="width: 100%;" ng-model="cfgPiCtrl.baudrate_novo.id" ng-disabled="false">
+                          <option ng-selected="{{baudrate.id == cfgPiCtrl.baudrate_novo.id}}" ng-repeat="baudrate in cfgPiCtrl.baudrate" value="{{baudrate.id}}">{{baudrate.id}}</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="col-xs-2 col-md-2">
+                      <label class="control-label" style="margin-top:10px;"><i class="fa fa-edit"></i> Paridade (módulos)</label>
+                      <div class="input-group">
+                        <div class="input-group-addon">
+                          <i class="fa fa-fighter-jet"></i>
+                        </div>
+                        <select class="form-control input-sm" style="width: 100%;" ng-model="cfgPiCtrl.paridade">
+                          <option value="0">None</option>
+                          <option value="2">Even</option>
+                          <option value="4">Odd</option>
+                        </select>
+                      </div>
+                    </div>
+
+
+                    <div class="col-xs-5 col-md-5">
+                      <label class="control-label" style="margin-top:10px;"><i class="fa fa-edit"></i> Timeout</label>
+                      <!-- <button type="button" class="btn btn-success" ng-click="contController.novoRegistroCont()" ng-disabled="contController.is_cont_edit"><i class="fa fa-plus"uib-tooltip="Novo registro"></i></button> -->
+                      <div class="input-group">
+                        <div class="input-group-addon">
+                          <i class="fa fa-fighter-jet"></i>
+
+                        </div>
+                        <select class="form-control input-sm" style="width: 100%;" ng-model="cfgPiCtrl.timeout_novo.id" ng-disabled="false">
+                          <option ng-selected="{{timeout.id == cfgPiCtrl.timeout_novo.id}}" ng-repeat="timeout in cfgPiCtrl.timeout" value="{{timeout.id}}">{{timeout.id}}</option>
+                        </select>
+                      </div>
+
+                      <button style="margin-top: -53px; margin-left: 101%;"class="btn btn-danger btn-xs" mw-confirm-click="cfgPiCtrl.setBaudrate()" mw-confirm-click-message="Deseja realmente alterar o baudrate e timeout? Será necessário reiniciar o controlador para que as alterações sejam aplicadas! Certifique-se de que os módulos estão no mesmo baudrate!"   ng-disabled="false"><i class="fa fa-sign-in" uib-tooltip="Confirma alteração"></i></button>
+                    </div>
+
+
+                    <div class="col-xs-12 col-md-12">
+                      <button style="margin-bottom: 15px;"class="btn btn-danger btn-xs" mw-confirm-click="cfgPiCtrl.comandoExePiPlc('sudo reboot')" mw-confirm-click-message="Deseja realmente executar reboot na CPU?"   ng-disabled="false"><i class="fa fa-rocket" uib-tooltip="Reboot clp"></i> Reboot CPU</button>
+                    </div>  
+
+                    <div class="col-xs-12 col-md-12">
+                      <label style="font-size: 12px;" class="control-label">Node-RED</label>
+                      <div class="panel panel-default">
+                        <div class="panel-body">
+
+                         <div class="col-xs-12 col-md-12">
+                           <a ng-click="cfgPiCtrl.openNodeRed()" style="font-size: 12px;cursor: pointer; margin-top:0px;margin-left:0px;">
+                            <img  ng-click="cfgPiCtrl.openNodeRed()" style="width: 40px;" src="/assets/imgs/node-red-icon.png"  uib-tooltip="Abre o programador Node-RED"/> Acessar programador</a>
+                          </div>
+
+
+
+                          <div class="col-xs-12 col-md-12" style="margin-top: 10px;">
+                            <div class="box box-default collapsed-box">
+                              <div class="box-header with-border">
+                                <h3 class="box-title" style="font-size:12px; color: '#eeeeee'">Configurações</h3>
+
+                                <div class="box-tools pull-right">
+
+
+                                  <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
+
+
+                                </div>
+                                <!-- /.box-tools -->
+
+                              </div>
+                              <!-- /.box-header -->
+                              <div class="box-body" style="display: none;">
+                                <div class="col-xs-12 col-md-12">
+                                  <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> Nova senha</label>
+                                  <input style="width: 30%;" type="password" class="form-control input-sm" placeholder="" ng-model="cfgPiCtrl.senhaNodered">
+                                </div>
+
+                                <div class="col-xs-12 col-md-12">
+                                  <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> Confirme a senha</label>
+                                  <input style="width: 30%;" type="password" class="form-control input-sm" placeholder="" ng-model="cfgPiCtrl.senhaNoderedConfirma">
+                                </div>
+
+                                <div class="col-xs-12 col-md-12" style="margin-top:10px;">
+                                  <button class="btn btn-danger btn-xs" mw-confirm-click="cfgPiCtrl.trocaSenhaNodeRed()" mw-confirm-click-message="Deseja realmente troca a senha agora? O controlador será reiniado para que esta acão seja efetivada!"><i class="fa fa-random"></i> Troca senha node-red</button>
+                                </div>  
+                              </div>
+                              <!-- /.box-body -->
+                            </div>
+                            <!-- /.box -->
+                          </div>
+
+
+
+                        </div>
+                      </div>  
+                    </div>
+
+                    <div class="col-xs-12 col-md-12" style="margin-top:10px;" ng-if="cfgPiCtrl.getUser().email=='dev@intech-automacao.com.br'">
+                      <label style="font-size: 12px;" class="control-label">Informações do equipamento (reservado à in-Tech)</label>
+                      <div class="panel panel-default">
+                        <div class="panel-body">
+
+
+                          <div class="col-xs-12 col-md-12">
+                            <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> Set número de série</label>
+                            <input style="width: 30%;" type="text" class="form-control input-sm" placeholder="" ng-model="cfgPiCtrl.novoNumeroSerie">
+                          </div>
+                          <div class="col-xs-12 col-md-12">
+                            <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> Set versão software</label>
+                            <input style="width: 30%;" type="text" class="form-control input-sm" placeholder="" ng-model="cfgPiCtrl.novoSoftware">
+                          </div>
+                          <div class="col-xs-12 col-md-12">
+                            <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> Set versão firmware</label>
+                            <input style="width: 30%;" type="text" class="form-control input-sm" placeholder="" ng-model="cfgPiCtrl.novoFirmware">
+                          </div>                        
+                          <div class="col-xs-12 col-md-12" style="margin-top:10px;">
+                            <button class="btn btn-danger btn-xs" ng-click="cfgPiCtrl.deviceSetSerialNumber()"><i class="fa fa-random"></i> Set número de série</button>
+                          </div>
+                        </div>
+                      </div>  
+                    </div>                  
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </uib-accordion>

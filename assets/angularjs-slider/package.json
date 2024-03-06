@@ -1,0 +1,154 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "angularjs-slider",
+        "scope": null,
+        "escapedName": "angularjs-slider",
+        "name": "angularjs-slider",
+        "rawSpec": "",
+        "spec": "latest",
+        "type": "tag"
+      },
+      "C:\\Users\\boris\\Dropbox\\000 - Pessoal\\000 - Boris\\000 - Projetos\\099 - in-Tech\\002 - Telemetria IoT\\000 - inWeb\\front-v2-login"
+    ]
+  ],
+  "_from": "angularjs-slider@latest",
+  "_id": "angularjs-slider@6.6.1",
+  "_inCache": true,
+  "_location": "/angularjs-slider",
+  "_nodeVersion": "9.4.0",
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/angularjs-slider_6.6.1_1530362200460_0.8148458067030269"
+  },
+  "_npmUser": {
+    "name": "valentinhervieu",
+    "email": "valentin@hervi.eu"
+  },
+  "_npmVersion": "5.6.0",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "angularjs-slider",
+    "scope": null,
+    "escapedName": "angularjs-slider",
+    "name": "angularjs-slider",
+    "rawSpec": "",
+    "spec": "latest",
+    "type": "tag"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/angularjs-slider/-/angularjs-slider-6.6.1.tgz",
+  "_shasum": "3af8beb397254d5f92f2c1aa80ece546b0c0779f",
+  "_shrinkwrap": null,
+  "_spec": "angularjs-slider",
+  "_where": "C:\\Users\\boris\\Dropbox\\000 - Pessoal\\000 - Boris\\000 - Projetos\\099 - in-Tech\\002 - Telemetria IoT\\000 - inWeb\\front-v2-login",
+  "author": {
+    "name": "Rafal Zajac",
+    "email": "rzajac@gmail.com"
+  },
+  "bugs": {
+    "url": "https://github.com/angular-slider/angularjs-slider/issues"
+  },
+  "czConfig": {
+    "path": "node_modules/cz-conventional-changelog"
+  },
+  "dependencies": {},
+  "description": "AngularJS slider directive with no external dependencies. Mobile friendly!.",
+  "devDependencies": {
+    "angular": "1.4.7",
+    "angular-mocks": "1.4.8",
+    "autoprefixer": "^6.5.3",
+    "chai": "^3.5.0",
+    "codecov.io": "^0.1.6",
+    "commitizen": "^2.4.6",
+    "cypress": "^0.20.3",
+    "cz-conventional-changelog": "^1.1.5",
+    "grunt": "~0.4.2",
+    "grunt-angular-templates": "^0.5.7",
+    "grunt-cli": "^1.2.0",
+    "grunt-contrib-concat": "^0.5.1",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-contrib-mincss": "~0.3.2",
+    "grunt-contrib-uglify": "~0.2.2",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-karma": "^0.12.1",
+    "grunt-ng-annotate": "^1.0.1",
+    "grunt-postcss": "^0.8.0",
+    "grunt-recess": "~0.4.0",
+    "grunt-replace": "^0.11.0",
+    "grunt-serve": "^0.1.6",
+    "http-server": "^0.10.0",
+    "husky": "^0.14.3",
+    "karma": "^1.3.0",
+    "karma-chai": "^0.1.0",
+    "karma-chrome-launcher": "^0.2.2",
+    "karma-coverage": "^0.5.3",
+    "karma-mocha": "^0.2.1",
+    "karma-mocha-reporter": "^2.2.0",
+    "karma-ng-html2js-preprocessor": "^0.2.0",
+    "karma-phantomjs-launcher": "^1.0.2",
+    "karma-sinon": "^1.0.4",
+    "lint-staged": "^4.0.3",
+    "mocha": "^3.1.2",
+    "phantomjs": "^1.9.19",
+    "prettier": "^1.13.7",
+    "recess": "~1.1.9",
+    "sinon": "^1.17.2"
+  },
+  "directories": {},
+  "dist": {
+    "integrity": "sha512-MrV5scVkLTg27PjaCjPFGKhey74fiwJUJ7ApN+pHP5s+4v5q2S6HMHgANOIiVRBgNY2KktaPxqycTyyS+7Rdxg==",
+    "shasum": "3af8beb397254d5f92f2c1aa80ece546b0c0779f",
+    "tarball": "https://registry.npmjs.org/angularjs-slider/-/angularjs-slider-6.6.1.tgz",
+    "fileCount": 66,
+    "unpackedSize": 1152592,
+    "npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJbN3lYCRA9TVsSAnZWagAAE88QAJUKxQn/9my8fKcOCzNP\nJzK4ev0tSL0uyKUW4wEoTbAO6WjBNdU1pFr6ypw+fipNfgWMfJZ3ASp/XNqg\neBMSusRyyRZPOMPLYJtfhZnmJAIO5bL2HFn28eWLjVAhr1KiXWATxRcgUadE\nBpO3XxDcFl1vczoleloCpspqT3Y38KRF4W6bS2r0kKVqse9iDhaOVPoNVHkA\nfGZZ09LUjAib/VC2UBriz74r0y1gxEUM4fQrLQcgeRvhwYlA2PkPQkJm59FR\nhpsgWiZxsZzWXQem1KULQobR2KOpxRPE/nfvIRkmzmgWVkBxF1YvVHRc7VXt\njmzyTbonwfDoeIcEk7VGQ/rFyKZHWK5TwLWVYAsXeAHC8clc5AgqRD/APjXv\nC9kuopuyQkBIh7R+SN+nvryY7rJrjKui1gmIsar1DINb+1zWh+H7HlviGcke\nhJlNiXS1ziu3nsJ9HpwUXKBTEbgMXF2uHezzfUlEOe1LQV6DdN2n0+kOzT7P\njPz5gQQv56IzKP0WuPVdAW8Aje4cnOBVGDSyI1FYWCyaa5FiAkbgEOttunmf\nx1D/6GK9fvczxnfI7WiClCjzuIabyHzLERDe9CLIo0dOSc9ezSU/qBxuyyO1\nd/6WxmPaueWQe8j3+EysQVzDjw4VteDTPKy1nuLK+tfp7XwaFpYSZ4fOdvPo\nEy0D\r\n=L3u9\r\n-----END PGP SIGNATURE-----\r\n"
+  },
+  "gitHead": "09d29e1e53e6b44eecc0c8da32a27d9a0f723de5",
+  "homepage": "https://github.com/angular-slider/angularjs-slider#readme",
+  "keywords": [
+    "angular",
+    "slider"
+  ],
+  "license": "MIT",
+  "lint-staged": {
+    "{src,tests,demo}/{,!(lib)/**}/*.{js,less,css}": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "main": "dist/rzslider.js",
+  "maintainers": [
+    {
+      "name": "valentinhervieu",
+      "email": "valentin@hervieu.me"
+    }
+  ],
+  "name": "angularjs-slider",
+  "optionalDependencies": {},
+  "peerDependencies": {
+    "angular": "^1.2.x"
+  },
+  "readme": "ERROR: No README data found!",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/angular-slider/angularjs-slider.git"
+  },
+  "scripts": {
+    "build": "grunt",
+    "commit": "git-cz",
+    "cypress:open": "cypress open",
+    "e2e": "npm start & cypress run",
+    "format": "prettier --write \"{src,tests,demo}/{,!(lib)/**}/*.{js,less,css}\"",
+    "precommit": "lint-staged",
+    "report-coverage": "cat ./tests/coverage/lcov.info | codecov",
+    "start": "http-server ./ -c-1",
+    "test": "grunt test"
+  },
+  "types": "dist/rzslider.d.ts",
+  "version": "6.6.1"
+}

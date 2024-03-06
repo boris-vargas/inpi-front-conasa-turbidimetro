@@ -1,0 +1,90 @@
+  <div class="modal-content col-xs-12 col-md-12">
+    <div class="modal-header">
+      <h4 class="modal-title">Configurações</h4>
+    </div>
+    <div class="modal-body" style="margin-left:-30px">
+      <ul >
+        <label class="control-label" style="margin-left:-10px"><i class="fa fa-edit"></i> Modo</label>
+        <div class="input-group">
+          <div class="input-group-addon">
+            <i class="fa fa-book"></i>
+          </div>
+          <select class="form-control input-sm" style="width: 100%;"  ng-model="objeto.parameters.modo">
+            <option value="config">Períodos pré-definidos</option>
+            <option value="query">Consulta por período</option>
+          </select>
+        </div>
+      </ul>
+
+      <ul>
+        <div ng-if="objeto.parameters.modo=='query'">
+          <label class="control-label"><i class="fa fa-edit"></i> Data inicial</label>
+          <div class="input-group">
+            <div class="input-group-addon">
+              <i class="fa fa-calendar"></i>
+            </div>
+            <input class="form-control input-sm" ng-model="dataInicial" placeholder="Selecione a data..." moment-picker="stringDateIni" format="DD/MM/YYYY HH:mm">
+          </div>
+        </div>
+      </ul>
+
+      <ul>
+        <div ng-if="objeto.parameters.modo=='query'">
+          <label class="control-label"><i class="fa fa-edit"></i> Data final</label>
+          <div class="input-group">
+            <div class="input-group-addon">
+              <i class="fa fa-calendar"></i>
+            </div>
+            <input class="form-control input-sm" ng-model="dataFinal" placeholder="Selecione a data..." format="DD/MM/YYYY HH:mm" moment-picker="stringDateFin">
+          </div>
+        </div>
+      </ul>
+
+      <div class="cointainer" style="margin-left:65px;">
+    <!--     <label style="margin-left:-25px;" class="control-label"><i class="fa fa-edit"></i> Períodos pré-definidos</label> -->
+
+
+        <div class="row"  ng-if="objeto.parameters.modo=='config'">
+          <label class="control-label" style="margin-left:-25px;"><i class="fa fa-edit"></i> Período</label> 
+          <div class="input-group"  style="margin-left:-10px;">
+            <div class="input-group-addon">
+              <i class="fa fa-align-justify"></i>
+            </div>
+            <select class="form-control input-sm" style="width: 92%;"  ng-model="objeto.parameters.periodo">
+              <option value="ultima-hora">Ultima hora</option>
+              <option value="ultimo-dia">Último dia</option>
+              <option value="ultima-semana">Última semana</option>
+              <option value="ultimo-mes">Último mês</option>
+              <option value="ultimo-3-meses">Último 3 meses</option>
+              <option value="ultimo-6-meses">Último 6 meses</option>
+              <option value="ultimo-9-meses">Último 9 meses</option>
+              <option value="ultimo-12-meses">Último ano</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row">
+          <label class="control-label" style="margin-left:-25px;"><i class="fa fa-edit"></i> Agrupamento</label>
+          <div class="input-group"  style="margin-left:-10px;">
+            <div class="input-group-addon">
+              <i class="fa fa-align-justify"></i>
+            </div>
+            <select class="form-control input-sm" style="width: 92%;"  ng-model="objeto.parameters.resolucao">
+              <option value="1">sem agrupamento</option>
+              <option value="60">por minuto</option>
+              <option value="3600">por hora</option>
+              <option value="1440">por dia</option>
+              <option value="10080">por semana</option>
+            </select>
+          </div>
+        </div>
+
+      </div> 
+
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
+      <button class="btn btn-warning" type="button" ng-click="cancelar()">Cancel</button>
+    </div>
+  </div>

@@ -1,0 +1,34 @@
+
+<a href class="dropdown-toggle"style="padding:3px;"  data-toggle="dropdown">
+  <!-- tooltip-placement="bottom" uib-tooltip="Relógio do servidor"  -->
+  <div class="">
+    <div class="row" style="padding:0px 5px 0 5px;margin:auto;text-align:center;">
+      <span class="hidden-xs" style="font-size:12px;text-align:center;">{{navCtrl.timeServer}}</span>
+
+    </div>
+
+    <div class="row" style="padding:0px 5px 0 5px;margin:auto;text-align:center;">
+      <span class="hidden-xs" style="font-size:12px;text-align:center;">{{navCtrl.dateServer}}</span>
+    </div>
+
+
+  </div>
+</a>
+
+<ul class="dropdown-menu">
+  <!-- <li class="header">You have 9 tasks</li> -->
+  <li >
+    <!-- inner menu: contains the actual data -->
+    <ul class="menu" >
+      <li>
+        <!-- Task item -->
+        <a style="cursor:pointer"ng-click="navCtrl.comandoExePiPlc('sudo date -s \'2014-12-25 12:34:56\'')">
+          <h3   style="font-size:12px;margin-top:8px;">
+            <i class='fa fa-refresh'></i> Sincronizar com PC<span class="pull-right" style="font-size:11px;">{{navCtrl.dataPc}}</span>
+          </h3>
+
+        </a>
+      </li>
+    </ul>
+  </li>
+</ul>

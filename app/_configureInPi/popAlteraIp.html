@@ -1,0 +1,58 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <h4 class="modal-title">Configurações de rede</h4>
+  </div>
+  <div class="modal-body">
+    <ul>
+      <h4 style="margin-left:-20px;" class="modal-title">Wifi</h4>
+      
+<!-- 
+      <ul >
+        <label class="control-label" style="margin-left:-60px"><i class="fa fa-edit"></i> Modo</label>
+        <div class="input-group" style="margin-left:-60px">
+          <div class="input-group-addon">
+            <i class="fa fa-book"></i>
+          </div>
+          <select class="form-control input-sm" style="width: 91%;" ng-model="modo">
+            <option value="1">DHCP</option>
+            <option value="0">Manual</option>
+          </select>
+        </div>
+      </ul> -->
+
+      <div class="checkbox-inline">
+        <label style="font-size:12px;margin-left:-20px;"><input type="checkbox" name="optionsRadios" id="optionsRadios1" ng-click="" ng-model="dhcpwifi">DHCP</label>
+      </div>
+      <br>
+      <label style="margin-left:-20px;" class="control-label"><i class="fa fa-edit"></i>IP</label>
+      <input  ng-style="dhcpwifi && {'color':'#eeeeee'} || {'color': '#666666'}" ng-disabled="dhcpwifi" id="valoripw" ng-ip-address style="margin-left:-20px;" type="text" class="form-control input-sm" placeholder="{{ipwifi}}" ng-model="ipwifi">
+
+      <label style="margin-left:-20px;" class="control-label"><i class="fa fa-edit"></i> Gateway</label>
+      <input ng-style="dhcpwifi && {'color':'#eeeeee'} || {'color': '#666666'}" ng-disabled="dhcpwifi" id="valorgatewayw" ng-ip-address style="margin-left:-20px;" type="text" class="form-control input-sm" placeholder="{{gatewaywifi}}" ng-model="gatewaywifi">
+
+      <label style="margin-left:-20px;" class="control-label"><i class="fa fa-edit"></i> DNS</label>
+      <input ng-style="dhcpwifi && {'color':'#eeeeee'} || {'color': '#666666'}" ng-disabled="dhcpwifi" id="valordnsw" ng-ip-address style="margin-left:-20px;" type="text" class="form-control input-sm" placeholder="{{dnswifi}}" ng-model="dnswifi">
+    </ul>
+    <ul>
+      <h4 style="margin-left:-20px;" class="modal-title">Ethernet</h4>
+ 
+      <div class="checkbox-inline">
+        <label style="font-size:12px;margin-left:-20px;"><input type="checkbox" ng-click="" ng-model="dhcpeth">DHCP</label>
+      </div>
+      <br>
+
+
+      <label style="margin-left:-20px;" class="control-label"><i class="fa fa-edit"></i> IP</label>
+      <input ng-style="dhcpeth && {'color':'#eeeeee'} || {'color': '#666666'}" ng-disabled="dhcpeth" id="valorip" ng-ip-address style="margin-left:-20px;" type="text" class="form-control input-sm" placeholder="{{ipeth}}" ng-model="ipeth">
+      <label style="margin-left:-20px;" class="control-label"><i class="fa fa-edit"></i> Gateway</label>
+      <input ng-style="dhcpeth && {'color':'#eeeeee'} || {'color': '#666666'}" ng-disabled="dhcpeth" id="valorgateway" ng-ip-address style="margin-left:-20px;" type="text" class="form-control input-sm" placeholder="{{gatewayeth}}" ng-model="gatewayeth">
+      <label style="margin-left:-20px;" class="control-label"><i class="fa fa-edit"></i> DNS</label>
+      <input ng-style="dhcpeth && {'color':'#eeeeee'} || {'color': '#666666'}" ng-disabled="dhcpeth" id="valordns" ng-ip-address style="margin-left:-20px;" type="text" class="form-control input-sm" placeholder="{{dnseth}}" ng-model="dnseth">
+    </ul>
+  </div>
+
+  <div class="modal-footer">
+    <button class="btn btn-primary" type="button" mw-confirm-click="ok()" mw-confirm-click-message="O controlador será reiniciado para que as alterações tenham efeito. Deseja realmente fazer isso?" >OK</button>
+    <button class="btn btn-warning" type="button" ng-click="cancelar()">Cancel</button>
+  </div>
+</div>

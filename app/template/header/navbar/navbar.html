@@ -1,0 +1,19 @@
+<div ng-controller="navController as navCtrl">
+<a id="999" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+  <span class="sr-only">Toggle navigation</span>
+</a>
+<!-- <button class="btn btn-xs" ng-click="navCtrl.changeAttr()"> Troca de estado</button> -->
+
+<div class="navbar-custom-menu">
+  <ul class="nav navbar-nav">
+    <li class="dropdown messages-menu" ng-include="'/template/header/navbar/internet.html'"></li>
+    <li class="dropdown messages-menu" ng-include="'/template/header/navbar/messages.html'"></li>
+    <li class="dropdown notifications-menu" ng-include="'/template/header/navbar/notifications.html'"></li>
+    <li class="dropdown tasks-menu" ng-include="'/template/header/navbar/cpuinfos.html'"></li>
+    <li class="dropdown user user-menu" ng-include="'/template/header/navbar/user.html'"></li>
+    <li class="dropdown tasks-menu" ng-include="'/template/header/navbar/datahora.html'"></li>
+  </ul>
+</div>
+
+
+</div>

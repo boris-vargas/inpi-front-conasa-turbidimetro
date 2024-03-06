@@ -1,0 +1,48 @@
+<div class="modal-content">
+<div class="modal-header">
+  <h4 class="modal-title">{{titulo}}</h4>
+</div>
+<div class="modal-body">
+  <ul>
+    <label style="margin-left:-20px;" class="control-label"><i class="fa fa-edit"></i> Nome</label>
+    <input id="nome" style="margin-left:-20px;" class="form-control input-sm"  ng-model="nome">
+    <label style="margin-left:-20px;" class="control-label" ><i class="fa fa-edit"></i> E-mail</label>
+    <input style="margin-left:-20px;" class="form-control input-sm" type="email" placeholder="digite aqui o e-mail" ng-model="email" ng-disabled="editar">
+    <label style="margin-left:-20px;" class="control-label"><i class="fa fa-edit"></i> Nova senha</label>
+    <input style="margin-left:-20px;" class="form-control input-sm" type="password" placeholder="digite aqui sua senha" ng-model="senha">
+    <label style="margin-left:-20px;" class="control-label"><i class="fa fa-edit"></i> Digita novamente a senha</label>
+    <input style="margin-left:-20px;" class="form-control input-sm" type="password" placeholder="redigite aqui sua senha" ng-model="resenha">
+
+
+      <label style="margin-left:-20px;" class="control-label"><i class="fa fa-edit"></i> Sistema</label>
+      <div class="input-group" style="margin-left:-20px;">
+        <div class="input-group-addon">
+          <i class="fa fa-street-view"></i>
+        </div>
+        <select class="form-control input-sm" style="width: 90%;" ng-model="sistema_nome">
+          <option ng-selected="{{sistema.nome == sistema_nome}}" ng-repeat="sistema in sistemas track by $index" value="{{sistema.id}}">{{sistema.nome}}</option>
+        </select>
+      </div>
+
+
+      <label style="margin-left:-20px;" class="control-label"><i class="fa fa-edit"></i> Nível de acesso</label>
+      <div class="input-group" style="margin-left:-20px;">
+        <div class="input-group-addon">
+          <i class="fa fa-sitemap"></i>
+        </div>
+        <select class="form-control input-sm" style="width: 90%;"  ng-model="acesso" ng-disabled="editar">
+          <option value="0" >Administrador Master</option>
+          <option value="1" >Administrador Local</option>
+          <option value="2" >Operador</option>
+          <option value="3" >Convidado</option>
+
+        </select>
+      </div>
+  </ul>
+</div>
+
+    <div class="modal-footer">
+      <button class="btn btn-primary" type="button" ng-disabled="!nome || !email || !senha || !resenha || !sistema_nome || !acesso" ng-click="ok()">Confirma</button>
+      <button class="btn btn-warning" type="button" ng-click="cancelar()">Cancel</button>
+    </div>
+  </div>

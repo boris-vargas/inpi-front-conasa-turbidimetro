@@ -1,0 +1,17 @@
+<div class="modal-content">
+<div class="modal-header">
+  <h4 class="modal-title">Comandos</h4>
+</div>
+<div class="modal-body">
+  <ul>
+      <label style="margin-left:-20px;" class="control-label"><i class="fa fa-edit"></i> Novo valor - Registro({{registro}})</label>
+      <input ng-keyup="$event.keyCode == 13 ? ok() : null" id="valorinput" style="margin-left:-20px;" type="number" class="form-control input-sm" placeholder="digite aqui o novo valor" ng-model="valor">
+      <label>{{items.value}}</label>
+  </ul>
+</div>
+
+    <div class="modal-footer">
+      <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
+      <button class="btn btn-warning" type="button" ng-click="cancelar()">Cancel</button>
+    </div>
+  </div>

@@ -1,0 +1,45 @@
+<div class="modal-content">
+
+  <div class="modal-header">
+    <h4 class="modal-title">Configurações alarme telegram</h4>
+  </div>
+
+  <div class="modal-body">
+    
+    <div class="col-xs-12" style="margin-bottom: 10px;">
+        <label class="control-label">Nome do bot</label>
+        <input type="text" class="form-control input-sm" ng-model="obj.indentificador" placeholder="Informe como vai ser chamado">
+    </div>
+
+    <div class="col-xs-12">
+      <p style="font-size: 12px;">1º Acesse o Telegram, pesquise por botFather e inicie uma conversa com ele digitando qualquer texto.</p>
+      <p style="font-size: 12px;">2º Depois da resposta do  botFather, digite o comando /newbot. Aguarde a resposta.</p>
+      <p style="font-size: 12px;">3º Digite o nome do bot e aguarde a resposta.</p>
+      <p style="font-size: 12px;">4º Digite um apelido e no final adicione a palavra bot, exemplo: sistemaBot ou sistema_bot.</p>
+      <p style="font-size: 12px;">5º O bot entregará um token para garantir a segurança da informação. Este numero  é composto  por números, dois pontos  e uma sequencia alfanumérica. Digite-o logo abaixo:</p>
+      
+      <p>
+        <input type="text" class="form-control input-sm" style="width: 50%; display: inline-block;" ng-model="obj.tokenBot" placeholder="Informe o seu token aqui">
+        <button class="btn btn-primary btn-sm" ng-click="verificarToken()">Confirme token</button>
+      </p>
+
+      <p style="font-size: 12px;">6º Depois de confirmado o token, procure pelo bot que você criou. Você pode procurar pelo nome ou  apelido</p>
+      <p style="font-size: 12px;">7º Inicie uma conversa com o bot que você acabou de criar digitando /idchat. Ele retornará um identificador, caso seja um grupo bote tambem o sinal de menos, que você precisará informar logo abaixo:</p>
+      
+      <p>
+        <input type="text" class="form-control input-sm" style="width: 50%; display: inline-block;" ng-model="obj.idchat" placeholder="Informe id chat para nos">
+        <button class="btn btn-primary btn-sm" ng-click="testeAlarme()">Confirme id chat</button>
+      </p>
+
+      <p style="font-size: 12px;">8º recebendo uma notificação no seu telegram, as configurações já estão prontas</p>
+
+    </div>
+
+  </div>
+
+  <div class="modal-footer">
+    <button class="btn btn-primary" type="button" ng-click="ok()" ng-disabled="!obj.indentificador && !obj.tokenBot && !obj.idchat">OK</button>
+    <button class="btn btn-warning" type="button" ng-click="cancelar()">Cancel</button>
+  </div>
+
+</div>

@@ -1,0 +1,1341 @@
+<uib-accordion ng-click="cfgCtrl.acordion1()">
+  <div uib-accordion-group class="panel-default" is-open="cfgCtrl.openAc1">
+    <uib-accordion-heading >
+      <i class="pull-left fa fa-pencil-square-o"></i><Label style="font-size:12px;">Adicionar, remover e editar componentes</label><i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': cfgCtrl.openAc1, 'glyphicon-chevron-right': !cfgCtrl.openAc1}"></i>
+      </uib-accordion-heading>
+
+      <div class="box-body" style="margin-left:-28px; margin-top:-15px;">
+
+        <!--a==============================ADICIONAR COMPONENTE========================================a -->
+        <div class="col-xs-12 col-md-12"  ng-if="cfgCtrl.iscomponente_new || cfgCtrl.iscomponente_edit">
+          <div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 style="font-size:12px;" class="box-title" ng-if="cfgCtrl.iscomponente_new">Inserir novo componente</h3>
+              <h3 style="font-size:12px;" class="box-title" ng-if="cfgCtrl.iscomponente_edit">Editar componente</h3>
+            </div>
+            <div class="box-body">
+
+              <div class="col-xs-12 col-md-3" ng-if="cfgCtrl.iscomponente_new">
+                <label class="control-label"><i class="fa fa-edit"></i> Selecione o sistema</label>
+                <!-- <button type="button" class="btn btn-success" ng-click="contController.novoRegistroCont()" ng-disabled="contController.is_cont_edit"><i class="fa fa-plus"uib-tooltip="Novo registro"></i></button> -->
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <i class="fa fa-industry"></i>
+
+                  </div>
+                  <select ng-disabled="true" class="form-control input-sm" style="width: 100%;" ng-options="sistemas.nome for sistemas in cfgCtrl.sistemas" ng-model="cfgCtrl.sistemaSelecionado" >
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-xs-12 col-md-3">
+                <label class="control-label"><i class="fa fa-edit"></i> Tipo do componente</label>
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <i class="fa fa-cart-plus"></i>
+                  </div>
+                  <select class="form-control input-sm" style="width: 100%;"  ng-model="cfgCtrl.componente_tipo">
+                    <!--  <option value="luz-incand">Iluminação incandecente</option> -->
+                    <option value="display">Display de indicação</option>
+                    <option value="display-bar">Display de indicação com barras</option>
+                    <option value="display-gauge">Display de indicação com gauge</option>
+                    <option value="silo-a">Display de indicação com Silo A</option>
+                    <option value="silo-b">Display de indicação com Silo B</option>
+                    <option value="indica-led">Indicação de estado</option>
+                    <!--  <option value="irrigacao">Válvula irrigação</option> -->
+                    <option value="botao-obj">Botão</option>
+                    <option value="dimmer">Dimmer</option>
+                    <option value="imagem-estatica">Imagem estática</option>
+<!--                     <option value="fita-rgb">Fita RGB</option>
+ -->                    
+                    <option value="task-horario">Tarefa por horário</option>
+                    <option value="chart">Gráfico</option>
+                    <option value="setpoint">Setpoint</option>
+                    <option value="alarme">Visualizador de alarmes</option>
+
+
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-xs-12 col-md-3" >
+                <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> Descrição</label>
+                <input type="text" class="form-control input-sm" placeholder="" ng-model="cfgCtrl.componente_descricao"/>
+              </div>
+
+              <div class="col-xs-12 col-md-3" ng-if="cfgCtrl.componente_tipo == 'imagem-estatica'"  >
+                <label class="control-label"><i class="fa fa-edit"></i> Imagem</label>
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <i class="fa fa-picture-o"></i>
+                  </div>
+                  <select class="form-control input-sm" style="width: 100%;" ng-model="cfgCtrl.pathImagemObjetoOn">
+                    <option ng-selected="{{arquivo.file == cfgCtrl.pathImagemObjetoOn}}" ng-repeat="arquivo in cfgCtrl.arquivosImagemGeneral.files" value="{{arquivo.file}}">{{arquivo.file}}</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-xs-12 col-md-3" ng-if="cfgCtrl.componente_tipo == 'botao-obj' || cfgCtrl.componente_tipo == 'indica-led'  || cfgCtrl.componente_tipo == 'dimmer' || cfgCtrl.componente_tipo == 'fita-rgb'"  >
+                <label class="control-label"><i class="fa fa-edit"></i> Imagem ON</label>
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <i class="fa fa-picture-o"></i>
+                  </div>
+                  <select class="form-control input-sm" style="width: 100%;" ng-model="cfgCtrl.pathImagemObjetoOn">
+                    <option ng-selected="{{arquivo.file == cfgCtrl.pathImagemObjetoOn}}" ng-repeat="arquivo in cfgCtrl.arquivosImagem.files" value="{{arquivo.file}}">{{arquivo.file}}</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-xs-12 col-md-3" ng-if="cfgCtrl.componente_tipo == 'botao-obj' || cfgCtrl.componente_tipo == 'indica-led'  || cfgCtrl.componente_tipo == 'dimmer' || cfgCtrl.componente_tipo == 'fita-rgb'" >
+                <label class="control-label"><i class="fa fa-edit"></i> Imagem OFF</label>
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <i class="fa fa-picture-o"></i>
+                  </div>
+                  <select class="form-control input-sm" style="width: 100%;" ng-model="cfgCtrl.pathImagemObjetoOff">
+                    <option ng-selected="{{arquivo.file == cfgCtrl.pathImagemObjetoOff}}" ng-repeat="arquivo in cfgCtrl.arquivosImagem.files" value="{{arquivo.file}}">{{arquivo.file}}</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-xs-12 col-md-3" ng-if="cfgCtrl.componente_tipo == 'botao-obj' || cfgCtrl.componente_tipo == 'indica-led'  || cfgCtrl.componente_tipo == 'dimmer' || cfgCtrl.componente_tipo == 'imagem-estatica' || cfgCtrl.componente_tipo == 'fita-rgb'">
+                <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> Tamanho da imagem</label>
+                <input type="number" class="form-control input-sm" placeholder="" ng-model="cfgCtrl.imagesize"/>
+              </div>
+
+              <div class="col-xs-12 col-md-3" ng-if="cfgCtrl.componente_tipo=='display' || cfgCtrl.componente_tipo=='setpoint'">
+                <label class="control-label"><i class="fa fa-edit"></i> Fonte (size)</label>
+                <input type="number" class="form-control input-sm" placeholder="" ng-model="cfgCtrl.font_size"/>
+              </div>
+
+               <div class="col-xs-12 col-md-3" ng-if="cfgCtrl.componente_tipo == 'botao-obj' || cfgCtrl.componente_tipo == 'indica-led'  || cfgCtrl.componente_tipo == 'dimmer' || cfgCtrl.componente_tipo == 'imagem-estatica' || cfgCtrl.componente_tipo == 'fita-rgb' || cfgCtrl.componente_tipo == 'display' || cfgCtrl.componente_tipo == 'setpoint'">
+                <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> Espaçamento superior</label>
+                <input type="number" class="form-control input-sm" placeholder="" ng-model="cfgCtrl.imagetop"/>
+              </div>
+
+              <div class="col-xs-12 col-md-3"  ng-if="cfgCtrl.componente_tipo != 'task-horario' && cfgCtrl.componente_tipo != 'chart' && cfgCtrl.componente_tipo != 'alarme' && cfgCtrl.componente_tipo != 'imagem-estatica'">
+                <label class="control-label"><i class="fa fa-edit"></i> Tipo de módulo</label>
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <i class="fa fa-microchip"></i>
+                  </div>
+                  <select class="form-control input-sm" style="width: 100%;"  ng-model="cfgCtrl.componente_modulo_plcpi">
+                    <option value="inPi-onboard-in">2 ent.digitais 2 saídas digitais 2 ent. analógicas - INPI-CPU</option>
+                    <option value="inPi-off-in-8DI">8 entradas digitais - INPI-INP-8DI</option>
+                    <option value="inPi-off-out-4DO">4 saídas digitais - INPI-OUT-4DO-REL</option>
+                    <option value="inPi-off-in-4AI">4 entradas analógicas - INPI-INA-4AI</option>
+                    <option value="inPi-off-out-8DO-D">8 saídas digitais triac - INPI-OUT-8DO-TRI</option>
+                    <option value="inPi-off-out-8DO-TR">8 saídas digitais transistor - INPI-OUT-8DO-TRA</option>
+                    <option value="generico">genérico</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-xs-12 col-md-3"  ng-if="(cfgCtrl.componente_tipo=='display'|| cfgCtrl.componente_tipo=='display-bar' || cfgCtrl.componente_tipo=='display-gauge' || cfgCtrl.componente_tipo=='setpoint' || cfgCtrl.componente_tipo == 'silo-a' || cfgCtrl.componente_tipo == 'silo-b') && (cfgCtrl.componente_tipo != 'task-horario' && cfgCtrl.componente_tipo != 'chart' && cfgCtrl.componente_tipo != 'alarme' && cfgCtrl.componente_tipo != 'imagem-estatica') ">
+                <label class="control-label"><i class="fa fa-edit"></i> Unidade medida</label>
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <i class="fa fa-thermometer-empty"></i>
+                  </div>
+                  <select class="form-control input-sm" style="width: 100%;"  ng-model="cfgCtrl.componente_unidade_medida_temp" ng-change="cfgCtrl.selectunidade()">
+                    <option value="%">%</option>
+                    <option value="°C">°C</option>
+                    <option value="rh">rh</option>
+                    <option value="V">V</option>
+                    <option value="mV">mV</option>
+                    <option value="A">A</option>
+                    <option value="mA">mA</option>
+                    <option value="l/s">l/s</option>
+                    <option value="m³/h">m³/h</option>
+                    <option value="psi">psi</option>
+                    <option value="bar">bar</option>
+                    <option value="mbar">mbar/h</option>
+                    <option value="mca">mca</option>
+                    <option value="km">km</option>
+                    <option value="m">m</option>
+                    <option value="cm">cm</option>
+                    <option value="mm">mm</option>
+                    <option value="pç/min">peças/min</option>
+                    <option value="pç/hr">peças/hr</option>
+                    <option value="pç/dia">peças/dia</option>
+                    <option value="pçs">peças</option>
+                    <option value="w">w</option>
+                    <option value="kw">kw</option>
+                    <option value="kwh">kw/h</option>
+                    <option value="user">personalizada</option>
+
+
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-xs-12 col-md-3" ng-if="(cfgCtrl.componente_tipo=='display'|| cfgCtrl.componente_tipo=='display-bar' || cfgCtrl.componente_tipo=='display-gauge' || cfgCtrl.componente_tipo=='setpoint' || cfgCtrl.componente_tipo=='silo-a' || cfgCtrl.componente_tipo=='silo-b')&& cfgCtrl.componente_unidade_medida_temp=='user'">
+                <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> Unidade personalizada</label>
+                <input type="text" class="form-control input-sm" placeholder="" ng-model="cfgCtrl.componente_unidade_medida"/>
+              </div>
+
+              <div class="col-xs-12 col-md-3" ng-if="cfgCtrl.componente_tipo=='display'|| cfgCtrl.componente_tipo=='display-bar' || cfgCtrl.componente_tipo=='display-gauge' || cfgCtrl.componente_tipo=='setpoint'">
+                <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> Fator multiplicativo</label>
+                <input type="text" class="form-control input-sm" placeholder="" ng-model="cfgCtrl.componente_fator"/>
+              </div>
+
+              <div class="col-xs-12 col-md-3" ng-if="cfgCtrl.componente_tipo=='luz-incand' || cfgCtrl.componente_tipo=='irrigacao'  || cfgCtrl.componente_tipo=='botao-obj' || cfgCtrl.componente_tipo=='setpoint'  || cfgCtrl.componente_tipo == 'dimmer'">
+                <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> End. módulo de acionamento</label>
+                <input type="text" class="form-control input-sm" placeholder="" ng-model="cfgCtrl.componente_device_modbus_write_id" only-number/>
+              </div>
+
+              <div class="col-xs-12 col-md-3"  ng-if="(cfgCtrl.componente_tipo=='luz-incand'  || cfgCtrl.componente_tipo=='irrigacao'   || cfgCtrl.componente_tipo=='botao-obj'  || cfgCtrl.componente_tipo == 'dimmer' || cfgCtrl.componente_tipo == 'fita-rgb')  && cfgCtrl.componente_modulo_plcpi=='inPi-off-out-4DO' || cfgCtrl.componente_modulo_plcpi=='inPi-off-out-8DO-D' || cfgCtrl.componente_modulo_plcpi=='inPi-off-out-8DO-TR' && cfgCtrl.componente_tipo != 'fita-rgb'">
+                <label class="control-label"><i class="fa fa-edit"></i> Registro no módulo de acionamento</label>
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <i class="fa fa-microchip"></i>
+                  </div>
+                  <select class="form-control input-sm" style="width: 100%;"  ng-model="cfgCtrl.componente_device_modbus_write_reg">
+                    <option value="1">Canal de saída digital 0</option>
+                    <option value="3">Canal de saída digital 1</option>
+                    <option value="5">Canal de saída digital 2</option>
+                    <option value="7">Canal de saída digital 3</option>
+                    <option value="9">Canal de saída digital 4</option>
+                    <option value="11">Canal de saída digital 5</option>
+                    <option value="13">Canal de saída digital 6</option>
+                    <option value="15">Canal de saída digital 7</option>
+                    <option value="1">Canal de saída triac 0</option>
+                    <option value="3">Canal de saída triac 1</option>
+                    <option value="5">Canal de saída triac 2</option>
+                    <option value="7">Canal de saída triac 3</option>
+                    <option value="9">Canal de saída triac 4</option>
+                    <option value="11">Canal de saída triac 5</option>
+                    <option value="13">Canal de saída triac 6</option>
+                    <option value="15">Canal de saída triac 7</option>
+                    <option value="1">Canal de saída transistor(potência) 0</option>
+                    <option value="3">Canal de saída transistor(potência) 1</option>
+                    <option value="5">Canal de saída transistor(potência) 2</option>
+                    <option value="7">Canal de saída transistor(potência) 3</option>
+                    <option value="9">Canal de saída transistor(potência) 4</option>
+                    <option value="11">Canal de saída transistor(potência) 5</option>
+                    <option value="13">Canal de saída transistor(potência) 6</option>
+                    <option value="15">Canal de saída transistor(potência) 7</option>
+
+                  </select>
+                </div>
+              </div>
+
+
+
+
+
+
+              <div class="col-xs-12 col-md-3" ng-if="cfgCtrl.componente_tipo == 'fita-rgb' && cfgCtrl.componente_modulo_plcpi=='inPi-off-out-8DO-TR'">
+                <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> End. módulo acionamento(vermelho)</label>
+                <input type="text" class="form-control input-sm" placeholder="" ng-model="cfgCtrl.componente_device_modbus_write_id" only-number/>
+              </div>
+
+              <div class="col-xs-12 col-md-3"  ng-if="(cfgCtrl.componente_tipo == 'fita-rgb')  && cfgCtrl.componente_modulo_plcpi=='inPi-off-out-8DO-TR'">
+                <label class="control-label"><i class="fa fa-edit"></i> Canal vermelho</label>
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <i class="fa fa-microchip"></i>
+                  </div>
+                  <select class="form-control input-sm" style="width: 100%;"  ng-model="cfgCtrl.componente_device_modbus_write_reg">
+                    <option value="1">Canal de saída transistor(potência) 0</option>
+                    <option value="3">Canal de saída transistor(potência) 1</option>
+                    <option value="5">Canal de saída transistor(potência) 2</option>
+                    <option value="7">Canal de saída transistor(potência) 3</option>
+                    <option value="9">Canal de saída transistor(potência) 4</option>
+                    <option value="11">Canal de saída transistor(potência) 5</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-xs-12 col-md-3" ng-if="cfgCtrl.componente_tipo == 'fita-rgb' && cfgCtrl.componente_modulo_plcpi=='inPi-off-out-8DO-TR'">
+                <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> End. módulo acionamento(verde)</label>
+                <input type="text" class="form-control input-sm" placeholder="" ng-model="cfgCtrl.componente_device_modbus_write_id_1" only-number/>
+              </div>
+
+              <div class="col-xs-12 col-md-3"  ng-if="(cfgCtrl.componente_tipo == 'fita-rgb')  && cfgCtrl.componente_modulo_plcpi=='inPi-off-out-8DO-TR'">
+                <label class="control-label"><i class="fa fa-edit"></i> Canal verde</label>
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <i class="fa fa-microchip"></i>
+                  </div>
+                  <select class="form-control input-sm" style="width: 100%;"  ng-model="cfgCtrl.componente_device_modbus_write_reg_1">
+                    <option value="1">Canal de saída transistor(potência) 0</option>
+                    <option value="3">Canal de saída transistor(potência) 1</option>
+                    <option value="5">Canal de saída transistor(potência) 2</option>
+                    <option value="7">Canal de saída transistor(potência) 3</option>
+                    <option value="9">Canal de saída transistor(potência) 4</option>
+                    <option value="11">Canal de saída transistor(potência) 5</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-xs-12 col-md-3" ng-if="cfgCtrl.componente_tipo == 'fita-rgb' && cfgCtrl.componente_modulo_plcpi=='inPi-off-out-8DO-TR'">
+                <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> End. módulo acionamento(azul)</label>
+                <input type="text" class="form-control input-sm" placeholder="" ng-model="cfgCtrl.componente_device_modbus_write_id_2" only-number/>
+              </div>
+
+              <div class="col-xs-12 col-md-3"  ng-if="(cfgCtrl.componente_tipo == 'fita-rgb')  && cfgCtrl.componente_modulo_plcpi=='inPi-off-out-8DO-TR'">
+                <label class="control-label"><i class="fa fa-edit"></i> Canal azul</label>
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <i class="fa fa-microchip"></i>
+                  </div>
+                  <select class="form-control input-sm" style="width: 100%;"  ng-model="cfgCtrl.componente_device_modbus_write_reg_2">
+                    <option value="1">Canal de saída transistor(potência) 0</option>
+                    <option value="3">Canal de saída transistor(potência) 1</option>
+                    <option value="5">Canal de saída transistor(potência) 2</option>
+                    <option value="7">Canal de saída transistor(potência) 3</option>
+                    <option value="9">Canal de saída transistor(potência) 4</option>
+                    <option value="11">Canal de saída transistor(potência) 5</option>
+                  </select>
+                </div>
+              </div>
+
+
+
+              <div class="col-xs-12 col-md-3" ng-if="(cfgCtrl.componente_tipo=='luz-incand' || cfgCtrl.componente_tipo=='irrigacao'   || cfgCtrl.componente_tipo=='botao-obj' || cfgCtrl.componente_tipo=='setpoint') && cfgCtrl.componente_modulo_plcpi=='generico'">
+                <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> Registro no módulo de acionamento</label>
+                <input type="text" class="form-control input-sm" placeholder="" ng-model="cfgCtrl.componente_device_modbus_write_reg" only-number/>
+              </div>
+
+              <div class="col-xs-12 col-md-3" ng-if="cfgCtrl.componente_tipo=='luz-incand' || cfgCtrl.componente_tipo=='display' || cfgCtrl.componente_tipo=='indica-led'  || cfgCtrl.componente_tipo=='irrigacao'|| cfgCtrl.componente_tipo=='display-bar' || cfgCtrl.componente_tipo=='display-gauge'   || cfgCtrl.componente_tipo=='botao-obj'  || cfgCtrl.componente_tipo=='setpoint'   || cfgCtrl.componente_tipo=='dimmer' || cfgCtrl.componente_tipo=='silo-a'  || cfgCtrl.componente_tipo=='silo-b' ">
+                <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> End. módulo de estado</label>
+                <input type="text" class="form-control input-sm" placeholder="" ng-model="cfgCtrl.componente_device_modbus_read_id"/>
+              </div>
+
+              <div class="col-xs-12 col-md-3"  ng-if="(cfgCtrl.componente_modulo_plcpi=='inPi-off-in-8DI' || cfgCtrl.componente_modulo_plcpi=='inPi-off-out-8DO-D' || cfgCtrl.componente_modulo_plcpi=='inPi-off-out-4DO' || cfgCtrl.componente_modulo_plcpi=='inPi-off-out-8DO-TR') && (cfgCtrl.componente_tipo != 'task-horario' && cfgCtrl.componente_tipo != 'chart' && cfgCtrl.componente_tipo != 'alarme' && cfgCtrl.componente_tipo != 'imagem-estatica')">
+                <label class="control-label"><i class="fa fa-edit"></i> Registro do módulo de estado</label>
+                <!-- <button type="button" class="btn btn-success" ng-click="contController.novoRegistroCont()" ng-disabled="contController.is_cont_edit"><i class="fa fa-plus"uib-tooltip="Novo registro"></i></button> -->
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <i class="fa fa-microchip"></i>
+                  </div>
+                  <select class="form-control input-sm" style="width: 100%;"  ng-model="cfgCtrl.componente_device_modbus_read_reg">
+                    <option value="1">Canal de entrada 0</option>
+                    <option value="3">Canal de entrada 1</option>
+                    <option value="5">Canal de entrada 2</option>
+                    <option value="7">Canal de entrada 3</option>
+                    <option value="9">Canal de entrada 4</option>
+                    <option value="11">Canal de entrada 5</option>
+                    <option value="13">Canal de entrada 6</option>
+                    <option value="15">Canal de entrada 7</option>
+                    <option value="1">Canal de entrada digital 0 INPI-CPU</option>
+                    <option value="4">Canal de entrada digital 1 INPI-CPU</option>
+                    <option value="11">Canal de saída digital 0 INPI-CPU</option>
+                    <option value="13">Canal de saída digital 1 INPI-CPU</option>
+                    <option value="1">Canal de saída digital 0</option>
+                    <option value="3">Canal de saída digital 1</option>
+                    <option value="5">Canal de saída digital 2</option>
+                    <option value="7">Canal de saída digital 3</option>
+                    <option value="9">Canal de saída digital 4</option>
+                    <option value="11">Canal de saída digital 5</option>
+                    <option value="13">Canal de saída digital 6</option>
+                    <option value="15">Canal de saída digital 7</option>
+                    <option value="1">Canal de saída triac 0</option>
+                    <option value="3">Canal de saída triac 1</option>
+                    <option value="5">Canal de saída triac 2</option>
+                    <option value="7">Canal de saída triac 3</option>
+                    <option value="9">Canal de saída triac 4</option>
+                    <option value="11">Canal de saída triac 5</option>
+                    <option value="13">Canal de saída triac 6</option>
+                    <option value="15">Canal de saída triac 7</option>
+                    <option value="1">Canal de saída transistor(potência) 0</option>
+                    <option value="3">Canal de saída transistor(potência) 1</option>
+                    <option value="5">Canal de saída transistor(potência) 2</option>
+                    <option value="7">Canal de saída transistor(potência) 3</option>
+                    <option value="9">Canal de saída transistor(potência) 4</option>
+                    <option value="11">Canal de saída transistor(potência) 5</option>
+                    <option value="13">Canal de saída transistor(potência) 6</option>
+                    <option value="15">Canal de saída transistor(potência) 7</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-xs-12 col-md-3"  ng-if="cfgCtrl.componente_modulo_plcpi=='inPi-onboard-in' && cfgCtrl.componente_tipo!='chart'">
+                <label class="control-label"><i class="fa fa-edit"></i> Registro do módulo de estado</label>
+                <!-- <button type="button" class="btn btn-success" ng-click="contController.novoRegistroCont()" ng-disabled="contController.is_cont_edit"><i class="fa fa-plus"uib-tooltip="Novo registro"></i></button> -->
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <i class="fa fa-microchip"></i>
+                  </div>
+                  <select class="form-control input-sm" style="width: 100%;"  ng-model="cfgCtrl.componente_device_modbus_read_reg">
+                    <option value="1">Canal de entrada digital 0 INPI-CPU</option>
+                    <option value="4">Canal de entrada digital 1 INPI-CPU</option>
+                    <option value="11">Canal de saída digital 0 INPI-CPU</option>
+                    <option value="13">Canal de saída digital 1 INPI-CPU</option>
+                    <option value="9">Canal de entrada analógico 0 INPI-CPU</option>
+                    <option value="10">Canal de entrada analógico 1 INPI-CPU</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-xs-12 col-md-3"  ng-if="cfgCtrl.componente_modulo_plcpi=='inPi-off-in-4AI'  && cfgCtrl.componente_tipo!='chart'">
+                <label class="control-label"><i class="fa fa-edit"></i> Registro do módulo de estado</label>
+                <!-- <button type="button" class="btn btn-success" ng-click="contController.novoRegistroCont()" ng-disabled="contController.is_cont_edit"><i class="fa fa-plus"uib-tooltip="Novo registro"></i></button> -->
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <i class="fa fa-microchip"></i>
+                  </div>
+                  <select class="form-control input-sm" style="width: 100%;"  ng-model="cfgCtrl.componente_device_modbus_read_reg">
+                    <option value="5">Canal de entrada analógica 0</option>
+                    <option value="6">Canal de entrada analógica 1</option>
+                    <option value="7">Canal de entrada analógica 2</option>
+                    <option value="8">Canal de entrada analógica 3</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-xs-12 col-md-3"  ng-if="cfgCtrl.componente_modulo_plcpi=='generico' && cfgCtrl.componente_tipo!='chart'">
+                <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> Registro do módulo de estado</label>
+                <input type="text" class="form-control input-sm" placeholder="" ng-model="cfgCtrl.componente_device_modbus_read_reg"/>
+              </div>
+
+              <div class="col-xs-12 col-md-3"  ng-if="cfgCtrl.componente_tipo=='display-bar' || cfgCtrl.componente_tipo=='display-gauge' || cfgCtrl.componente_tipo=='silo-a'  || cfgCtrl.componente_tipo=='silo-b' ">
+                <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> Nivel mínimo</label>
+                <input type="text" class="form-control input-sm" placeholder="" ng-model="cfgCtrl.componente_nivel_min"/>
+              </div>
+
+              <div class="col-xs-12 col-md-3"  ng-if="cfgCtrl.componente_tipo=='display-bar'|| cfgCtrl.componente_tipo=='display-gauge' || cfgCtrl.componente_tipo=='silo-a'  || cfgCtrl.componente_tipo=='silo-b' ">
+                <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> Nivel máximo</label>
+                <input type="text" class="form-control input-sm" placeholder="" ng-model="cfgCtrl.componente_nivel_max"/>
+              </div>
+
+              <div class="col-xs-12 col-md-3"  ng-if="cfgCtrl.componente_tipo=='display-bar'|| cfgCtrl.componente_tipo=='display-gauge' || cfgCtrl.componente_tipo=='silo-a'  || cfgCtrl.componente_tipo=='silo-b' ">
+                <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> Nivel baixo</label>
+                <input type="text" class="form-control input-sm" placeholder="" ng-model="cfgCtrl.componente_nivel_baixo"/>
+              </div>
+
+              <div class="col-xs-12 col-md-3"  ng-if="cfgCtrl.componente_tipo=='display-bar'|| cfgCtrl.componente_tipo=='display-gauge' || cfgCtrl.componente_tipo=='silo-a'  || cfgCtrl.componente_tipo=='silo-b' ">
+                <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> Nivel alto</label>
+                <input type="text" class="form-control input-sm" placeholder="" ng-model="cfgCtrl.componente_nivel_alto"/>
+              </div>
+
+
+              <div class="col-xs-12 col-md-3"  ng-if="cfgCtrl.componente_tipo=='chart'">
+                <label class="control-label"><i class="fa fa-edit"></i> Largura</label>
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <i class="fa fa-lightbulb-o"></i>
+                  </div>
+                  <select class="form-control input-sm" style="width: 100%;"  ng-model="cfgCtrl.mainChart.optionsChart.width">
+                    <option value="col-xs-12 col-md-4">Pequeno</option>
+                    <option value="col-xs-12 col-md-6">Médio</option>
+                    <option value="col-xs-12 col-md-12">Grande</option>
+                  </select>
+                </div>
+              </div>
+
+
+              <div class="col-xs-12 col-md-3"  ng-if="cfgCtrl.componente_tipo == 'imagem-estatica'">
+                <label class="control-label"><i class="fa fa-edit"></i> Largura</label>
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <i class="fa fa-lightbulb-o"></i>
+                  </div>
+                  <select class="form-control input-sm" style="width: 100%;"  ng-model="cfgCtrl.componente_tamanho">
+                    <option value="col-xs-12 col-md-3">Pequeno</option>
+                    <option value="col-xs-12 col-md-6">Médio</option>
+                    <option value="col-xs-12 col-md-12">Grande</option>
+                  </select>
+                </div>
+              </div>
+
+
+              <div class="col-xs-12 col-md-3" ng-if="(cfgCtrl.componente_tipo != 'task-horario' && cfgCtrl.componente_tipo != 'chart' && cfgCtrl.componente_tipo != 'alarme' && cfgCtrl.componente_tipo != 'imagem-estatica' && cfgCtrl.componente_tipo != 'fita-rgb')">
+                <label class="control-label"><i class="fa fa-edit"></i> Log? (seg)</label>
+                <div class="">
+                  <div class="input-group">
+                    <span class="input-group-addon">
+                      <input type="checkbox" ng-model="cfgCtrl.componente_log">
+                    </span>
+                    <input type="text" class="form-control input-sm" ng-model="cfgCtrl.componente_log_tempo" ng-disabled="!cfgCtrl.componente_log || cfgCtrl.componente_mudanca_estado">
+                  </div>
+                  <!-- /input-group -->
+                </div>
+
+              </div>
+
+              <div class="col-xs-12 col-md-3" ng-if="(cfgCtrl.componente_tipo != 'task-horario' && cfgCtrl.componente_tipo != 'chart' && cfgCtrl.componente_tipo != 'alarme' && cfgCtrl.componente_tipo != 'imagem-estatica' && cfgCtrl.componente_tipo != 'fita-rgb')">
+                <label class="control-label"><i class="fa fa-edit"></i> Alteração/B.Morta</label>
+                <div class="">
+                  <div class="input-group">
+                    <span class="input-group-addon">
+                      <input type="checkbox" ng-model="cfgCtrl.componente_mudanca_estado" ng-disabled="!cfgCtrl.componente_log">
+                    </span>
+                    <input type="text" class="form-control input-sm" ng-model="cfgCtrl.componente_banda_morta" ng-disabled="!cfgCtrl.componente_mudanca_estado" >
+                  </div>
+                  <!-- /input-group -->
+                </div>
+
+              </div>              
+
+              <div class="col-xs-12 col-md-3" ng-if="cfgCtrl.componente_tipo=='chart'">
+                <label class="control-label"><i class="fa fa-edit"></i> Altura (pixels)</label>
+                <input type="number" class="form-control input-sm" placeholder="" ng-model="cfgCtrl.mainChart.optionsChart.heigth"/>
+              </div>
+
+
+              <div class="col-xs-12 col-md-3" ng-if="cfgCtrl.componente_tipo=='chart'">
+                <label class="control-label"><i class="fa fa-edit"></i> Label eixo horizontal</label>
+                <input type="text" class="form-control input-sm" placeholder="" ng-model="cfgCtrl.mainChart.optionsChart.scales.xAxes[0].scaleLabel.labelString"/>
+              </div>
+
+              <div class="col-xs-12 col-md-3" ng-if="cfgCtrl.componente_tipo=='chart'">
+                <label class="control-label"><i class="fa fa-edit"></i> Label eixo vertical</label>
+                <input type="text" class="form-control input-sm" placeholder="" ng-model="cfgCtrl.mainChart.optionsChart.scales.yAxes[0].scaleLabel.labelString"/>
+              </div>
+
+
+              <div class="col-xs-12 col-md-3"  ng-if="cfgCtrl.componente_tipo=='chart'">
+                <label class="control-label"><i class="fa fa-edit"></i> Posição legenda</label>
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <i class="fa fa-lightbulb-o"></i>
+                  </div>
+                  <select class="form-control input-sm" style="width: 100%;"  ng-model="cfgCtrl.mainChart.optionsChart.legend.position">
+                    <option value="top">Em cima</option>
+                    <option value="right">Direita</option>
+                    <option value="bottom">Embaixo</option>
+                    <option value="left">Esquerda</option>
+                  </select>
+                </div>
+              </div>
+
+
+              <div class="col-xs-12 col-md-3">
+                <label class="control-label"><i class="fa fa-edit"></i> Sequência de visualização</label>
+                <input only-number type="number" min="1" max="200" class="form-control input-sm" placeholder="" ng-model="cfgCtrl.componente_sequencia"/>
+              </div>
+
+              <div class="col-xs-12 col-md-3">
+                <label class="control-label"><i class="fa fa-edit"></i> Visível?</label>
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <i class="fa fa-low-vision"></i>
+                  </div>
+                  <select class="form-control input-sm" style="width: 100%;"  ng-model="cfgCtrl.componente_visivel">
+                    <option value="1">sim</option>
+                    <option value="0">Não</option>
+                  </select>
+                </div>
+              </div>
+
+
+              <div class="col-xs-12 col-md-3">
+                <label class="control-label"><i class="fa fa-edit"></i> Em qual menu mostrar?</label>
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <i class="fa fa-align-justify"></i>
+
+                  </div>
+                  <select class="form-control input-sm" style="width: 100%;" ng-model="cfgCtrl.menu_default.id" ng-change="" >
+                    <option ng-selected="{{menu.id == cfgCtrl.menu_default.id}}" ng-repeat="menu in cfgCtrl.menus" value="{{menu.id}}">{{menu.id}}</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-xs-12 col-md-6" ng-if="cfgCtrl.componente_tipo!='chart' && cfgCtrl.componente_tipo!='task-horario' && cfgCtrl.componente_tipo != 'alarme' && cfgCtrl.componente_tipo != 'dimmer' && cfgCtrl.componente_tipo != 'imagem-estatica' && cfgCtrl.componente_tipo != 'fita-rgb'">
+                <label class="control-label"><i class="fa fa-edit"></i> Gera alarme?</label>
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <i class="fa fa-bell-o"></i>
+                  </div>
+                  <select class="form-control input-sm" style="width: 100%;"  ng-model="cfgCtrl.componente_alarme.habilita">
+                    <option value="1">Sim</option>
+                    <option value="0">Não</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-xs-12 col-md-6" ng-if="cfgCtrl.componente_tipo!='chart' && cfgCtrl.componente_tipo!='task-horario' && cfgCtrl.componente_tipo != 'alarme' && cfgCtrl.componente_tipo != 'dimmer' && cfgCtrl.componente_tipo != 'imagem-estatica' && cfgCtrl.componente_tipo != 'fita-rgb'">
+                <label class="control-label"><i class="fa fa-edit"></i> Gera alarme no telegram?</label>
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <i class="fa fa-bell-o"></i>
+                  </div>
+                  <select class="form-control input-sm" style="width: 100%;"  ng-model="cfgCtrl.componente_alarme_telegram.habilita">
+                    <option value="1">Sim</option>
+                    <option value="0">Não</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-xs-12 col-md-6" ng-if="cfgCtrl.componente_alarme.habilita=='1'">
+                <label class="control-label"><i class="fa fa-edit"></i> Tipo do alarme</label>
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <i class="fa fa-lightbulb-o"></i>
+                  </div>
+                  <select class="form-control input-sm" style="width: 100%;"  ng-model="cfgCtrl.componente_alarme.tipo">
+                    <option value="digitalon">digital ON</option>
+                    <option value="digitaloff">digital OFF</option>
+                    <option value="analogico">analógico</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-xs-12 col-md-8" ng-if="cfgCtrl.componente_alarme.habilita=='1' && (cfgCtrl.componente_alarme.tipo=='digitalon')">
+                <label class="control-label"><i class="fa fa-edit"></i> Texto ON</label>
+                <input type="text" class="form-control input-sm" placeholder="" ng-model="cfgCtrl.componente_alarme.texton"/>
+              </div>
+
+              <div class="col-xs-12 col-md-4" ng-if="cfgCtrl.componente_alarme.habilita=='1' && (cfgCtrl.componente_alarme.tipo=='digitalon')">
+                <label class="control-label"><i class="fa fa-edit"></i> Prioridade</label>
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <i class="fa fa-lightbulb-o"></i>
+                  </div>
+                  <select class="form-control input-sm" style="width: 100%;"  ng-model="cfgCtrl.componente_alarme.prioridadetexton">
+                    <option value="0">Muito alta</option>
+                    <option value="1">Alta</option>
+                    <option value="2">Média</option>
+                    <option value="3">Normal</option>
+                  </select>
+                </div>
+              </div>
+
+
+              <div class="col-xs-12 col-md-3" ng-if="cfgCtrl.componente_alarme.habilita=='1' && (cfgCtrl.componente_alarme.tipo=='digitaloff')">
+                <label class="control-label"><i class="fa fa-edit"></i> Texto OFF</label>
+                <input type="text" class="form-control input-sm" placeholder="" ng-model="cfgCtrl.componente_alarme.textoff"/>
+              </div>
+
+              <div class="col-xs-12 col-md-4" ng-if="cfgCtrl.componente_alarme.habilita=='1' && (cfgCtrl.componente_alarme.tipo=='digitaloff')">
+                <label class="control-label"><i class="fa fa-edit"></i> Prioridade</label>
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <i class="fa fa-lightbulb-o"></i>
+                  </div>
+                  <select class="form-control input-sm" style="width: 100%;"  ng-model="cfgCtrl.componente_alarme.prioridadetextoff">
+                    <option value="0">Muito alta</option>
+                    <option value="1">Alta</option>
+                    <option value="2">Média</option>
+                    <option value="3">Normal</option>
+                  </select>
+                </div>
+              </div>
+
+
+              <div class="col-xs-12 col-md-8" ng-if="cfgCtrl.componente_alarme.habilita=='1' && (cfgCtrl.componente_alarme.tipo=='analogico')">
+                <label class="control-label"><i class="fa fa-edit"></i> Texto muito alto</label>
+                <div class="">
+                  <div class="input-group">
+                    <span class="input-group-addon" >
+                      <input style="margin-top:2px;" type="checkbox" ng-model="cfgCtrl.componente_alarme.habilitahh" uib-tooltip="habilita/desabilita alarme">
+                    </span>
+                    <input type="text" class="form-control input-sm" ng-model="cfgCtrl.componente_alarme.textohh">
+                  </div>
+                  <!-- /input-group -->
+                </div>
+
+              </div>
+
+              <div class="col-xs-12 col-md-2" ng-if="cfgCtrl.componente_alarme.habilita=='1' && (cfgCtrl.componente_alarme.tipo=='analogico')">
+                <label class="control-label"><i class="fa fa-edit"></i> valor muito alto</label>
+                <input type="number" class="form-control input-sm" placeholder="" ng-model="cfgCtrl.componente_alarme.valorhh"/>
+              </div>
+
+              <div class="col-xs-12 col-md-2" ng-if="cfgCtrl.componente_alarme.habilita=='1' && (cfgCtrl.componente_alarme.tipo=='analogico')">
+                <label class="control-label"><i class="fa fa-edit"></i> Prioridade</label>
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <i class="fa fa-lightbulb-o"></i>
+                  </div>
+                  <select class="form-control input-sm" style="width: 100%;"  ng-model="cfgCtrl.componente_alarme.prioridadehh">
+                    <option value="0">Muito alta</option>
+                    <option value="1">Alta</option>
+                    <option value="2">Média</option>
+                    <option value="3">Normal</option>
+                  </select>
+                </div>
+              </div>
+
+
+              <div class="col-xs-12 col-md-8" ng-if="cfgCtrl.componente_alarme.habilita=='1' && (cfgCtrl.componente_alarme.tipo=='analogico')">
+                <label class="control-label"><i class="fa fa-edit"></i> Texto alto</label>
+                <div class="">
+                  <div class="input-group">
+                    <span class="input-group-addon" >
+                      <input style="margin-top:2px;" type="checkbox" ng-model="cfgCtrl.componente_alarme.habilitah" uib-tooltip="habilita/desabilita alarme">
+                    </span>
+                    <input type="text" class="form-control input-sm" ng-model="cfgCtrl.componente_alarme.textoh">
+                  </div>
+                  <!-- /input-group -->
+                </div>
+
+              </div>
+
+              <div class="col-xs-12 col-md-2" ng-if="cfgCtrl.componente_alarme.habilita=='1' && (cfgCtrl.componente_alarme.tipo=='analogico')">
+                <label class="control-label"><i class="fa fa-edit"></i> valor alto</label>
+                <input type="number" class="form-control input-sm" placeholder="" ng-model="cfgCtrl.componente_alarme.valorh"/>
+              </div>
+
+              <div class="col-xs-12 col-md-2" ng-if="cfgCtrl.componente_alarme.habilita=='1' && (cfgCtrl.componente_alarme.tipo=='analogico')">
+                <label class="control-label"><i class="fa fa-edit"></i> Prioridade</label>
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <i class="fa fa-lightbulb-o"></i>
+                  </div>
+                  <select class="form-control input-sm" style="width: 100%;"  ng-model="cfgCtrl.componente_alarme.prioridadeh">
+                    <option value="0">Muito alta</option>
+                    <option value="1">Alta</option>
+                    <option value="2">Média</option>
+                    <option value="3">Normal</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-xs-12 col-md-8" ng-if="cfgCtrl.componente_alarme.habilita=='1' && (cfgCtrl.componente_alarme.tipo=='analogico')">
+                <label class="control-label"><i class="fa fa-edit"></i> Texto baixo</label>
+                <div class="">
+                  <div class="input-group">
+                    <span class="input-group-addon" >
+                      <input style="margin-top:2px;" type="checkbox" ng-model="cfgCtrl.componente_alarme.habilital" uib-tooltip="habilita/desabilita alarme">
+                    </span>
+                    <input type="text" class="form-control input-sm" ng-model="cfgCtrl.componente_alarme.textol">
+                  </div>
+                  <!-- /input-group -->
+                </div>
+
+              </div>
+
+              <div class="col-xs-12 col-md-2" ng-if="cfgCtrl.componente_alarme.habilita=='1' && (cfgCtrl.componente_alarme.tipo=='analogico')">
+                <label class="control-label"><i class="fa fa-edit"></i> valor baixo</label>
+                <input type="number" class="form-control input-sm" placeholder="" ng-model="cfgCtrl.componente_alarme.valorl"/>
+              </div>
+
+              <div class="col-xs-12 col-md-2" ng-if="cfgCtrl.componente_alarme.habilita=='1' && (cfgCtrl.componente_alarme.tipo=='analogico')">
+                <label class="control-label"><i class="fa fa-edit"></i> Prioridade</label>
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <i class="fa fa-lightbulb-o"></i>
+                  </div>
+                  <select class="form-control input-sm" style="width: 100%;"  ng-model="cfgCtrl.componente_alarme.prioridadel">
+                    <option value="0">Muito alta</option>
+                    <option value="1">Alta</option>
+                    <option value="2">Média</option>
+                    <option value="3">Normal</option>
+                  </select>
+                </div>
+              </div>
+
+
+              <div class="col-xs-12 col-md-8" ng-if="cfgCtrl.componente_alarme.habilita=='1' && (cfgCtrl.componente_alarme.tipo=='analogico')">
+                <label class="control-label"><i class="fa fa-edit"></i> Texto muito baixo</label>
+                <div class="">
+                  <div class="input-group">
+                    <span class="input-group-addon" >
+                      <input style="margin-top:2px;" type="checkbox" ng-model="cfgCtrl.componente_alarme.habilitall" uib-tooltip="habilita/desabilita alarme">
+                    </span>
+                    <input type="text" class="form-control input-sm" ng-model="cfgCtrl.componente_alarme.textoll">
+                  </div>
+                  <!-- /input-group -->
+                </div>
+
+              </div>
+
+              <div class="col-xs-12 col-md-2" ng-if="cfgCtrl.componente_alarme.habilita=='1' && (cfgCtrl.componente_alarme.tipo=='analogico')">
+                <label class="control-label"><i class="fa fa-edit"></i> valor muito baixo</label>
+                <input type="number" class="form-control input-sm" placeholder="" ng-model="cfgCtrl.componente_alarme.valorll"/>
+              </div>
+
+              <div class="col-xs-12 col-md-2" ng-if="cfgCtrl.componente_alarme.habilita=='1' && (cfgCtrl.componente_alarme.tipo=='analogico')">
+                <label class="control-label"><i class="fa fa-edit"></i> Prioridade</label>
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <i class="fa fa-lightbulb-o"></i>
+                  </div>
+                  <select class="form-control input-sm" style="width: 100%;"  ng-model="cfgCtrl.componente_alarme.prioridadell">
+                    <option value="0">Muito alta</option>
+                    <option value="1">Alta</option>
+                    <option value="2">Média</option>
+                    <option value="3">Normal</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-xs-12" ng-if="cfgCtrl.componente_alarme.habilita=='1'">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th style="font-size:12px; text-align: left; vertical-align: middle;">e-mail para alertas</th>
+                      <th style="font-size:12px; text-align: center; vertical-align: middle;">Ação</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr ng-repeat="email in cfgCtrl.componente_alarme.emails">
+                      <td style="font-size:12px; text-align: center; vertical-align: left;">
+                        <!-- <input ng-model="email.to" class="form-control input-sm" placeholder="Informe o e-mail" /> -->
+                        <div class="input-group">
+                          <span class="input-group-addon" >
+                            <input style="margin-top:2px;" type="checkbox" ng-model="email.habilita" uib-tooltip="habilita/desabilita envio de e-mail">
+                          </span>
+                          <input type="text" class="form-control input-sm" ng-model="email.to">
+                        </div>
+                      </td>
+                      <td style="font-size:12px; text-align: center; vertical-align: middle;" >
+                        <button class="btn btn-success btn-xs" ng-click="cfgCtrl.addAlarmeEmail($index)"><i class="fa fa-plus"></i></button>
+                        <button class="btn btn-danger  btn-xs" ng-click="cfgCtrl.deleteAlarmeEmail($index)"><i class="fa fa-trash-o"></i></button>
+
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="col-xs-12 col-md-6" ng-if="cfgCtrl.componente_alarme_telegram.habilita=='1'">
+                <label class="control-label"><i class="fa fa-edit"></i> Tipo do alarme</label>
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <i class="fa fa-lightbulb-o"></i>
+                  </div>
+                  <select class="form-control input-sm" style="width: 100%;"  ng-model="cfgCtrl.componente_alarme_telegram.tipo">
+                    <option value="digitalon">digital ON</option>
+                    <option value="digitaloff">digital OFF</option>
+                    <option value="analogico">analógico</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-xs-12 col-md-6" ng-if="cfgCtrl.componente_alarme_telegram.habilita=='1'">
+                <label class="control-label"><i class="fa fa-edit"></i> Qual Bot?</label>
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <i class="fa fa-lightbulb-o"></i>
+                  </div>
+                  <select class="form-control input-sm" style="width: 100%;" ng-model="cfgCtrl.componente_alarme_telegram.bot">
+                    <option value="{{telegram}}" ng-repeat="telegram in cfgCtrl.telegramBot">{{telegram.indentificador}}</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-xs-12 col-md-8" ng-if="cfgCtrl.componente_alarme_telegram.habilita=='1' && (cfgCtrl.componente_alarme_telegram.tipo=='digitalon')">
+                <label class="control-label"><i class="fa fa-edit"></i> Texto ON</label>
+                <input type="text" class="form-control input-sm" placeholder="" ng-model="cfgCtrl.componente_alarme_telegram.texton"/>
+              </div>
+
+              <div class="col-xs-12 col-md-4" ng-if="cfgCtrl.componente_alarme_telegram.habilita=='1' && (cfgCtrl.componente_alarme_telegram.tipo=='digitalon')">
+                <label class="control-label"><i class="fa fa-edit"></i> Prioridade</label>
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <i class="fa fa-lightbulb-o"></i>
+                  </div>
+                  <select class="form-control input-sm" style="width: 100%;"  ng-model="cfgCtrl.componente_alarme_telegram.prioridadetexton">
+                    <option value="0">Muito alta</option>
+                    <option value="1">Alta</option>
+                    <option value="2">Média</option>
+                    <option value="3">Normal</option>
+                  </select>
+                </div>
+              </div>
+
+
+              <div class="col-xs-12 col-md-8" ng-if="cfgCtrl.componente_alarme_telegram.habilita=='1' && (cfgCtrl.componente_alarme_telegram.tipo=='digitaloff')">
+                <label class="control-label"><i class="fa fa-edit"></i> Texto OFF</label>
+                <input type="text" class="form-control input-sm" placeholder="" ng-model="cfgCtrl.componente_alarme_telegram.textoff"/>
+              </div>
+
+              <div class="col-xs-12 col-md-4" ng-if="cfgCtrl.componente_alarme_telegram.habilita=='1' && (cfgCtrl.componente_alarme_telegram.tipo=='digitaloff')">
+                <label class="control-label"><i class="fa fa-edit"></i> Prioridade</label>
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <i class="fa fa-lightbulb-o"></i>
+                  </div>
+                  <select class="form-control input-sm" style="width: 100%;"  ng-model="cfgCtrl.componente_alarme_telegram.prioridadetextoff">
+                    <option value="0">Muito alta</option>
+                    <option value="1">Alta</option>
+                    <option value="2">Média</option>
+                    <option value="3">Normal</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-xs-12 col-md-8" ng-if="cfgCtrl.componente_alarme_telegram.habilita=='1' && (cfgCtrl.componente_alarme_telegram.tipo=='analogico')">
+                <label class="control-label"><i class="fa fa-edit"></i> Texto muito alto</label>
+                <div class="">
+                  <div class="input-group">
+                    <span class="input-group-addon" >
+                      <input style="margin-top:2px;" type="checkbox" ng-model="cfgCtrl.componente_alarme_telegram.habilitahh" uib-tooltip="habilita/desabilita alarme">
+                    </span>
+                    <input type="text" class="form-control input-sm" ng-model="cfgCtrl.componente_alarme_telegram.textohh">
+                  </div>
+                  <!-- /input-group -->
+                </div>
+
+              </div>
+
+              <div class="col-xs-12 col-md-2" ng-if="cfgCtrl.componente_alarme_telegram.habilita=='1' && (cfgCtrl.componente_alarme_telegram.tipo=='analogico')">
+                <label class="control-label"><i class="fa fa-edit"></i> valor muito alto</label>
+                <input type="number" class="form-control input-sm" placeholder="" ng-model="cfgCtrl.componente_alarme_telegram.valorhh"/>
+              </div>
+
+              <div class="col-xs-12 col-md-2" ng-if="cfgCtrl.componente_alarme_telegram.habilita=='1' && (cfgCtrl.componente_alarme_telegram.tipo=='analogico')">
+                <label class="control-label"><i class="fa fa-edit"></i> Prioridade</label>
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <i class="fa fa-lightbulb-o"></i>
+                  </div>
+                  <select class="form-control input-sm" style="width: 100%;"  ng-model="cfgCtrl.componente_alarme_telegram.prioridadehh">
+                    <option value="0">Muito alta</option>
+                    <option value="1">Alta</option>
+                    <option value="2">Média</option>
+                    <option value="3">Normal</option>
+                  </select>
+                </div>
+              </div>
+
+
+              <div class="col-xs-12 col-md-8" ng-if="cfgCtrl.componente_alarme_telegram.habilita=='1' && (cfgCtrl.componente_alarme_telegram.tipo=='analogico')">
+                <label class="control-label"><i class="fa fa-edit"></i> Texto alto</label>
+                <div class="">
+                  <div class="input-group">
+                    <span class="input-group-addon" >
+                      <input style="margin-top:2px;" type="checkbox" ng-model="cfgCtrl.componente_alarme_telegram.habilitah" uib-tooltip="habilita/desabilita alarme">
+                    </span>
+                    <input type="text" class="form-control input-sm" ng-model="cfgCtrl.componente_alarme_telegram.textoh">
+                  </div>
+                  <!-- /input-group -->
+                </div>
+
+              </div>
+
+              <div class="col-xs-12 col-md-2" ng-if="cfgCtrl.componente_alarme_telegram.habilita=='1' && (cfgCtrl.componente_alarme_telegram.tipo=='analogico')">
+                <label class="control-label"><i class="fa fa-edit"></i> valor alto</label>
+                <input type="number" class="form-control input-sm" placeholder="" ng-model="cfgCtrl.componente_alarme_telegram.valorh"/>
+              </div>
+
+              <div class="col-xs-12 col-md-2" ng-if="cfgCtrl.componente_alarme_telegram.habilita=='1' && (cfgCtrl.componente_alarme_telegram.tipo=='analogico')">
+                <label class="control-label"><i class="fa fa-edit"></i> Prioridade</label>
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <i class="fa fa-lightbulb-o"></i>
+                  </div>
+                  <select class="form-control input-sm" style="width: 100%;"  ng-model="cfgCtrl.componente_alarme_telegram.prioridadeh">
+                    <option value="0">Muito alta</option>
+                    <option value="1">Alta</option>
+                    <option value="2">Média</option>
+                    <option value="3">Normal</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-xs-12 col-md-8" ng-if="cfgCtrl.componente_alarme_telegram.habilita=='1' && (cfgCtrl.componente_alarme_telegram.tipo=='analogico')">
+                <label class="control-label"><i class="fa fa-edit"></i> Texto baixo</label>
+                <div class="">
+                  <div class="input-group">
+                    <span class="input-group-addon" >
+                      <input style="margin-top:2px;" type="checkbox" ng-model="cfgCtrl.componente_alarme_telegram.habilital" uib-tooltip="habilita/desabilita alarme">
+                    </span>
+                    <input type="text" class="form-control input-sm" ng-model="cfgCtrl.componente_alarme_telegram.textol">
+                  </div>
+                  <!-- /input-group -->
+                </div>
+
+              </div>
+
+              <div class="col-xs-12 col-md-2" ng-if="cfgCtrl.componente_alarme_telegram.habilita=='1' && (cfgCtrl.componente_alarme_telegram.tipo=='analogico')">
+                <label class="control-label"><i class="fa fa-edit"></i> valor baixo</label>
+                <input type="number" class="form-control input-sm" placeholder="" ng-model="cfgCtrl.componente_alarme_telegram.valorl"/>
+              </div>
+
+              <div class="col-xs-12 col-md-2" ng-if="cfgCtrl.componente_alarme_telegram.habilita=='1' && (cfgCtrl.componente_alarme_telegram.tipo=='analogico')">
+                <label class="control-label"><i class="fa fa-edit"></i> Prioridade</label>
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <i class="fa fa-lightbulb-o"></i>
+                  </div>
+                  <select class="form-control input-sm" style="width: 100%;"  ng-model="cfgCtrl.componente_alarme_telegram.prioridadel">
+                    <option value="0">Muito alta</option>
+                    <option value="1">Alta</option>
+                    <option value="2">Média</option>
+                    <option value="3">Normal</option>
+                  </select>
+                </div>
+              </div>
+
+
+              <div class="col-xs-12 col-md-8" ng-if="cfgCtrl.componente_alarme_telegram.habilita=='1' && (cfgCtrl.componente_alarme_telegram.tipo=='analogico')">
+                <label class="control-label"><i class="fa fa-edit"></i> Texto muito baixo</label>
+                <div class="">
+                  <div class="input-group">
+                    <span class="input-group-addon" >
+                      <input style="margin-top:2px;" type="checkbox" ng-model="cfgCtrl.componente_alarme_telegram.habilitall" uib-tooltip="habilita/desabilita alarme">
+                    </span>
+                    <input type="text" class="form-control input-sm" ng-model="cfgCtrl.componente_alarme_telegram.textoll">
+                  </div>
+                  <!-- /input-group -->
+                </div>
+
+              </div>
+
+              <div class="col-xs-12 col-md-2" ng-if="cfgCtrl.componente_alarme_telegram.habilita=='1' && (cfgCtrl.componente_alarme_telegram.tipo=='analogico')">
+                <label class="control-label"><i class="fa fa-edit"></i> valor muito baixo</label>
+                <input type="number" class="form-control input-sm" placeholder="" ng-model="cfgCtrl.componente_alarme_telegram.valorll"/>
+              </div>
+
+              <div class="col-xs-12 col-md-2" ng-if="cfgCtrl.componente_alarme_telegram.habilita=='1' && (cfgCtrl.componente_alarme_telegram.tipo=='analogico')">
+                <label class="control-label"><i class="fa fa-edit"></i> Prioridade</label>
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <i class="fa fa-lightbulb-o"></i>
+                  </div>
+                  <select class="form-control input-sm" style="width: 100%;"  ng-model="cfgCtrl.componente_alarme_telegram.prioridadell">
+                    <option value="0">Muito alta</option>
+                    <option value="1">Alta</option>
+                    <option value="2">Média</option>
+                    <option value="3">Normal</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-xs-12 col-md-3" ng-if="cfgCtrl.componente_tipo=='chart'">
+                <label class="checkbox-inline indent" style="font-size:12px;margin-top:30px;margin-bottom:10px;">
+                  <input type="checkbox" id="inlineCheckbox1" ng-model="cfgCtrl.mainChart.optionsChart.scales.xAxes[0].display"> Eixo horizontal
+                </label>
+              </div>
+
+
+              <div class="col-xs-12 col-md-3" ng-if="cfgCtrl.componente_tipo=='chart'">
+                <label class="checkbox-inline indent" style="font-size:12px;margin-top:30px; margin-bottom:10px;">
+                  <input  type="checkbox" id="inlineCheckbox1" ng-model="cfgCtrl.mainChart.optionsChart.scales.xAxes[0].ticks.display"> Escala eixo horizontal
+                </label>
+              </div>
+
+
+              <div class="col-xs-12 col-md-3" ng-if="cfgCtrl.componente_tipo=='chart'">
+                <label class="checkbox-inline indent" style="font-size:12px;margin-top:30px;margin-bottom:10px;">
+                  <input type="checkbox" id="inlineCheckbox1" ng-model="cfgCtrl.mainChart.optionsChart.scales.xAxes[0].gridLines.display"> Grid eixo horizontal
+                </label>
+              </div>
+
+              <div class="col-xs-12 col-md-3" ng-if="cfgCtrl.componente_tipo=='chart'">
+                <label class="checkbox-inline indent" style="font-size:12px;margin-top:30px;margin-bottom:10px;">
+                  <input type="checkbox" id="inlineCheckbox1" ng-model="cfgCtrl.mainChart.optionsChart.legend.display"> Legenda
+                </label>
+              </div>
+
+
+
+            </div>
+
+
+
+            <div class="col-xs-12 col-md-12" style="padding-left:6px;" ng-if="cfgCtrl.componente_tipo=='luz-incand'">
+              <span style="font-size:12px;padding-left:14px;">Componente template</span>
+              <br>
+              <luz-incand area="{{cfgCtrl.componente_descricao}}" acesso="0" lampstate="cfgCtrl.template_estado"></luz-incand>
+            </div>
+
+            <div class="col-xs-12 col-md-12" style="padding-left:6px;" ng-if="cfgCtrl.componente_tipo=='display'">
+              <span style="font-size:12px;padding-left:14px;">Componente template</span>
+              <br>
+              <display titulo="{{cfgCtrl.componente_descricao}}" unidade="{{cfgCtrl.componente_unidade_medida}}" valor="cfgCtrl.componente_medida_template" fator="cfgCtrl.componente_fator" fonte="cfgCtrl.font_size" texttop="cfgCtrl.imagetop"></display>
+            </div>
+
+            <div class="col-xs-12 col-md-12" style="padding-left:6px;" ng-if="cfgCtrl.componente_tipo=='setpoint'">
+              <span style="font-size:12px;padding-left:14px;">Componente template</span>
+              <br>
+              <setpoint titulo="{{cfgCtrl.componente_descricao}}" unidade="{{cfgCtrl.componente_unidade_medida}}" valor="cfgCtrl.componente_medida_template" fator="cfgCtrl.componente_fator" fonte="cfgCtrl.font_size" texttop="cfgCtrl.imagetop"></setpoint>
+            </div>
+
+            <div class="col-xs-12 col-md-12" style="padding-left:6px;" ng-if="cfgCtrl.componente_tipo=='display-bar'">
+              <span style="font-size:12px;padding-left:14px;">Componente template</span>
+              <br>
+              <display-bar nivelmin="cfgCtrl.componente_nivel_min" nivelmax="cfgCtrl.componente_nivel_max" nivelbaixo="cfgCtrl.componente_nivel_baixo" nivelalto="cfgCtrl.componente_nivel_alto" titulo="{{cfgCtrl.componente_descricao}}" unidade="{{cfgCtrl.componente_unidade_medida}}" valor="cfgCtrl.componente_medida_template" fator="cfgCtrl.componente_fator"></display-bar>
+            </div>
+
+            <div class="col-xs-12 col-md-12" style="padding-left:6px;" ng-if="cfgCtrl.componente_tipo=='display-gauge'">
+              <span style="font-size:12px;padding-left:14px;">Componente template</span>
+              <br>
+              <display-gauge nivelmin="cfgCtrl.componente_nivel_min" nivelmax="cfgCtrl.componente_nivel_max" nivelbaixo="cfgCtrl.componente_nivel_baixo" nivelalto="cfgCtrl.componente_nivel_alto" titulo="{{cfgCtrl.componente_descricao}}" unidade="{{cfgCtrl.componente_unidade_medida}}" valor="cfgCtrl.componente_medida_template" fator="cfgCtrl.componente_fator"></display-gauge>
+            </div>
+
+            <div class="col-xs-12 col-md-12" style="padding-left:6px;" ng-if="cfgCtrl.componente_tipo=='silo-a'">
+              <span style="font-size:12px;padding-left:14px;">Componente template</span>
+              <br>
+                <silos-a titulo="{{cfgCtrl.componente_descricao}}" unidade="{{cfgCtrl.componente_unidade_medida}}" valor="{{cfgCtrl.componente_medida_template}}" mmin="{{cfgCtrl.componente_nivel_min}}" min="{{cfgCtrl.componente_nivel_baixo}}" max="{{cfgCtrl.componente_nivel_alto}}" mmax="{{cfgCtrl.componente_nivel_max}}"></silos-a>
+            </div>
+
+            <div class="col-xs-12 col-md-12" style="padding-left:6px;" ng-if="cfgCtrl.componente_tipo=='silo-b'">
+              <span style="font-size:12px;padding-left:14px;">Componente template</span>
+              <br>
+                <silos-b titulo="{{cfgCtrl.componente_descricao}}" unidade="{{cfgCtrl.componente_unidade_medida}}" valor="{{cfgCtrl.componente_medida_template}}" mmin="{{cfgCtrl.componente_nivel_min}}" min="{{cfgCtrl.componente_nivel_baixo}}" max="{{cfgCtrl.componente_nivel_alto}}" mmax="{{cfgCtrl.componente_nivel_max}}"></silos-a>
+            </div>
+
+            <div class="col-xs-12 col-md-12" style="padding-left:6px;" ng-if="cfgCtrl.componente_tipo=='indica-led'">
+              <span style="font-size:12px;padding-left:14px;">Componente template</span>
+              <br>
+              <indica-led area="{{cfgCtrl.componente_descricao}}" acesso="0" lampstate="cfgCtrl.template_estado" icoon="{{cfgCtrl.pathImagemObjetoOn}}" icooff="{{cfgCtrl.pathImagemObjetoOff}}" imagesize="{{cfgCtrl.imagesize}}" imagetop="{{cfgCtrl.imagetop}}"></indica-led>
+            </div>
+
+            <div class="col-xs-12 col-md-12" style="padding-left:6px;" ng-if="cfgCtrl.componente_tipo=='irrigacao'">
+              <span style="font-size:12px;padding-left:14px;">Componente template</span>
+              <br>
+              <irrigacao area="{{cfgCtrl.componente_descricao}}" acesso="0" lampstate="cfgCtrl.template_estado"></irrigacao>
+            </div>
+
+            <div class="col-xs-12 col-md-12" style="padding-left:6px;" ng-if="cfgCtrl.componente_tipo=='botao-obj'">
+              <span style="font-size:12px;padding-left:14px;">Componente template</span>
+              <br>
+              <botao-obj area="{{cfgCtrl.componente_descricao}}" acesso="0" lampstate="cfgCtrl.template_estado" icoon="{{cfgCtrl.pathImagemObjetoOn}}" icooff="{{cfgCtrl.pathImagemObjetoOff}}" imagesize="{{cfgCtrl.imagesize}}" imagetop="{{cfgCtrl.imagetop}}"></botao-obj>
+            </div>
+
+            <div class="col-xs-12 col-md-12" style="padding-left:6px;" ng-if="cfgCtrl.componente_tipo=='dimmer'">
+              <span style="font-size:12px;padding-left:14px;">Componente template</span>
+              <br>
+              <botao-dimmer titulo="{{cfgCtrl.componente_descricao}}" acesso="0" state="cfgCtrl.template_estado" icoon="{{cfgCtrl.pathImagemObjetoOn}}" icooff="{{cfgCtrl.pathImagemObjetoOff}}" imagesize="{{cfgCtrl.imagesize}}" imagetop="{{cfgCtrl.imagetop}}" dimmerobject="cfgCtrl.template_dimmer"></botao-dimmer>
+            </div>
+
+
+            <div class="col-xs-12 col-md-12" style="padding-left:6px;" ng-if="cfgCtrl.componente_tipo=='fita-rgb'">
+              <span style="font-size:12px;padding-left:14px;">Componente template</span>
+              <br>
+              <fita-rgb titulo="{{cfgCtrl.componente_descricao}}" acesso="0" state="cfgCtrl.template_estado" icoon="{{cfgCtrl.pathImagemObjetoOn}}" icooff="{{cfgCtrl.pathImagemObjetoOff}}" imagesize="{{cfgCtrl.imagesize}}" imagetop="{{cfgCtrl.imagetop}}" dimmerobject="cfgCtrl.template_dimmer"></fita-rgb>
+            </div>
+
+
+            <div class="{{cfgCtrl.componente_tamanho}}" style="padding-left:6px;" ng-if="cfgCtrl.componente_tipo=='imagem-estatica'">
+              <span style="font-size:12px;padding-left:0px;">Componente template</span>
+              <br>
+              <img-obj titulo="{{cfgCtrl.componente_descricao}}" img="{{cfgCtrl.pathImagemObjetoOn}}"  imagesize="{{cfgCtrl.imagesize}}" imagetop="{{cfgCtrl.imagetop}}"></img-obj>
+            </div>
+
+            <div class="col-xs-12 col-md-12" >
+              <div ng-class="cfgCtrl.mainChart.optionsChart.width" style="padding-left:6px;" ng-if="cfgCtrl.componente_tipo=='chart'">
+                <span style="font-size:12px;padding-left:0px;">Componente template</span>
+                <br>
+                <chart titulo="{{cfgCtrl.componente_descricao}}" datachart="cfgCtrl.mainChart.dataChart"  labelschart="cfgCtrl.mainChart.labelsChart"
+                optionschart="cfgCtrl.mainChart.optionsChart" overridechart="cfgCtrl.mainChart.overrideChart" heightchart="cfgCtrl.mainChart.optionsChart.heigth"
+                tamanho="cfgCtrl.mainChart.optionsChart.width"></chart>
+              </div>
+              <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+              Configuração grafico
+              +++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+              <div class="col-xs-12 col-md-12" style="padding:0px; margin:0px;" ng-if="cfgCtrl.componente_tipo=='chart'">
+                <div class="box-body table-responsive no-padding">
+                  <table class="table">
+                    <thead>
+                      <tr style="font-size:12px;">
+                        <th style="width:120px;">Séries(objetos)</th>
+                        <th style="width:90px;">Tipo</th>
+                        <th style="width:90px;">Espessura</th>
+                        <th>Título?</th>
+                        <th>Escala?</th>
+                        <th>Grid?</th>
+                        <th style="width:80px;">Max</th>
+                        <th style="width:80px;">Min</th>
+                        <th>Cor de fundo</th>
+                        <th>Cor da borda</th>
+                        <th>Cor do ponto</th>
+                        <th>Cor da borda ponto</th>
+<!--                         <th style="width:120px;">Período</th>
+                        <th style="width:120px;">Resolução</th> -->
+                        <th>Ação</th> 
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr ng-repeat="pena in cfgCtrl.mainChart.optionsChart.config.series  track by $index">
+                        <td>
+                          <select class="form-control input-sm" ng-options="itemComp as itemComp.descricao for itemComp in cfgCtrl.componentes | filter: {tipo: '!chart'} | filter: {tipo: '!task-horario'} | filter: {tipo: '!alarme'} track by itemComp.id" ng-model="pena.nome"></select>
+                        </td>
+                        <td>
+                          <select class="form-control input-sm" style="width: 100%;"  ng-model="cfgCtrl.mainChart.overrideChart[$index].type">
+                            <option value="line">Linha</option>
+                            <option value="bar">Barra</option>
+
+                          </select>
+                        </td>
+                        <td>
+                          <select class="form-control input-sm" style="width: 100%;"  ng-model="cfgCtrl.mainChart.overrideChart[$index].borderWidth">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+
+                          </select>
+                        </td>
+                        <td><input style="margin-top:10px; margin-left:13px;" type="checkbox" id="inlineCheckbox1" ng-model="cfgCtrl.mainChart.optionsChart.scales.yAxes[$index].scaleLabel.display"></td>
+                        <td><input style="margin-top:10px; margin-left:13px;" type="checkbox" id="inlineCheckbox1" ng-model="cfgCtrl.mainChart.optionsChart.scales.yAxes[$index].display"></td>
+                        <td><input style="margin-top:10px; margin-left:13px;" type="checkbox" id="inlineCheckbox1" ng-model="cfgCtrl.mainChart.optionsChart.scales.yAxes[$index].gridLines.display"></td>
+                        <td><input type="number" class="form-control input-sm" placeholder="" ng-model="cfgCtrl.mainChart.optionsChart.scales.yAxes[$index].ticks.suggestedMax"/></td>
+                        <td><input type="number" class="form-control input-sm" placeholder="" ng-model="cfgCtrl.mainChart.optionsChart.scales.yAxes[$index].ticks.suggestedMin"/></td>
+                        <td><input class="form-control input-sm" colorpicker="rgba" type="text" ng-model="cfgCtrl.mainChart.overrideChart[$index].backgroundColor" /></td>
+                        <td><input class="form-control input-sm" colorpicker="rgba" type="text" ng-model="cfgCtrl.mainChart.overrideChart[$index].borderColor" /></td>
+                        <td><input class="form-control input-sm" colorpicker="rgba" type="text" ng-model="cfgCtrl.mainChart.overrideChart[$index].pointBackgroundColor" /></td>
+                        <td><input class="form-control input-sm" colorpicker="rgba" type="text" ng-model="cfgCtrl.mainChart.overrideChart[$index].pointBorderColor" /></td>
+<!--                         <td>
+                          <select class="form-control input-sm" style="width: 100%;"  ng-model="cfgCtrl.mainChart.optionsChart.config.series[$index].periodo">
+                            <option value="ultima-hora">Ultima hora</option>
+                            <option value="ultimo-dia">Último dia</option>
+                            <option value="ultima-semana">Última semana</option>
+                            <option value="ultimo-mes">Último mês</option>
+                            <option value="ultimo-3-meses">Último 3 meses</option>
+                            <option value="ultimo-6-meses">Último 6 meses</option>
+                            <option value="ultimo-9-meses">Último 9 meses</option>
+                            <option value="ultimo-12-meses">Último ano</option>
+                          </select>
+                        </td>
+                        <td>
+                          <select class="form-control input-sm" style="width: 100%;"  ng-model="cfgCtrl.mainChart.optionsChart.config.series[$index].resolucao">
+                            <option value="1">sem agrupamento</option>
+                            <option value="60">por minuto</option>
+                            <option value="3600">por hora</option>
+                            <option value="1440">por dia</option>
+                            <option value="10080">por semana</option>
+                          </select>
+                        </td> -->
+                        <td style="vertical-align: middle;">
+                          <button class="btn btn-success btn-xs"  ng-click="cfgCtrl.addPenaConfig($index)"><i class="fa fa-plus"></i></button>
+                          <button class="btn btn-danger btn-xs"  ng-click="cfgCtrl.deleteConfigPena($index)"><i class="fa fa-trash-o"></i></button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+          
+              <div class="col-xs-12 col-md-12" style="padding-top:13px;">
+                <button type="button" class="btn btn-success"  ng-if="cfgCtrl.iscomponente_new" ng-click="cfgCtrl.componenteIncluir()"><i class="fa fa-check" uib-tooltip="Confirmar novo componenteLuz"></i></button>
+                <button type="button" class="btn btn-warning" ng-if="cfgCtrl.iscomponente_edit" ng-click="cfgCtrl.componenteEditarConfirma()"><i class="fa fa-pencil" uib-tooltip="Confirmar edição"></i></button>
+                <button type="button" class="btn btn-danger" ng-click="cfgCtrl.componenteCancelar()"><i class="fa fa-ban" uib-tooltip="Cancelar"></i></button>
+              </div>
+
+        </div>
+
+
+        <!--a==============================VISUALIZA COMPONENTES========================================a -->
+        <div class="col-xs-12 col-md-12"  ng-if="(!(cfgCtrl.iscomponente_new || cfgCtrl.iscomponente_edit) && (cfgCtrl.getUser().acesso <=1))">
+          <div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 style="font-size: 12px;" class="box-title">Componentes</h3>
+            </div>
+            <div class="box-body">
+              <div class="col-xs-12 col-md-6">
+                <label class="control-label"><i class="fa fa-edit"></i> Selecione o sistema</label>
+                <div class="input-group">
+                  <div class="input-group-addon">
+                    <i class="fa fa-industry "></i>
+                  </div>
+                  <select ng-disabled="true" class="form-control input-sm" style="width: 100%;" ng-model="cfgCtrl.sistemaSelecionado.nome" ng-change="cfgCtrl.sistemaUpdateComp()" >
+                    <option ng-selected="{{sistema.nome == cfgCtrl.sistemaSelecionado.nome}}" ng-repeat="sistema in cfgCtrl.sistemas" value="{{sistema.nome}}">{{sistema.nome}}</option>
+                  </select>
+                </div>
+              </div>
+
+            </div>
+            <!--a======================================================================a -->
+            <!-- Button New -->
+            <!--a======================================================================a -->
+            <div ng-if="(cfgCtrl.getLenObject(cfgCtrl.sistemaSelecionado) > 0)">
+              <div style="margin-top:auto; margin-left:24px;">
+                <button id='addComponente'type="button" class="btn btn-success" ng-click="cfgCtrl.componenteNovo()"uib-tooltip="Novo componente" ><i class="fa fa-plus" ></i></button>
+              </div>
+
+              <div style="margin-top:-28px; margin-left: 70px;">
+                <label for="addComponente" style="font-size:12px;"> Adiciona componente</label>
+              </div>
+            </div>
+            <div style="height:20px;"></div>
+
+            <!--a======================================================================a -->
+            <!-- Table -->
+            <!--a======================================================================a -->
+
+            <div>
+              <div class="box-body" ng-if="cfgCtrl.objetosDinamicosLen > 0">
+                <div class="col-xs-12 col-md-12">
+                  <div class="input-group" style="margin-bottom:10px; margin-top:-15px;">
+                    <div class="input-group-btn">
+                      <button type="button" class="btn btn-success" ng-click="cfgCtrl.searchComponente()" uib-tooltip="Buscar"><i class="fa fa-share"></i></button>
+                    </div>
+                    <!-- /btn-group -->
+                    <input type="text" class="form-control" ng-model="cfgCtrl.searchComponenteValue" ng-change="cfgCtrl.searchComponente()" placeholder="Busca...">
+                  </div>
+
+                  <div class="radio-inline">
+                    <label class="toggle">
+                      <input type="radio" name="toggle" value="descricao" ng-model="cfgCtrl.selecFilterComponente"  ng-click="cfgCtrl.materialSearch()"> <span class="label-text"></span><label class="control-label" for="inputSuccess"> Descrição</label>
+                    </label>
+                  </div>
+                  <div class="radio-inline">
+                    <label class="toggle">
+                      <input type="radio" name="toggle" value="tipo" ng-model="cfgCtrl.selecFilterComponente" ng-click="cfgCtrl.materialSearch()"> <span class="label-text"></span><label class="control-label" for="inputSuccess"> Tipo</label>
+                    </label>
+                  </div>
+                  <div class="radio-inline">
+                    <label class="toggle">
+                      <input type="radio" name="toggle" value="menu_navegacao" ng-model="cfgCtrl.selecFilterComponente" ng-click="cfgCtrl.materialSearch()"> <span class="label-text"></span><label class="control-label" for="inputSuccess"> Menu</label>
+                    </label>
+                  </div>
+
+                  <div class="box-body table-responsive no-padding">
+                    <table class="table table-hover">
+                      <tr class="info" style="font-size:12px;">
+                        <th style="text-align: left;  height:15px">Menu</th>
+                        <th style="text-align: left;">Tipo</th>
+                        <th style="text-align: center;">Sequência</th>
+                        <th style="text-align: left;">Descrição</th>
+                        <th style="text-align: center;">ID slave write</th>
+                        <th style="text-align: center;">Registro slave write</th>
+                        <th style="text-align: center;">ID slave read</th>
+                        <th style="text-align: center;">Registro slave read</th>
+                        <th style="text-align: center;">Visível?</th>
+                        <th style="text-align: center;">log?</th>
+                        <th style="text-align: center;">Tabela log</th>
+                        <th width="220" style="text-align: center;">Ação</th>
+                      </tr>
+                      <tr ng-repeat="objetoDinamico in cfgCtrl.objetosDinamicos">
+                        <td style=" height:15px; font-size:12px; text-align: left; vertical-align: middle;">{{objetoDinamico.menu_navegacao}}</td>
+                        <td style="font-size:12px; text-align: left; vertical-align: middle;">{{objetoDinamico.tipo}}</td>
+                        <td style="font-size:12px; text-align: center; vertical-align: middle;">{{objetoDinamico.sequencia}}</td>
+                        <td style="font-size:12px; text-align: left; vertical-align: middle;">{{objetoDinamico.descricao}}</td>
+                        <td style="font-size:12px; text-align: center; vertical-align: middle;">{{objetoDinamico.device_modbus_write_id}}</td>
+                        <td style="font-size:12px; text-align: center; vertical-align: middle;">{{objetoDinamico.device_modbus_write_reg}}</td>
+                        <td style="font-size:12px; text-align: center; vertical-align: middle;">{{objetoDinamico.device_modbus_read_id}}</td>
+                        <td style="font-size:12px; text-align: center; vertical-align: middle;">{{objetoDinamico.device_modbus_read_reg}}</td>
+                        <td style="font-size:12px; text-align: center; vertical-align: middle;"><input type="checkbox" ng-disabled="true" id="inlineCheckbox1" ng-model="objetoDinamico.visivelBool"></td>
+                        <td style="font-size:12px; text-align: center; vertical-align: middle;"><input type="checkbox" ng-disabled="true" id="inlineCheckbox1" ng-model="objetoDinamico.log" ng-false-value='0' ng-true-value='1'></td>
+
+                        <td style="font-size:12px; text-align: center; vertical-align: middle;">{{objetoDinamico.nome_tabela_log}}</td>
+                        <td style="text-align: center;vertical-align: middle;">
+                          <button class="btn btn-danger btn-xs" ng-disabled="false" mw-confirm-click="cfgCtrl.componenteDelete($index)" mw-confirm-click-message="Deseja realmente apagar o registro?" uib-tooltip="Remover objeto"><i class="fa fa-trash-o" ></i></button>
+                          <button class="btn btn-warning btn-xs" ng-click="cfgCtrl.componenteEditar($index)" ng-disabled="false"><i class="fa fa-pencil" uib-tooltip="Editar objeto"></i></button>
+                          <button class="btn btn-success btn-xs" mw-confirm-click="cfgCtrl.componenteClonar($index)" mw-confirm-click-message="Deseja realmente clonar o componente?" ng-disabled="objetoDinamico.tipo=='chart'"><i class="fa fa-clone" uib-tooltip="Clonar objeto"></i></button>
+                          <button class="btn btn-success btn-xs" ng-click="cfgCtrl.popConfigDateToSave('sm',$index)" ng-disabled="!objetoDinamico.nome_tabela_log"><i class="fa fa-floppy-o" uib-tooltip="Backup de log"></i></button>
+                          <button class="btn btn-danger btn-xs" ng-disabled="!objetoDinamico.nome_tabela_log"ng-click="cfgCtrl.popConfigDate('sm',$index)" uib-tooltip="Limpar logs"><i class="fa fa-database" ></i></button>      
+                          <button class="btn btn-info btn-xs" ng-disabled="!objetoDinamico.nome_tabela_log"ng-click="cfgCtrl.infoTablesLogs($index)" uib-tooltip="Informações"><i class="fa fa-info-circle" ></i></button>
+                          <button class="btn btn-info btn-xs" ng-disabled="!objetoDinamico.nome_tabela_log"ng-click="cfgCtrl.popImportCsv($index)" uib-tooltip="Importar dados externos CSV"><i class="fa fa-upload" ></i></button>
+                          <i ng-if="cfgCtrl.waitResponseDatabase[$index]" class="fa fa-cog fa-spin fa-1x fa-fw"></i>
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <nores-api ng-if="!cfgCtrl.objetosDinamicosLen && !cfgCtrl.readingComponentes"></nores-api>
+              <wait-api ng-if="cfgCtrl.readingComponentes"></wait-api>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-xs-12 col-md-12" ng-if="(cfgCtrl.getUser().acesso > 1)">
+          <exclamacao texto="Você não tem acesso a esta área, contate o administrador">
+          </div>
+
+        </div>
+
+
+      </div>
+    </uib-accordion>

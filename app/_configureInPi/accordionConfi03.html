@@ -1,0 +1,52 @@
+
+<uib-accordion ng-click="cfgPiCtrl.acordion3()">
+  <div uib-accordion-group class="panel-default" is-open="cfgPiCtrl.openAc3">
+    <uib-accordion-heading>
+      <i class="pull-left fa fa-users"></i><Label style="font-size:12px;">Usuários</label><i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': cfgPiCtrl.openAc3, 'glyphicon-chevron-right': !cfgPiCtrl.openAc3}"></i>
+      </uib-accordion-heading>
+      <!-- //++++++++++++++++++++++++++++++++++++++++++++++
+      //Configurações de rede do INPI-PLC
+      //++++++++++++++++++++++++++++++++++++++++++++++ -->
+      <div class="box box-primary" ng-if="!cfgPiCtrl.requestingDataUsers">
+        <div class="box-body table-responsive no-padding">
+          <div class="col-xs-12 col-md-12">
+            <label class="control-label">Usuários</label>
+            <table class="table table-hover">
+              <tr class="info" style="text-align: center; font-size:12px;">
+                <th style="text-align: left; font-size:12px;">Nome</th>
+                <th style="text-align: center; font-size:12px;">E-mail</th>
+                <th style="text-align: center; font-size:12px;">Acesso</th>
+                <th style="text-align: center; font-size:12px;">Ação</th>
+
+              </tr>
+              <tr ng-repeat="usuario in cfgPiCtrl.usuarios " style="text-align: center; font-size:12px;">
+                <td style="text-align: left" ng-if="usuario.email!='dev@intech-automacao.com.br'">{{usuario.nome}}</td>
+                <td style="text-align: center" ng-if="usuario.email!='dev@intech-automacao.com.br'">{{usuario.email}}</td>
+                <td style="text-align: center" ng-if="usuario.email!='dev@intech-automacao.com.br'">{{usuario.acesso | acesso}}</td>
+                <td style="text-align: center;vertical-align: middle;" ng-if="usuario.email!='dev@intech-automacao.com.br'">
+                  <button class="btn btn-warning btn-xs" ng-disabled="false" ng-click="cfgPiCtrl.openModalEditUser('sm','.modal-parent', $index)" uib-tooltip="Editar usuário"><i class="fa fa-pencil" ></i></button>
+                  <button class="btn btn-danger btn-xs" ng-disabled="false" mw-confirm-click="cfgPiCtrl.removeUser($index)" mw-confirm-click-message="Deseja realmente apagar o usuáio?" uib-tooltip="remover usuário"><i class="fa fa-trash-o" ></i></button>
+                </td>
+
+              </tr>
+            </table>
+
+            <!--a======================================================================a -->
+            <!-- Button New -->
+            <!--a======================================================================a -->
+            <div style="margin-top:auto; margin-left:5px;">
+              <button id='addUser'type="button" class="btn btn-success" ng-click="cfgPiCtrl.openModalNewUser('sm','.modal-parent', $index)"uib-tooltip="Novo usuário" ><i class="fa fa-user-plus" ></i></button>
+            </div>
+
+            <div style="margin-top:-28px; margin-left: 50px;">
+              <label for="addUser" style="font-size:12px;"> Adiciona usuário</label>
+            </div>
+
+            <div style="height:20px;"></div>
+
+          </div>
+        </div>
+      </div>
+      <wait-api ng-if="cfgPiCtrl.requestingDataUsers"></wait-api>
+    </div>
+  </uib-accordion>

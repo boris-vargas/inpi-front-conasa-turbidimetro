@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html ng-app="intechApp">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>InWeb</title>
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <link rel="stylesheet" href="/assets/css/deps.min.css">
+  <link rel="stylesheet" href="/assets/css/app.min.css">
+  <link rel="stylesheet" href="/assets/angularjs-datetime-picker.css">
+  <link rel="stylesheet" href="/assets/angular-moment-picker.min.css">
+  <link rel="stylesheet" type="text/css" href="/assets/angularjs-slider/dist/rzslider.css">
+
+
+</head>
+<div ng-controller="indexController as indexCtrl">
+  <body class="skin-blue fixed sidebar-mini">
+    <!--sidebar-collapse <body ng-class="indexCtrl.trocaMenu ? 'skin-blue fixed sidebar-mini sidebar-collapse' : 'skin-blue fixed sidebar-mini'"> -->
+
+  <div class="wrapper">
+    <header class="main-header" ng-include="'/template/header/header.html'"></header>
+    <aside class="main-sidebar"  ng-include="'/template/menu/menu.html'"></aside>
+    <div class="content-wrapper" ui-view></div>
+    <div ng-controller="indexController as indexCtrl">
+     <div ng-if="(((indexCtrl.viewSelecionada!=100) && (indexCtrl.viewSelecionada!=101) && (indexCtrl.resolution>=768)) &&(indexCtrl.sistema[0].barra_avisos_visualizar=='1')) && indexCtrl.alarmes.length>0">
+      <footer class="main-footer" ng-include="'/template/footer/footer.html'"></footer>
+    </div>
+  </div>
+  </div>
+</body>
+</div>
+
+  <script src="/assets/js/deps.min.js"></script>
+  <script src="/assets/js/app.min.js"></script>
+  <script src="/assets/moment.js"></script>
+  <script src="/assets/chart.js/dist/Chart.min.js"></script>
+  <script src="/assets/angular-chart.js/dist/angular-chart.min.js"></script>
+  <script src="/assets/pt-br.js"></script>
+  <script src="/assets/datetime-picker.js"></script>
+  <script src="/assets/angular-moment-picker.min.js"></script>
+
+  <script src="/assets/pdfmake.js"></script>
+  <script src="/assets/html2canvas.min.js"></script>
+  <script src="/assets/vfs_fonts.js"></script>
+  <script src="/assets/angularjs-slider/dist/rzslider.min.js"></script>
+  <script src="/assets/papaparse.min.js"></script>
+ 
+
+</html>

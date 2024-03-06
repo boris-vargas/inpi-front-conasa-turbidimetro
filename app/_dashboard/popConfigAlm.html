@@ -1,0 +1,96 @@
+<div class="modal-content col-xs-12 col-md-12">
+  <div class="modal-header">
+    <h4 class="modal-title">Configurações</h4>
+  </div>
+  <div class="modal-body" style="margin-left:-30px">
+
+    <ul >
+      <label class="control-label" style="margin-left:-10px"><i class="fa fa-edit"></i> Modo</label>
+      <div class="input-group">
+        <div class="input-group-addon">
+          <i class="fa fa-book"></i>
+        </div>
+        <select class="form-control input-sm" style="width: 100%;"  ng-model="modo">
+          <option value="temporeal">Tempo real</option>
+          <option value="historico">Histórico</option>
+        </select>
+      </div>
+    </ul>
+
+    <ul>
+      <div ng-if="modo=='historico'">
+        <label class="control-label"><i class="fa fa-edit"></i> Data inicial</label>
+        <div class="input-group">
+          <div class="input-group-addon">
+            <i class="fa fa-calendar"></i>
+          </div>
+          <input class="form-control input-sm" ng-model="dataInicial" placeholder="Selecione a data..." moment-picker="stringDateIni" format="DD/MM/YYYY HH:mm">
+        </div>
+      </div>
+    </ul>
+
+    <ul>
+      <div ng-if="modo=='historico'">
+        <label class="control-label"><i class="fa fa-edit"></i> Data final</label>
+        <div class="input-group">
+          <div class="input-group-addon">
+            <i class="fa fa-calendar"></i>
+          </div>
+          <input class="form-control input-sm" ng-model="dataFinal" placeholder="Selecione a data..." format="DD/MM/YYYY HH:mm" moment-picker="stringDateFin">
+        </div>
+      </div>
+    </ul>
+
+    <div class="cointainer" style="margin-left:65px;">
+      <label style="margin-left:-35px;" class="control-label"><i class="fa fa-edit"></i> Habilita visualização</label>
+      <div class="row">
+        <label style="font-size:12px;">
+          <input type="checkbox" id="inlineCheckbox1" ng-model="viewmenu"> Menu de navegação
+        </label>
+      </div>
+
+      <div class="row">
+        <label style="font-size:12px;">
+          <input type="checkbox" id="inlineCheckbox2" ng-model="viewequipamento"> Objeto
+        </label>
+      </div>
+
+      <div class="row">
+        <label style="font-size:12px;">
+          <input type="checkbox" id="inlineCheckbox2" ng-model="viewvalor"> Valor
+        </label>
+      </div>
+
+      <div class="row">
+        <label style="font-size:12px;">
+          <input type="checkbox" id="inlineCheckbox2" ng-model="viewacao"> Ação
+        </label>
+      </div>
+
+      <div class="row">
+        <label style="font-size:12px;">
+          <input type="checkbox" id="inlineCheckbox2" ng-model="viewduracao"> Duração
+        </label>
+      </div>
+
+      <div class="row">
+        <label class="control-label" style="margin-left:-15px;"><i class="fa fa-edit"></i> Filtrar por menu?</label>
+        <div class="input-group">
+          <div class="input-group-addon">
+            <i class="fa fa-align-justify"></i>
+          </div>
+          <select class="form-control input-sm" style="width: 90%;" ng-model="menu_default.id" ng-change="" >
+            <option ng-selected="{{menu.id == menu_default.id}}" ng-repeat="menu in menus" value="{{menu.id}}">{{menu.id}}</option>
+          </select>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="modal-footer">
+    <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
+    <button class="btn btn-warning" type="button" ng-click="cancelar()">Cancel</button>
+  </div>
+</div>

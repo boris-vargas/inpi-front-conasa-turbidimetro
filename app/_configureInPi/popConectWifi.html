@@ -1,0 +1,18 @@
+<div class="modal-content">
+<div class="modal-header">
+  <h4 class="modal-title">Dados de rede</h4>
+</div>
+<div class="modal-body">
+  <ul>
+    <label style="margin-left:-20px;" class="control-label"><i class="fa fa-edit"></i> SSID</label>
+    <input  style="margin-left:-20px;" class="form-control input-sm" ng-disabled="true" ng-model="ssid">
+    <label style="margin-left:-20px;" class="control-label"><i class="fa fa-edit"></i> Senha</label>
+    <input id="valorinput" style="margin-left:-20px;" class="form-control input-sm" placeholder="digite aqui a senha de rede" ng-model="password">
+  </ul>
+</div>
+
+    <div class="modal-footer">
+      <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
+      <button class="btn btn-warning" type="button" ng-click="cancelar()">Cancel</button>
+    </div>
+  </div>

@@ -1,0 +1,50 @@
+<div class="login-box"  ng-controller="AuthCtrl as authCtrl">
+
+	<div class="login-box-body" style="border-radius: 10px;">
+		<p class="login-box-msg"><img src="/assets/imgs/intech_azul.png" class="img-fluid img-responsive" alt="User Image"></img></p>
+		<form>
+			<auth-field id="authName" model="authCtrl.user.name" type="input" placeholder="Informe o Nome" hide="authCtrl.loginMode"></auth-field>
+			<auth-field id="authEmail" model="authCtrl.user.email" type="email" placeholder="Informe o E-mail"></auth-field>
+			<auth-field id="authPass" model="authCtrl.user.password" type="password" placeholder="Informe a Senha"></auth-field>
+			<auth-field id="authConfirmPass" model="authCtrl.user.confirm_password" type="password" placeholder="Confirme a Senha" hide="authCtrl.loginMode"></auth-field> 
+			<div class="row">
+				<div class="col-xs-12 col-md-12" style="font-size:10px; padding-left:30px; padding-right:30px; margin-top: -30px;">
+					<a style="cursor: pointer;" mw-confirm-click="authCtrl.solicitaSenha()" mw-confirm-click-message="Deseja realmente solicitar uma nova senha? Esta opção desabilita a senha atual e uma nova é enviada via email. Certifique-se de que o controlador está conectado a internet!"  ng-click="">Esqueceu a senha?</a>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-xs-12 col-md-12" style="padding-left:30px; padding-right:30px;">
+					<button class="btn btn-primary btn-block btn-flat" ng-click="authCtrl.login()" ng-show="authCtrl.loginMode" >Entrar</button>
+					<button class="btn btn-primary btn-block btn-flat" ng-click="authCtrl.signup()" ng-hide="authCtrl.loginMode">Registrar</button>
+					<!-- <button class="btn btn-primary btn-block btn-flat" ng-click="authCtrl.logout()" >Logout</button> -->
+
+				</div>
+			</div>
+		</form>
+		<br />
+		<!-- <div class="row text-left">
+		<a style="font-size:12px;cursor:pointer;" ng-click="authCtrl.changeMode()">
+			{{authCtrl.loginMode ?
+				'Novo usuário?' :
+				'Já é cadastrado? Entre aqui!' }}
+
+			</a>
+</div>
+			<div class="row text-left">
+				<a ng-click="authCtrl.carregaUser('intech@intech-automacao.com.br', 'intech')" style="font-size:10px; cursor:pointer;" class="text-center">Master: intech@intech-automacao.com.br senha: intech</a>
+			</div>
+			<div class="row text-left">
+				<a ng-click="authCtrl.carregaUser('convidado@intech-automacao.com.br', 'convidado')" style="font-size:10px;cursor:pointer;" class="text-center">Convidado: convidado@intech-automacao.com.br senha: convidado</a>
+			</div>
+		</div> -->
+	</div>
+
+	<style>
+	html, .wrapper {
+		background-color: #fff!important;
+	}
+	.login-box-body {
+		background-color: #fff;
+	}
+</style>

@@ -1,0 +1,14 @@
+<section class="content" ng-controller="ConfigPiController as cfgPiCtrl">
+
+  <div class="panel-default" ng-if="(cfgPiCtrl.getUser().acesso > 1)">
+    <exclamacao texto="Você não tem acesso a esta área, contate o administrador">
+    </div>
+    <div class="panel-default" ng-if="(cfgPiCtrl.getUser().acesso <= 1)">
+
+      <div ng-include="'/_configureInPi/accordionConfi01.html'"></div>
+      <div ng-include="'/_configureInPi/accordionConfi03.html'"></div>
+      <div ng-include="'/_configureInPi/accordionConfi02.html'"></div>
+
+    </div>
+
+  </section>

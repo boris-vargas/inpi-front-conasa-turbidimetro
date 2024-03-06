@@ -1,0 +1,389 @@
+<uib-accordion ng-click="cfgPiCtrl.acordion1()">
+  <div uib-accordion-group class="panel-default" is-open="cfgPiCtrl.openAc1">
+    <uib-accordion-heading >
+      <i class="pull-left fa fa-tachometer"></i><Label style="font-size:12px;">Configurações gerais da aplicação</label><i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': cfgPiCtrl.openAc1, 'glyphicon-chevron-right': !cfgPiCtrl.openAc1}"></i>
+    </uib-accordion-heading>
+      <!-- //++++++++++++++++++++++++++++++++++++++++++++++
+      //Configurações Gerais da aplicação
+      //++++++++++++++++++++++++++++++++++++++++++++++ -->
+      <div class="box box-primary" ng-if="!cfgPiCtrl.requestingDataConfig">
+        <div class="box-body">
+
+          <div class="col-xs-12 col-md-6">
+            <label class="control-label"><i class="fa fa-edit"></i> Sistema</label>
+            <div class="input-group">
+              <div class="input-group-addon">
+                <i class="fa fa-street-view"></i>
+              </div>
+              <select class="form-control input-sm" style="width: 100%;" ng-model="cfgPiCtrl.sistema_default.nome" ng-change="cfgPiCtrl.updateSistema(cfgPiCtrl.sistema_default.nome)" >
+                <option ng-selected="{{sistema.nome == cfgPiCtrl.sistema_default.nome}}" ng-repeat="sistema in cfgPiCtrl.sistemas track by $index" value="{{sistema.nome}}">{{sistema.nome}}</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="col-xs-12 col-md-3">
+            <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> Nome</label>
+            <input type="text" class="form-control input-sm" placeholder="" ng-model="cfgPiCtrl.sistemaNome">
+          </div>
+
+
+          <div class="col-xs-12 col-md-3">
+            <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> Atualização componentes(s)</label>
+            <input type="number" min="3" max="3600" class="form-control input-sm" placeholder="" ng-model="cfgPiCtrl.sistemaUpdateMs">
+          </div>
+
+          <div class="col-xs-12 col-md-3">
+            <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> Atualização charts(s)</label>
+            <input type="number" min="5" max="3600" class="form-control input-sm" ng-model="cfgPiCtrl.sistema_update_charts">
+          </div>
+
+<!--         <div class="col-xs-12 col-md-3">
+          <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> Atualização charts(s)</label>
+          <div class="input-group">
+            <div class="input-group-btn">
+              <button type="button" class="btn btn-danger btn-xs" mw-confirm-click="cfgPiCtrl.restoreCharts()" mw-confirm-click-message="Deseja realmente restaurar os charts? Isso apagará todos os charts configurados!"><i style="heigth:10px; width:10px;" class="fa fa-bug" uib-tooltip="restaurar charts"></i></button>
+            </div>
+            <input type="number" min="5" max="3600" class="form-control input-sm" ng-model="cfgPiCtrl.sistema_update_charts">
+          </div>
+        </div>
+ -->
+          <div class="col-xs-12 col-md-3">
+            <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> Nome do menu 2</label>
+            <input type="text" class="form-control input-sm" ng-model="cfgPiCtrl.sistemaNomeMenu2" autocomplete="off">
+          </div>
+
+          <div class="col-xs-12 col-md-3">
+            <combo-awesome texto=" Ícone menu 2" iconvar="cfgPiCtrl.sistemaIconMenu2"></combo-awesome>
+          </div>
+
+          <div class="col-xs-12 col-md-3">
+            <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> Nome do menu 3</label>
+            <input type="text" class="form-control input-sm" ng-model="cfgPiCtrl.sistemaNomeMenu3" autocomplete="off">
+          </div>
+
+          <div class="col-xs-12 col-md-3">
+            <combo-awesome texto=" Ícone menu 3" iconvar="cfgPiCtrl.sistemaIconMenu3"></combo-awesome>
+          </div>
+
+          <div class="col-xs-12 col-md-3">
+            <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> Nome do menu 4</label>
+            <input type="text" class="form-control input-sm" ng-model="cfgPiCtrl.sistemaNomeMenu4" autocomplete="off">
+          </div>
+
+          <div class="col-xs-12 col-md-3">
+            <combo-awesome texto=" Ícone menu 4" iconvar="cfgPiCtrl.sistemaIconMenu4"></combo-awesome>
+          </div>
+
+          <div class="col-xs-12 col-md-3">
+            <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> Nome do menu 5</label>
+            <input type="text" class="form-control input-sm"  ng-model="cfgPiCtrl.sistemaNomeMenu5" autocomplete="off">
+          </div>
+
+          <div class="col-xs-12 col-md-3">
+            <combo-awesome texto=" Ícone menu 5" iconvar="cfgPiCtrl.sistemaIconMenu5"></combo-awesome>
+          </div>
+
+          <div class="col-xs-12 col-md-3">
+            <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> Nome do menu 6</label>
+            <input type="text" class="form-control input-sm"  ng-model="cfgPiCtrl.sistemaNomeMenu6" autocomplete="off">
+          </div>
+
+          <div class="col-xs-12 col-md-3">
+            <combo-awesome texto=" Ícone menu 6" iconvar="cfgPiCtrl.sistemaIconMenu6"></combo-awesome>
+          </div>
+
+          <div class="col-xs-12 col-md-3">
+            <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> Nome do menu 7</label>
+            <input type="text" class="form-control input-sm"  ng-model="cfgPiCtrl.sistemaNomeMenu7" autocomplete="off">
+          </div>
+
+          <div class="col-xs-12 col-md-3">
+            <combo-awesome texto=" Ícone menu 7" iconvar="cfgPiCtrl.sistemaIconMenu7"></combo-awesome>
+          </div>
+
+          <div class="col-xs-12 col-md-3">
+            <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> Nome do menu 8</label>
+            <input type="text" class="form-control input-sm"  ng-model="cfgPiCtrl.sistemaNomeMenu8" autocomplete="off">
+          </div>
+
+          <div class="col-xs-12 col-md-3">
+            <combo-awesome texto=" Ícone menu 8" iconvar="cfgPiCtrl.sistemaIconMenu8"></combo-awesome>
+          </div>
+
+          <div class="col-xs-12 col-md-3">
+            <label class="control-label" for="inputSuccess"><i class="fa fa-edit"></i> Nome do menu 9</label>
+            <input type="text" class="form-control input-sm"  ng-model="cfgPiCtrl.sistemaNomeMenu9" autocomplete="off">
+          </div>
+
+          <div class="col-xs-12 col-md-3">
+            <combo-awesome texto=" Ícone menu 9" iconvar="cfgPiCtrl.sistemaIconMenu9"></combo-awesome>
+          </div>
+
+          <div class="col-xs-12 col-md-3">
+            <label class="control-label" for="inputSuccess10"><i class="fa fa-edit"></i> Nome do menu 10</label>
+            <input type="text" class="form-control input-sm"  ng-model="cfgPiCtrl.sistemaNomeMenu10" autocomplete="off">
+          </div>
+
+          <div class="col-xs-12 col-md-3">
+            <combo-awesome texto=" Ícone menu 10" iconvar="cfgPiCtrl.sistemaIconMenu10"></combo-awesome>
+          </div>
+
+          <div class="col-xs-12 col-md-3">
+            <label class="control-label"><i class="fa fa-edit"></i> Mostras barra de alarmes?</label>
+            <div class="input-group">
+              <div class="input-group-addon">
+                <i class="fa fa-bullhorn"></i>
+              </div>
+              <select class="form-control input-sm" style="width: 100%;"  ng-model="cfgPiCtrl.sistemaAvisos">
+                <option value="1">Sim</option>
+                <option value="0">Não</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="col-xs-12 col-md-3">
+            <label class="control-label"><i class="fa fa-edit"></i> Habilitar alarme sonoro?</label>
+            <div class="input-group">
+              <div class="input-group-addon">
+                <i class="fa fa-bell-o"></i>
+              </div>
+              <select class="form-control input-sm" style="width: 100%;"  ng-model="cfgPiCtrl.enableAudioAlm">
+                <option value="1">Sim</option>
+                <option value="0">Não</option>
+              </select>
+            </div>
+          </div>
+
+
+          <div class="col-xs-12 col-md-12">
+            <label class="control-label"><i class="fa fa-edit"></i> Figura do cliente</label>
+            <div class="input-group">
+              <div class="input-group-addon">
+                <i class="fa fa-truck"></i>
+              </div>
+              <select class="form-control input-sm" style="width: 100%;" ng-model="cfgPiCtrl.pathImagemCliente">
+                <option ng-selected="{{arquivo.file == cfgPiCtrl.pathImagemCliente}}" ng-repeat="arquivo in cfgPiCtrl.arquivosImagem.files" value="{{arquivo.file}}">{{arquivo.file}}</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="user-panel">
+            <div  class="" width="100%" height="100%" align="center" >
+              <img  width="300" height="300" align="center"class="img-responsive img-thumbnail" ng-src="/assets/imgs/general/{{cfgPiCtrl.pathImagemCliente}}"/>
+            </div>
+          </div>
+
+           <div style="float: right; margin-right:15px; margin-top:20px;">
+            <label style="font-size:12px; text-align:right; margin-right:5px;" > Envia parâmetros</label>
+            <button class="btn btn-warning btn-xs" ng-click="cfgPiCtrl.sistemaEditarConfirma()" ng-disabled="false"><i class="fa fa-pencil" uib-tooltip="confirma alterações"></i></button>
+          </div>
+        </div>
+
+
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <label class="control-label"><i class="fa fa-edit"></i> Upload de imagens para o controlador</label>
+            <div class="form-group">
+              <input style="font-size:12px;" type="file" ngf-select ng-model="cfgPiCtrl.file" name="file" ngf-pattern="'image/*'" accept=".jpg, .png, .gif|image/*" ngf-max-size="20MB"/>
+              <div class="user-panel">
+                <div  class="" width="50%" height="50%" align="center" >
+                  <img ngf-thumbnail="cfgPiCtrl.file" class="img-responsive img-thumbnail"/>
+                  <!--       <img  width="300" height="300" align="center"class="img-responsive img-thumbnail" ng-src="/assets/imgs/general/{{cfgPiCtrl.pathImagemCliente}}"/> -->
+                </div>
+              </div>
+              <i ng-show="cfgPiCtrl.upload_form.file.$error.required">*required</i><br>
+              <i ng-show="cfgPiCtrl.upload_form.file.$error.maxSize">Arvivo muito grande {{up.file.size / 1000000|number:1}}MB: max 20M</i>
+              <div class="form-group">
+                <div class="checkbox-inline">
+                  <label style="font-size:12px;"><input type="checkbox" name="optionsRadios" id="optionsRadios1" ng-click="cfgPiCtrl.folderClickSelectGeneral()" ng-model="cfgPiCtrl.generalFolder" value="option1" checked="">Pasta geral</label>
+                </div>
+                <div class="checkbox-inline">
+                  <label style="font-size:12px;"><input type="checkbox" name="optionsRadios" id="optionsRadios2" ng-click="cfgPiCtrl.folderClickObject()" ng-model="cfgPiCtrl.objectsFolder" value="option2">Pasta Objetos</label>
+                </div>
+              </div>
+              <label  style="font-size:12px;" class="control-label">{{cfgPiCtrl.progress}}</label>
+            </div>
+
+            <div style="float: right; margin-right:15px; margin-top:-35px;">
+              <label style="font-size:12px; text-align:right; margin-right:5px;" > Enviar imagem</label>
+              <button class="btn btn-warning btn-xs" ng-click="cfgPiCtrl.uploadImage()" ng-disabled="false"><i class="fa fa-cloud-upload" uib-tooltip="Enviar arquivo"></i></button>
+            </div>
+          </div>
+        </div>
+
+<!--         <div class="panel panel-default">
+          <div class="panel-body">
+            <label class="control-label"><i class="fa fa-edit"></i> Alarme Telegram Configurar</label>
+            <div class="col-xs-12 col-md-12 div-space" style="padding-left: 0;" ng-if="cfgPiCtrl.telegram.length == 0">
+              <button id='button'type="button" class="btn btn-success btn-xs" ng-click="cfgPiCtrl.openModelConfigAlert('md')"><i class="fa fa-plus"></i></button>
+              <label for="button" style="font-size:12px;"> Adicionar Bot</label>
+            </div>
+            <div class="col-xs-12 col-md-12 div-space" style="padding-left: 0;" ng-if="!cfgPiCtrl.telegram.length == 0">
+              <button id='button'type="button" class="btn btn-success btn-xs" ng-click="cfgPiCtrl.openModelAddChatAlert('md')"><i class="fa fa-plus"></i></button>
+              <label for="button" style="font-size:12px;"> Adicionar Chat</label>
+            </div>
+  
+            <table class="table">
+              <thead>
+                <tr>
+                  <th style="font-size:12px; color: #666;">Nome do Bot</th>
+                  <th style="font-size:12px; color: #666;">ID Chat</th>
+                  <th style="font-size:12px; width: 100px; color: #666;">Ações</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="telegram in cfgPiCtrl.telegram">
+                  <td style="font-size:12px; color: #666;">{{telegram.indentificador}}</td>
+                  <td style="font-size:12px; color: #666;">{{telegram.idchat}}</td>
+                  <td style="font-size:12px; color: #666;">
+                    <button class="btn btn-xs btn-warning" ng-click="cfgPiCtrl.editarTelegram(telegram)"><i class="fa fa-pencil"></i></button>
+                    <button class="btn btn-xs btn-danger" mw-confirm-click="cfgPiCtrl.excluirTelegram(telegram)" mw-confirm-click-message="Deseja Realmente deletar este bot?"><i class="fa fa-trash"></i></button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            
+          </div>
+        </div>   -->
+
+
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <label class="control-label"><i class="fa fa-edit"></i> Exclusão de imagens na pasta geral</label>
+            <div class="input-group">
+              <div class="input-group-addon">
+                <i class="fa fa-file"></i>
+              </div>
+              <select class="form-control input-sm" style="width: 100%;" ng-model="cfgPiCtrl.imagemGeralSelec">
+                <option ng-repeat="arquivo in cfgPiCtrl.arquivosImagem.files" value="{{arquivo.file}}">{{arquivo.file}}</option>
+              </select>
+            </div>
+            <div class="user-panel" align="center" ng-show="cfgPiCtrl.imagemGeralSelec">
+              <img  width="300" height="300" align="center" class="img-responsive img-thumbnail"  ng-src="/assets/imgs/general/{{cfgPiCtrl.imagemGeralSelec}}"/>
+            </div>
+    
+            <button ng-show="cfgPiCtrl.imagemGeralSelec" class="btn btn-danger btn-xs" ng-disabled="false" mw-confirm-click="cfgPiCtrl.imagemGeralDelete()" mw-confirm-click-message="Deseja realmente apagar a imagem?" uib-tooltip="Remover imagem"><i class="fa fa-trash-o" ></i></button>
+          </div>
+        </div>    
+
+
+
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <label class="control-label"><i class="fa fa-edit"></i> Exclusão de imagens na pasta objetos</label>
+            <div class="input-group">
+              <div class="input-group-addon">
+                <i class="fa fa-file"></i>
+              </div>
+              <select class="form-control input-sm" style="width: 100%;" ng-model="cfgPiCtrl.imagemObjetoSelec">
+                <option ng-repeat="arquivo in cfgPiCtrl.arquivosImagemObjetos.files" value="{{arquivo.file}}">{{arquivo.file}}</option>
+              </select>
+            </div>
+            <div class="user-panel" align="center" ng-show="cfgPiCtrl.imagemObjetoSelec">
+              <img  width="300" height="300" align="center" class="img-responsive img-thumbnail" ng-src="/assets/imgs/objects/{{cfgPiCtrl.imagemObjetoSelec}}"/>
+            </div>
+    
+            <button ng-show="cfgPiCtrl.imagemObjetoSelec" class="btn btn-danger btn-xs" ng-disabled="false" mw-confirm-click="cfgPiCtrl.imagemObjetoDelete()" mw-confirm-click-message="Deseja realmente apagar a imagem?" uib-tooltip="Remover imagem"><i class="fa fa-trash-o" ></i></button>
+          </div>
+        </div>    
+
+
+
+
+        <div class="panel panel-default col-md-6">
+          <div class="panel-body">
+            <label class="control-label"><i class="fa fa-edit"></i> Configurações originais</label>
+            <div class="row">
+              <button style="margin: 10px;"class="btn btn-danger btn-xs" mw-confirm-click="cfgPiCtrl.factoryReset()" mw-confirm-click-message="Deseja realmente executar reset de fábrica? Este comando apagará todos os objetos da aplicação e realizará um reboot na CPU"   ng-disabled="false"><i class="fa fa-industry" uib-tooltip="Reboot clp"></i> Padrão de fábrica</button>
+            </div>  
+          </div>
+        </div> 
+
+        <div class="panel panel-default col-md-6" >
+          <div class="panel-body">
+            <label class="control-label"><i class="fa fa-edit"></i>Exportar aplicação</label>
+            <div class="row">
+              <button style="margin: 10px; width: 120px;"class="btn btn-warning btn-xs" mw-confirm-click="cfgPiCtrl.exportApp()" mw-confirm-click-message="Deseja realmente exportar aplicação?"   ng-disabled="false"><i class="fa fa-download" uib-tooltip="Exportar aplicação"></i> Exportar</button>
+              <i ng-if="cfgPiCtrl.waitResponseDownload" class="fa fa-cog fa-spin fa-1x fa-fw"></i>
+            </div>  
+          </div>
+        </div> 
+
+
+        <div class="panel panel-default col-md-6">
+          <div class="panel-body">
+            <label class="control-label"><i class="fa fa-edit"></i> Importar aplicação inWeb</label>
+            <div class="row">
+              <input style="font-size:12px; margin-left: 14px;" type="file" ngf-select ng-model="cfgPiCtrl.fileBackupMysql" name="file" ngf-pattern="'.inpi'" accept=".inpi" ngf-max-size="4GB"/>
+              <button style="font-size:12px; margin-left: 14px;margin-top: 10px; width: 120px"class="btn btn-warning btn-xs" mw-confirm-click="cfgPiCtrl.uploadBackMysql(cfgPiCtrl.fileBackupMysql)" mw-confirm-click-message="Deseja realmente importar aplicação? Este comando irá sobrescrever a aplicação  atual e realizará um reboot na CPU"ng-disabled="!cfgPiCtrl.fileBackupMysql"><i class="fa fa-cloud-upload" uib-tooltip="Enviar arquivo e iniciar restore"></i>Restaurar</button>
+              <label  style="font-size:12px; margin-top: 10px;" class="control-label">{{cfgPiCtrl.progressUploadMysql}}</label>
+            </div>  
+          </div>
+        </div> 
+
+
+        <div class="panel panel-default col-md-6">
+          <div class="panel-body">
+            <label class="control-label"><i class="fa fa-edit"></i> Importar aplicação Node-Red</label>
+            <div class="row">
+              <input style="font-size:12px; margin-left: 14px;" type="file" ngf-select ng-model="cfgPiCtrl.fileBackupNodeRed" name="file" ngf-pattern="'.nodr'" accept=".nodr" ngf-max-size="20MB"/>
+              <button style="font-size:12px; margin-left: 14px;margin-top: 10px; width: 120px"class="btn btn-warning btn-xs" mw-confirm-click="cfgPiCtrl.uploadBackNodeRed(cfgPiCtrl.fileBackupNodeRed)" mw-confirm-click-message="Deseja realmente importar aplicação do Node-Red? Este comando irá sobrescrever a aplicação  atual e realizará um reboot na CPU"ng-disabled="!cfgPiCtrl.fileBackupNodeRed"><i class="fa fa-cloud-upload" uib-tooltip="Enviar arquivo e iniciar restore"></i>Restaurar</button>
+              <label  style="font-size:12px; margin-top: 10px;" class="control-label">{{cfgPiCtrl.progressUploadNodeRed}}</label>
+            </div>  
+          </div>
+        </div> 
+
+
+        <div class="panel panel-default col-md-12">
+          <div class="panel-body">
+            <label class="control-label"><i class="fa fa-edit"></i> Servidor SMTP para envio de e-mails</label>
+            <div class="row">
+              <div class="col-xs-12 col-md-4">
+                <label class="control-label"><i></i> Nome (que aparece para o destinatário)</label>
+                <input type="text" class="form-control input-sm"  ng-model="cfgPiCtrl.emailNome">
+              </div>
+              <div class="col-xs-12 col-md-3">
+                <label class="control-label"><i></i> Servidor(host)</label>
+                <input type="text" class="form-control input-sm"  ng-model="cfgPiCtrl.emailServidor">
+              </div>
+               <div class="col-xs-12 col-md-2">
+                <label class="control-label"><i></i> Porta</label>
+                <input type="number" class="form-control input-sm"  ng-model="cfgPiCtrl.emailPorta">
+              </div>
+               <div class="col-xs-12 col-md-3">
+                <label class="control-label"><i></i> E-mail do usuário</label>
+                <input type="text" class="form-control input-sm"  ng-model="cfgPiCtrl.emailUsuario">
+              </div>
+               <div class="col-xs-12 col-md-3">
+                <label class="control-label"><i></i> Senha</label>
+                <input type="password" class="form-control input-sm"  ng-model="cfgPiCtrl.emailSenha">
+              </div>
+               <div class="col-xs-12 col-md-3">
+                <label class="control-label"><i></i> Assunto</label>
+                <input type="text" class="form-control input-sm"  ng-model="cfgPiCtrl.emailAssunto">
+              </div>
+              <div class="col-xs-12 col-md-3" style="margin-top: 30px;">
+                 <label style="font-size:12px;"><input type="checkbox" id="emailSeguro" ng-click="" ng-model="cfgPiCtrl.emailSeguro" ng-true-value="true" ng-false-value="false">
+                  <label class="control-label" for="emailSeguro"><i></i> Seguro?</label>
+              </div>
+                 <div class="col-xs-12 col-md-12" style="margin-top: 10px;">
+                  <div class="col-xs-12 col-md-12">
+                   <button style="font-size:12px; margin-left: -15px; width: 120px"class="btn btn-warning btn-xs" ng-click="cfgPiCtrl.setEmail()" mw-confirm-click-message="Deseja realmente enviar as configurações?" ng-disabled="!cfgPiCtrl.emailNome || !cfgPiCtrl.emailServidor || !cfgPiCtrl.emailPorta || !cfgPiCtrl.emailUsuario || !cfgPiCtrl.emailSenha"><i class="fa fa-cloud-upload" uib-tooltip="Enviar configurações"></i>Salvar</button> 
+                   <button style="font-size:12px; width: 120px" class="btn btn-success btn-xs" ng-click="cfgPiCtrl.testeEmail()" ng-disabled="!cfgPiCtrl.emailNome || !cfgPiCtrl.emailServidor || !cfgPiCtrl.emailPorta || !cfgPiCtrl.emailUsuario || !cfgPiCtrl.emailSenha"><i class="fa fa-check" uib-tooltip="Testar configurações"></i>Testar</button>
+                   <i ng-if="cfgPiCtrl.waitResponseEmailTeste" class="fa fa-cog fa-spin fa-1x fa-fw"></i>
+                  </div>
+                   
+                </div>
+            </div>  
+          </div>
+        </div> 
+
+
+  </div>
+  <wait-api ng-if="cfgPiCtrl.requestingDataConfig"></wait-api>
+
+</div>
+
+</uib-accordion>
+
+

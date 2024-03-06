@@ -1,0 +1,35 @@
+  <div class="modal-content col-xs-12 col-md-12">
+    <div class="modal-header">
+      <h4 class="modal-title"><i class="fa fa-database fa-2x" aria-hidden="true"></i>&nbsp;{{textoPopUp}}</h4>
+    </div>
+    <div class="modal-body" style="margin-left:-30px">
+
+      <ul>
+        <div>
+         <div class="box-body table-responsive no-padding">
+          <table class="table table-hover">
+            <tr class="info" style="font-size:12px;">
+              <th style="text-align: center;  height:15px">Database</th>
+              <th style="text-align: center;  height:15px">Tabela</th>
+            </tr>
+            <tr>
+              <td style="font-size:10px;text-align: center;  height:15px">{{infosDatabase.database}} ({{infosDatabase.sizeMB}} MB)</th>
+              <td style="font-size:10px;text-align: center;  height:15px">{{infos[0].Table}} ({{infos[0].sizeMB}} MB)</th>
+            </tr>
+          </table>
+        </div>
+
+      </div>
+    </ul>
+
+
+    <div class="cointainer" style="margin-left:65px;">
+
+    </div> 
+
+  </div>
+
+  <div class="modal-footer">
+    <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
+  </div>
+</div>

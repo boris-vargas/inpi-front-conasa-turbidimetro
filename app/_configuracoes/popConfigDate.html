@@ -1,0 +1,41 @@
+  <div class="modal-content col-xs-12 col-md-12">
+    <div class="modal-header">
+      <h4 class="modal-title"><i class="fa fa-calendar fa-2x" aria-hidden="true"></i>&nbsp;{{textoPopUp.textoPopUp}}</h4>
+    </div>
+    <div class="modal-body" style="margin-left:-30px">
+
+      <ul>
+        <div>
+          <label class="control-label"><i class="fa fa-edit"></i> Data inicial</label>
+          <div class="input-group">
+            <div class="input-group-addon">
+              <i class="fa fa-calendar"></i>
+            </div>
+            <input class="form-control input-sm" ng-model="dataInicial" placeholder="Selecione a data..." moment-picker="stringDateIni" format="DD/MM/YYYY HH:mm">
+          </div>
+        </div>
+      </ul>
+
+      <ul>
+        <div>
+          <label class="control-label"><i class="fa fa-edit"></i> Data final</label>
+          <div class="input-group">
+            <div class="input-group-addon">
+              <i class="fa fa-calendar"></i>
+            </div>
+            <input class="form-control input-sm" ng-model="dataFinal" placeholder="Selecione a data..." format="DD/MM/YYYY HH:mm" moment-picker="stringDateFin">
+          </div>
+        </div>
+      </ul>
+
+      <div class="cointainer" style="margin-left:65px;">
+
+    </div> 
+
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
+      <button class="btn btn-warning" type="button" ng-click="cancelar()">Cancel</button>
+    </div>
+  </div>

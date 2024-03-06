@@ -1,0 +1,106 @@
+<div class="col-xs-12 col-md-6">
+	<table class="table">
+		<thead>
+			<tr style="font-size:12px;">
+				<th>Hora para ligar</th>
+				<th>Ação</th>
+			</tr>
+		</thead>
+	<tbody>
+		<tr ng-repeat="horaLiga in cfgCtrl.componente_bke.horaLiga  track by $index">
+			<td>
+				<!-- <input ng-model="horaLiga.hora" class="form-control input-sm" placeholder="Informe o Valor"/> -->
+				<div uib-timepicker ng-model="horaLiga.hora" ng-change="changed()" show-seconds="true" hour-step="cfgCtrl.hstep" minute-step="cfgCtrl.mstep" show-meridian="cfgCtrl.ismeridian"></div>
+			</td>
+			<td style="height:100px;vertical-align: middle;">
+					<button class="btn btn-success btn-xs"  ng-click="cfgCtrl.addHoraLigaTask($index)"><i class="fa fa-plus"></i></button>
+					<button class="btn btn-danger btn-xs"  ng-click="cfgCtrl.deleteHoraLigaTask($index)"><i class="fa fa-trash-o"></i></button>
+
+			</td>
+		</tr>
+	</tbody>
+	</table>
+</div>
+
+
+<div class="col-xs-12 col-md-6">
+	<table class="table">
+		<thead>
+			<tr style="font-size:12px;">
+				<th>Hora para desligar</th>
+				<th>Ação</th>
+			</tr>
+		</thead>
+	<tbody>
+		<tr ng-repeat="horaDesliga in cfgCtrl.componente_bke.horaDesliga track by $index">
+			<td>
+				<div uib-timepicker ng-model="horaDesliga.hora" ng-change="changed()" show-seconds="true" hour-step="cfgCtrl.hstep" minute-step="cfgCtrl.mstep" show-meridian="cfgCtrl.ismeridian"></div>
+				<!-- <input ng-model="horaDesliga.hora" class="form-control input-sm" placeholder="Informe o Valor"/> -->
+			</td>
+		<td style="height:100px;vertical-align: middle;">
+					<button class="btn btn-success btn-xs" ng-click="cfgCtrl.addHoraDesligaTask($index)"><i class="fa fa-plus"></i></button>
+					<button class="btn btn-danger btn-xs" ng-click="cfgCtrl.deleteHoraDesligaTask($index)"><i class="fa fa-trash-o"></i></button>
+
+			</td>
+		</tr>
+	</tbody>
+	</table>
+</div>
+
+
+<div class="col-xs-12 col-md-6">
+	<h6>Registo para evento ON</h6>
+	<table class="table">
+		<thead>
+			<tr style="font-size:12px;">
+				<th>Endereço</th>
+				<th>Registro</th>
+				<th>Ação</th>
+			</tr>
+		</thead>
+	<tbody>
+		<tr ng-repeat="tagsWriteOn in cfgCtrl.componente_bke.tagsWriteOn  track by $index">
+			<td>
+				<input type="number" ng-model="tagsWriteOn.id" class="form-control input-sm" placeholder="Endereço" />
+			</td>
+			<td>
+				<input type="number" ng-model="tagsWriteOn.reg" class="form-control input-sm" placeholder="Informe o registro"/>
+			</td>
+			<td>
+					<button class="btn btn-success btn-xs"  ng-click="cfgCtrl.addTagLigaTask($index)"><i class="fa fa-plus"></i></button>
+					<button class="btn btn-danger btn-xs"  ng-click="cfgCtrl.deleteTagLigaTask($index)"><i class="fa fa-trash-o"></i></button>
+
+			</td>
+		</tr>
+	</tbody>
+	</table>
+</div>
+
+
+<div class="col-xs-12 col-md-6">
+	<h6>Registo para evento OFF</h6>
+	<table class="table">
+		<thead>
+			<tr style="font-size:12px;">
+				<th>Endereço</th>
+				<th>Registro</th>
+				<th>Ação</th>
+			</tr>
+		</thead>
+	<tbody>
+		<tr ng-repeat="tagsWriteOff in cfgCtrl.componente_bke.tagsWriteOff  track by $index">
+			<td>
+				<input type="number" ng-model="tagsWriteOff.id" class="form-control input-sm" placeholder="Endereço"/>
+			</td>
+			<td>
+				<input type="number" ng-model="tagsWriteOff.reg" class="form-control input-sm" placeholder="Informe o registro"/>
+			</td>
+			<td>
+					<button class="btn btn-success btn-xs"  ng-click="cfgCtrl.addTagDesligaTask($index)"><i class="fa fa-plus"></i></button>
+					<button class="btn btn-danger btn-xs"  ng-click="cfgCtrl.deleteTagDesligaTask($index)"><i class="fa fa-trash-o"></i></button>
+
+			</td>
+		</tr>
+	</tbody>
+	</table>
+</div>
