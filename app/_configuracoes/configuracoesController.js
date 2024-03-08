@@ -1196,7 +1196,7 @@
 				vm.componenteClonar = function(index){
 					var camposTabela = `
 					id_sistema,descricao,device_modbus_write_id,device_modbus_write_reg,device_modbus_read_id,device_modbus_read_reg,tipo,modulo_plcpi,unidade_medida,menu_navegacao,nivel_min,nivel_max,nivel_alto,nivel_baixo,fator,bke_tasks,log,log_tempo,sequencia,visivel,bke_alarmes,icoon,icooff,imagesize,imagetop,parameters,unidade_medida_temp,ultimo_valor,cor_normal,cor_baixo,cor_alto,tamanho,font_size,
-					device_modbus_write_id_1,device_modbus_write_reg_1,device_modbus_write_id_2,device_modbus_write_reg_2
+					device_modbus_write_id_1,device_modbus_write_reg_1,device_modbus_write_id_2,device_modbus_write_reg_2,banda_morta
 					`
 					var cmdSql = `INSERT INTO config_compontes (${camposTabela}) SELECT ${camposTabela} FROM config_compontes WHERE id=${vm.componentes[index].id}`
 					querysql.queryGeral(cmdSql).then(function(response){

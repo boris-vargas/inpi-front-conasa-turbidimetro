@@ -983,3 +983,24 @@ input[type=radio] {
   right: 16%;
   width: 40px;
 }
+
+#filtroTable tr td {
+  font-size: 12px;
+  text-align: center;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.userfieldset1 {
+  border: 1px solid lightgray;
+  width: 35%;
+  margin: 15px;
+
+}
+
+.userfieldset2 {
+  border: 1px solid lightgray;
+  width: 60%;
+  margin: 15px;
+
+}

@@ -31,6 +31,7 @@ gulp.task('deps.js', () => {
     'node_modules/ng-ip-address/src/ngIpAddress.js',
     'node_modules/angular-bootstrap-colorpicker/js/bootstrap-colorpicker-module.js',
     'node_modules/pdfmake/build/pdfmake.js',
+    'node_modules/tc-angular-chartjs/dist',
     //'node_modules/angular-dialog-service/dist/dialogs.js'
   ])
   .pipe(uglify())

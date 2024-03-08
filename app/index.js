@@ -24,5 +24,6 @@ angular.module('intechApp', [
   'diferenceDates',
   'moment-picker',
   'rzModule',
+  'tc.chartjs',
   //'dialogs.main'
 ])

@@ -21,10 +21,11 @@
 		'$window',
 		'Excel',
 		'$state',
+		'$q',
 		DashController
 		])
 
-	function DashController($scope, $http, consts, msgs, $compile, $interval, $location, lodash, trocaDados, querysql, auth, Upload, $timeout, $rootScope, generalfunc, $uibModal, getsetmodbus, $window, Excel, $state) {
+	function DashController($scope, $http, consts, msgs, $compile, $interval, $location, lodash, trocaDados, querysql, auth, Upload, $timeout, $rootScope, generalfunc, $uibModal, getsetmodbus, $window, Excel, $state, $q) {
 		var vm = this;
 		const url = trocaDados.getapiUrl()
 		const registroModbusPorComponente = 2;
@@ -280,10 +281,10 @@
 				eval(`vm.fitaRGBComponent${indexFitaRGBObj}`).ultimo_valor_g = Math.round(getRGB(colorObject.value).green*10000/255)
 				eval(`vm.fitaRGBComponent${indexFitaRGBObj}`).ultimo_valor_b = Math.round(getRGB(colorObject.value).blue*10000/255)
 				const cmdSql = `UPDATE config_compontes SET ultimo_valor_r='${Math.round(getRGB(colorObject.value).red*10000/255)}', 
-																ultimo_valor_g='${Math.round(getRGB(colorObject.value).green*10000/255)}',
-																	ultimo_valor_b='${Math.round(getRGB(colorObject.value).blue*10000/255)}',
-																		ultimo_valor_rgb='${colorObject.value}'
-														WHERE id='${eval(`vm.fitaRGBComponent${indexFitaRGBObj}`).idBanco}'`
+				ultimo_valor_g='${Math.round(getRGB(colorObject.value).green*10000/255)}',
+				ultimo_valor_b='${Math.round(getRGB(colorObject.value).blue*10000/255)}',
+				ultimo_valor_rgb='${colorObject.value}'
+				WHERE id='${eval(`vm.fitaRGBComponent${indexFitaRGBObj}`).idBanco}'`
 				querysql.queryMysqlInsertPost(cmdSql).then(function(response){
 
 				}).catch(function(){
@@ -432,8 +433,8 @@
 							filterequipamento:response.filterequipamento
 						}
 						const cmdSql=  "UPDATE config_compontes SET "+
-											"parameters='"+JSON.stringify(configAlarmes)+ "' " +
-												"WHERE id = '"+ response.indexAlarme +"'"
+						"parameters='"+JSON.stringify(configAlarmes)+ "' " +
+						"WHERE id = '"+ response.indexAlarme +"'"
 						querysql.queryMysqlInsertPost(cmdSql).then(function(){
 							msgs.addSuccess('Registro atualizado! :)')
 						}).catch(function(){
@@ -466,10 +467,10 @@
 						response.objeto.bke_tasks.labelsChart=["ponto 1","ponto 2","ponto 3","ponto 4","ponto 5","ponto 6","ponto 7","ponto 8","ponto 9","ponto 10","ponto 11","ponto 12","ponto 13"]
 
 						const cmdSql=  "UPDATE config_compontes SET "+
-							"bke_tasks='"+JSON.stringify(response.objeto.bke_tasks)+ "' " +
-							",parameters='"+JSON.stringify(response.objeto.parameters)+"' " +
-							
-							"WHERE id = '"+ response.objeto.id +"'"
+						"bke_tasks='"+JSON.stringify(response.objeto.bke_tasks)+ "' " +
+						",parameters='"+JSON.stringify(response.objeto.parameters)+"' " +
+
+						"WHERE id = '"+ response.objeto.id +"'"
 						querysql.queryMysqlNewComp(cmdSql,'').then(function(response){
 							if (response.data.affectedRows==1) {
 								msgs.addSuccess('Registro atualizado')
@@ -792,25 +793,25 @@
 
 				var modelo
 				if (type=='luz-incand') {modelo = modelo_luz_incand}
-				if (type=='display') {modelo = modelo_display}
-				if (type=='indica-led') {modelo = modelo_indica_led}
-				if (type=='irrigacao') {modelo = modelo_irrigacao}
-				if (type=='display-bar') {modelo = modelo_display_bar}
-				if (type=='display-gauge') {modelo = modelo_display_gauge}
-				if (type=='botao-obj') {modelo = modelo_botao}
-				if (type=='task-horario') {modelo = modelo_task_horario}
-				if (type=='chart') {modelo = modelo_chart; vm.counterCharts++}
-				if (type=='setpoint') {modelo = modelo_setpoint;}
-				if (type=='alarme') {modelo = modelo_alarme;}
-				if (type=='dimmer') {modelo = modelo_dimmer;}
-				if (type=='imagem-estatica') {modelo = modelo_img;}
-				if (type=='fita-rgb') {modelo = fita_RGB;}
-				if (type=='silo-a') {modelo = siloA}
-				if (type=='silo-b') {modelo = siloB}
-				if (menuNavegacao==MENU_NAVEGACAO && visivel=='1'){
-					angular.element(document.getElementById('objetoDinamicoHtml')).append($compile(modelo)($scope));
-				}
-			}
+					if (type=='display') {modelo = modelo_display}
+						if (type=='indica-led') {modelo = modelo_indica_led}
+							if (type=='irrigacao') {modelo = modelo_irrigacao}
+								if (type=='display-bar') {modelo = modelo_display_bar}
+									if (type=='display-gauge') {modelo = modelo_display_gauge}
+										if (type=='botao-obj') {modelo = modelo_botao}
+											if (type=='task-horario') {modelo = modelo_task_horario}
+												if (type=='chart') {modelo = modelo_chart; vm.counterCharts++}
+											if (type=='setpoint') {modelo = modelo_setpoint;}
+											if (type=='alarme') {modelo = modelo_alarme;}
+											if (type=='dimmer') {modelo = modelo_dimmer;}
+											if (type=='imagem-estatica') {modelo = modelo_img;}
+											if (type=='fita-rgb') {modelo = fita_RGB;}
+											if (type=='silo-a') {modelo = siloA}
+												if (type=='silo-b') {modelo = siloB}
+													if (menuNavegacao==MENU_NAVEGACAO && visivel=='1'){
+														angular.element(document.getElementById('objetoDinamicoHtml')).append($compile(modelo)($scope));
+													}
+												}
 				//============================================================================================
 				//Parametros de configuração dos sistemas
 				//============================================================================================
@@ -828,15 +829,15 @@
 						vm.menus.push({id:'Todos'})
 						vm.menus.push({id:'Dashboard'})
 						if (vm.sistemas[0].menu2_nome.length>2) {vm.menus.push({id:vm.sistemas[0].menu2_nome})}
-						if (vm.sistemas[0].menu3_nome.length>2) {vm.menus.push({id:vm.sistemas[0].menu3_nome})}
-						if (vm.sistemas[0].menu4_nome.length>2) {vm.menus.push({id:vm.sistemas[0].menu4_nome})}
-						if (vm.sistemas[0].menu5_nome.length>2) {vm.menus.push({id:vm.sistemas[0].menu5_nome})}
-						if (vm.sistemas[0].menu6_nome.length>2) {vm.menus.push({id:vm.sistemas[0].menu6_nome})}
-						if (vm.sistemas[0].menu7_nome.length>2) {vm.menus.push({id:vm.sistemas[0].menu7_nome})}
-						if (vm.sistemas[0].menu8_nome.length>2) {vm.menus.push({id:vm.sistemas[0].menu8_nome})}
-						if (vm.sistemas[0].menu9_nome.length>2) {vm.menus.push({id:vm.sistemas[0].menu9_nome})}
-						if (vm.sistemas[0].menu10_nome.length>2) {vm.menus.push({id:vm.sistemas[0].menu10_nome})}
-						vm.queryAllcompomentes(ID_SISTEMA_USER)
+							if (vm.sistemas[0].menu3_nome.length>2) {vm.menus.push({id:vm.sistemas[0].menu3_nome})}
+								if (vm.sistemas[0].menu4_nome.length>2) {vm.menus.push({id:vm.sistemas[0].menu4_nome})}
+									if (vm.sistemas[0].menu5_nome.length>2) {vm.menus.push({id:vm.sistemas[0].menu5_nome})}
+										if (vm.sistemas[0].menu6_nome.length>2) {vm.menus.push({id:vm.sistemas[0].menu6_nome})}
+											if (vm.sistemas[0].menu7_nome.length>2) {vm.menus.push({id:vm.sistemas[0].menu7_nome})}
+												if (vm.sistemas[0].menu8_nome.length>2) {vm.menus.push({id:vm.sistemas[0].menu8_nome})}
+													if (vm.sistemas[0].menu9_nome.length>2) {vm.menus.push({id:vm.sistemas[0].menu9_nome})}
+														if (vm.sistemas[0].menu10_nome.length>2) {vm.menus.push({id:vm.sistemas[0].menu10_nome})}
+															vm.queryAllcompomentes(ID_SISTEMA_USER)
 						//============================================================================================
 						//Atualiza compoente chart - COMPONENTE CHART
 						//============================================================================================
@@ -977,12 +978,13 @@
 						vm.objetosDinamicosLen = lodash.size(vm.objetosDinamicos);
 						updateCharts()
 						getAlmAllComp()
+						readModbusFunc()
 					})
 
-					$timeout(function () {
-						$scope.$broadcast('rzSliderForceRender');
-					});
-				}
+$timeout(function () {
+	$scope.$broadcast('rzSliderForceRender');
+});
+}
 				//============================================================================================
 				//Função exportar alarmes para xls
 				//============================================================================================
@@ -1006,11 +1008,11 @@
 				//Função exportar objeto tabela para xls
 				//============================================================================================
 				vm.exportToExcel=function(tableId){ // ex: '#my-table'
-					var exportHref=Excel.tableToExcel(tableId,'sheet name');
-				    $timeout(function(){
-				    	location.href=exportHref;
+				var exportHref=Excel.tableToExcel(tableId,'sheet name');
+				$timeout(function(){
+					location.href=exportHref;
 				    },100) // trigger download
-				 }
+			}
 				//============================================================================================
 				//Função exportar objeto Html para pdf (Chart)
 				//============================================================================================
@@ -1075,6 +1077,463 @@
 				vm.objetosDinamicosReset()
 				vm.objetosDinamicosFilaReset()
 				vm.querySistema(ID_SISTEMA_USER)
+
+
+				//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+				//Implementações para monitoramento dos turbidimetros
+
+				var requestsMySql = []
+				vm.dadosEta2 = []
+				vm.filtro = 'diario'
+				vm.agrupamento = 'media-hora'
+				vm.perInicio = moment(Date.now()).subtract(1, 'hours');
+				vm.perFim = moment().format('YYYY-MM-DD HH:mm:ss')
+				var dataInicial = moment().format('YYYY-MM-DD 00:00:00')
+				var dataFinal = moment().format('YYYY-MM-DD 23:59:59')
+				var chartType = 'line'
+				var maxTubidez = 20
+				var minTubidez = 0
+				vm.hideMaxMin = 'false'
+
+
+const optionsSeries = {
+	fill: false,
+	lineTension: 0.4,
+	borderWidth:1,
+	borderCapStyle: 'butt',
+	borderDash: [],
+	borderDashOffset: 0.0,
+	borderJoinStyle: 'miter',
+	pointBackgroundColor: "#fff",
+	pointBorderWidth: 1,
+	pointHoverRadius: 5,
+	pointHoverBorderWidth: 2,
+	pointRadius: 1,
+	pointHitRadius: 5,
+
+}
+
+
+
+
+vm.dataChartEta = {
+	labels: [],
+	datasets: [
+		{
+			data: [],
+			label: "  Filtro 1",
+			fill: optionsSeries.fill,
+			lineTension: optionsSeries.lineTension,
+			borderWidth: optionsSeries.borderWidth,
+			backgroundColor: "rgba(255,0,0,0.4)",
+			borderColor: "rgba(255,0,0,1)",
+			borderCapStyle: optionsSeries.borderCapStyle,
+			borderDash: optionsSeries.borderDash,
+			borderDashOffset: optionsSeries.borderDashOffset,
+			borderJoinStyle: optionsSeries.borderJoinStyle,
+			pointBorderColor: "rgba(255,0,0,1)",
+			pointBackgroundColor: optionsSeries.pointBackgroundColor,
+			pointBorderWidth: optionsSeries.pointBorderWidth,
+			pointHoverRadius: optionsSeries.pointHoverRadius,
+			pointHoverBackgroundColor: "rgba(255,0,0,0.0)",
+			pointHoverBorderColor: "rgba(220,220,220,0.0)",
+			pointHoverBorderWidth: optionsSeries.pointHoverBorderWidth,
+			pointRadius: optionsSeries.pointRadius,
+			pointHitRadius: optionsSeries.pointHitRadius,
+			spanGaps: optionsSeries.spanGaps,
+		},
+		{
+			data: [],
+			label: "  Filtro 2",
+			fill: optionsSeries.fill,
+			lineTension: optionsSeries.lineTension,
+			borderWidth: optionsSeries.borderWidth,
+			backgroundColor: "rgba(0,255,0,0.4)",
+			borderColor: "rgba(0,255,0,1)",
+			borderCapStyle: optionsSeries.borderCapStyle,
+			borderDash: optionsSeries.borderDash,
+			borderDashOffset: optionsSeries.borderDashOffset,
+			borderJoinStyle: optionsSeries.borderJoinStyle,
+			pointBorderColor: "rgba(0,255,0,1)",
+			pointBackgroundColor: optionsSeries.pointBackgroundColor,
+			pointBorderWidth: optionsSeries.pointBorderWidth,
+			pointHoverRadius: optionsSeries.pointHoverRadius,
+			pointHoverBackgroundColor: "rgba(0,255,0,0.0)",
+			pointHoverBorderColor: "rgba(220,220,220,0.0)",
+			pointHoverBorderWidth: optionsSeries.pointHoverBorderWidth,
+			pointRadius: optionsSeries.pointRadius,
+			pointHitRadius: optionsSeries.pointHitRadius,
+			spanGaps: optionsSeries.spanGaps,
+		},
+		{
+			data: [],
+			label: "  Filtro 3",
+			fill: optionsSeries.fill,
+			lineTension: optionsSeries.lineTension,
+			borderWidth: optionsSeries.borderWidth,
+			backgroundColor: "rgba(0,0,255,0.4)",
+			borderColor: "rgba(0,0,255,1)",
+			borderCapStyle: optionsSeries.borderCapStyle,
+			borderDash: optionsSeries.borderDash,
+			borderDashOffset: optionsSeries.borderDashOffset,
+			borderJoinStyle: optionsSeries.borderJoinStyle,
+			pointBorderColor: "rgba(75,192,192,1)",
+			pointBackgroundColor: optionsSeries.pointBackgroundColor,
+			pointBorderWidth: optionsSeries.pointBorderWidth,
+			pointHoverRadius: optionsSeries.pointHoverRadius,
+			pointHoverBackgroundColor: "rgba(0,0,255,0.0)",
+			pointHoverBorderColor: "rgba(220,220,220,0.0)",
+			pointHoverBorderWidth: optionsSeries.pointHoverBorderWidth,
+			pointRadius: optionsSeries.pointRadius,
+			pointHitRadius: optionsSeries.pointHitRadius,
+			spanGaps: optionsSeries.spanGaps,
+		},
+		{
+			data: [],
+			label: "  Filtro 4",
+			fill: optionsSeries.fill,
+			lineTension: optionsSeries.lineTension,
+			borderWidth: optionsSeries.borderWidth,
+			backgroundColor: "rgba(128,128,128,0.4)",
+			borderColor: "rgba(128,128,128,1)",
+			borderCapStyle: optionsSeries.borderCapStyle,
+			borderDash: optionsSeries.borderDash,
+			borderDashOffset: optionsSeries.borderDashOffset,
+			borderJoinStyle: optionsSeries.borderJoinStyle,
+			pointBorderColor: "rgba(75,192,192,1)",
+			pointBackgroundColor: optionsSeries.pointBackgroundColor,
+			pointBorderWidth: optionsSeries.pointBorderWidth,
+			pointHoverRadius: optionsSeries.pointHoverRadius,
+			pointHoverBackgroundColor: "rgba(128,128,128,0)",
+			pointHoverBorderColor: "rgba(220,220,220,0)",
+			pointHoverBorderWidth: optionsSeries.pointHoverBorderWidth,
+			pointRadius: optionsSeries.pointRadius,
+			pointHitRadius: optionsSeries.pointHitRadius,
+			spanGaps: optionsSeries.spanGaps,
+		},
+		{
+			data: [],
+			label: "  Filtro 5",
+			fill: optionsSeries.fill,
+			lineTension: optionsSeries.lineTension,
+			borderWidth: optionsSeries.borderWidth,
+			backgroundColor: "rgba(64,64,64,0.4)",
+			borderColor: "rgba(64,64,64,1)",
+			borderCapStyle: optionsSeries.borderCapStyle,
+			borderDash: optionsSeries.borderDash,
+			borderDashOffset: optionsSeries.borderDashOffset,
+			borderJoinStyle: optionsSeries.borderJoinStyle,
+			pointBorderColor: "rgba(75,192,192,1)",
+			pointBackgroundColor: optionsSeries.pointBackgroundColor,
+			pointBorderWidth: optionsSeries.pointBorderWidth,
+			pointHoverRadius: optionsSeries.pointHoverRadius,
+			pointHoverBackgroundColor: "rgba(64,64,64,0)",
+			pointHoverBorderColor: "rgba(220,220,220,0)",
+			pointHoverBorderWidth: optionsSeries.pointHoverBorderWidth,
+			pointRadius: optionsSeries.pointRadius,
+			pointHitRadius: optionsSeries.pointHitRadius,
+			spanGaps: optionsSeries.spanGaps,
+		},
+		{
+			data: [],
+			label: "  Filtro 6",
+			fill: optionsSeries.fill,
+			lineTension: optionsSeries.lineTension,
+			borderWidth: optionsSeries.borderWidth,
+			backgroundColor: "rgba(128,28,0,0.4)",
+			borderColor: "rgba(128,28,0,1)",
+			borderCapStyle: optionsSeries.borderCapStyle,
+			borderDash: optionsSeries.borderDash,
+			borderDashOffset: optionsSeries.borderDashOffset,
+			borderJoinStyle: optionsSeries.borderJoinStyle,
+			pointBorderColor: "rgba(75,192,192,1)",
+			pointBackgroundColor: optionsSeries.pointBackgroundColor,
+			pointBorderWidth: optionsSeries.pointBorderWidth,
+			pointHoverRadius: optionsSeries.pointHoverRadius,
+			pointHoverBackgroundColor: "rgba(128,28,0,0)",
+			pointHoverBorderColor: "rgba(220,220,220,0)",
+			pointHoverBorderWidth: optionsSeries.pointHoverBorderWidth,
+			pointRadius: optionsSeries.pointRadius,
+			pointHitRadius: optionsSeries.pointHitRadius,
+			spanGaps: optionsSeries.spanGaps,
+		},
+		{
+			data: [],
+			label: "  Filtro 7",
+			fill: optionsSeries.fill,
+			lineTension: optionsSeries.lineTension,
+			borderWidth: optionsSeries.borderWidth,
+			backgroundColor: "rgba(255,128,64,0.4)",
+			borderColor: "rgba(255,128,64,1)",
+			borderCapStyle: optionsSeries.borderCapStyle,
+			borderDash: optionsSeries.borderDash,
+			borderDashOffset: optionsSeries.borderDashOffset,
+			borderJoinStyle: optionsSeries.borderJoinStyle,
+			pointBorderColor: "rgba(75,192,192,1)",
+			pointBackgroundColor: optionsSeries.pointBackgroundColor,
+			pointBorderWidth: optionsSeries.pointBorderWidth,
+			pointHoverRadius: optionsSeries.pointHoverRadius,
+			pointHoverBackgroundColor: "rgba(255,128,64,0)",
+			pointHoverBorderColor: "rgba(220,220,220,0)",
+			pointHoverBorderWidth: optionsSeries.pointHoverBorderWidth,
+			pointRadius: optionsSeries.pointRadius,
+			pointHitRadius: optionsSeries.pointHitRadius,
+			spanGaps: optionsSeries.spanGaps,
+		},
+		{
+			data: [],
+			label: "  Filtro 8",
+			fill: optionsSeries.fill,
+			lineTension: optionsSeries.lineTension,
+			borderWidth: optionsSeries.borderWidth,
+			backgroundColor: "rgba(75,192,192,0.4)",
+			borderColor: "rgba(75,192,192,1)",
+			borderCapStyle: optionsSeries.borderCapStyle,
+			borderDash: optionsSeries.borderDash,
+			borderDashOffset: optionsSeries.borderDashOffset,
+			borderJoinStyle: optionsSeries.borderJoinStyle,
+			pointBorderColor: "rgba(75,192,192,1)",
+			pointBackgroundColor: optionsSeries.pointBackgroundColor,
+			pointBorderWidth: optionsSeries.pointBorderWidth,
+			pointHoverRadius: optionsSeries.pointHoverRadius,
+			pointHoverBackgroundColor: "rgba(75,192,192,1)",
+			pointHoverBorderColor: "rgba(220,220,220,1)",
+			pointHoverBorderWidth: optionsSeries.pointHoverBorderWidth,
+			pointRadius: optionsSeries.pointRadius,
+			pointHitRadius: optionsSeries.pointHitRadius,
+			spanGaps: optionsSeries.spanGaps,
+		},												
+		{
+			data: [],
+			label: "  Turbidez máxima",
+			fill: optionsSeries.fill,
+			lineTension: optionsSeries.lineTension,
+			borderWidth: optionsSeries.borderWidth,
+			backgroundColor: "rgba(22,200,100,0.4)",
+			borderColor: "rgba(22,200,100,1)",
+			borderCapStyle: optionsSeries.borderCapStyle,
+			borderDash: optionsSeries.borderDash,
+			borderDashOffset: optionsSeries.borderDashOffset,
+			borderJoinStyle: optionsSeries.borderJoinStyle,
+			pointBorderColor: "rgba(75,192,192,1)",
+			pointBackgroundColor: optionsSeries.pointBackgroundColor,
+			pointBorderWidth: optionsSeries.pointBorderWidth,
+			pointHoverRadius: optionsSeries.pointHoverRadius,
+			pointHoverBackgroundColor: "rgba(22,200,100,1)",
+			pointHoverBorderColor: "rgba(220,220,220,1)",
+			pointHoverBorderWidth: optionsSeries.pointHoverBorderWidth,
+			pointRadius: optionsSeries.pointRadius,
+			pointHitRadius: optionsSeries.pointHitRadius,
+			spanGaps: optionsSeries.spanGaps,
+			hidden: vm.hideMaxMin,
+		},												
+		{
+			data: [],
+			label: "  Turbidez mínima",
+			fill: optionsSeries.fill,
+			lineTension: optionsSeries.lineTension,
+			borderWidth: optionsSeries.borderWidth,
+			backgroundColor: "rgba(223,223,192,0.4)",
+			borderColor: "rgba(223,223,192,1)",
+			borderCapStyle: optionsSeries.borderCapStyle,
+			borderDash: optionsSeries.borderDash,
+			borderDashOffset: optionsSeries.borderDashOffset,
+			borderJoinStyle: optionsSeries.borderJoinStyle,
+			pointBorderColor: "rgba(75,192,192,1)",
+			pointBackgroundColor: optionsSeries.pointBackgroundColor,
+			pointBorderWidth: optionsSeries.pointBorderWidth,
+			pointHoverRadius: optionsSeries.pointHoverRadius,
+			pointHoverBackgroundColor: "rgba(223,223,192,1)",
+			pointHoverBorderColor: "rgba(220,220,220,1)",
+			pointHoverBorderWidth: optionsSeries.pointHoverBorderWidth,
+			pointRadius: optionsSeries.pointRadius,
+			pointHitRadius: optionsSeries.pointHitRadius,
+			spanGaps: optionsSeries.spanGaps,
+			hidden: vm.hideMaxMin,															
+		}
+	]
+};
+
+vm.optionsChartEta =  {
+  legend:{
+	display:true,
+	position:'top',
+	labels:{
+		boxWidth:10,
+		fontColor:'#606060',
+		fontSize:12,
+		pointStyle:'circle',
+		usePointStyle:true,
+		pointStyleWidth:0,
+		borderRadius:0,
+	}
+  },
+scales: {
+        yAxes: [{
+            ticks: {
+                fontSize: 10
+            },
+scaleLabel: {
+        display: true,
+        labelString: 'Turbidez NTU'
+      }           
+        }],
+
+        xAxes: [{
+            ticks: {
+                fontSize: 10
+            }
+        }],
+    }
+}
+
+vm.pluginsChartEta = [{
+
+}];
+
+vm.onChartClick = function (event) {
+	console.log(event);
+};
+
+	vm.showHideLimits = function(value){
+		vm.dataChartEta.datasets[8].hidden = !vm.dataChartEta.datasets[8].hidden
+		vm.dataChartEta.datasets[9].hidden = !vm.dataChartEta.datasets[9].hidden
+	}
+
+
+
+
+				realizaConsulta(vm.agrupamento,dataInicial,dataFinal,104,111)
+
+				function roundNum(number,decimalPlaces){
+					return +(Math.round(number + "e+"+decimalPlaces) + "e-"+decimalPlaces);
+				}
+
+
+				function realizaConsulta(tipo, datainicial, datafinal,tabelaInicial,tabelaFinal){
+					requestsMySql = []
+					vm.dadosEta2 = []
+					vm.dataChartEta.labels = []
+					vm.dataChartEta.datasets[0].data = []
+					vm.dataChartEta.datasets[1].data = []
+					vm.dataChartEta.datasets[2].data = []
+					vm.dataChartEta.datasets[3].data = []
+					vm.dataChartEta.datasets[4].data = []
+					vm.dataChartEta.datasets[5].data = []
+					vm.dataChartEta.datasets[6].data = []
+					vm.dataChartEta.datasets[7].data = []
+					if(tipo=='todos'){
+						for (var i = tabelaInicial; i <= tabelaFinal; i++) {
+							requestsMySql.push(querysql.queryGeral(`SELECT timestamp, descricao, valor FROM log_${i} WHERE timestamp >= '${moment(datainicial).format('YYYY-MM-DD HH:mm:ss')}' AND timestamp <='${moment(datafinal).format('YYYY-MM-DD HH:mm:ss')}' ORDER BY timestamp ASC`)) 					
+						}
+					}
+					if(tipo=='media-minuto'){
+						for (var i = tabelaInicial; i <= tabelaFinal; i++) {
+							requestsMySql.push(querysql.queryGeral(`SELECT timestamp, descricao, AVG(valor) AS valor FROM log_${i} WHERE timestamp >= '${moment(datainicial).format('YYYY-MM-DD HH:mm:ss')}' AND timestamp <='${moment(datafinal).format('YYYY-MM-DD HH:mm:ss')}'GROUP BY MINUTE(timestamp) ORDER BY timestamp ASC`)) 					
+						}
+					}
+					if(tipo=='media-hora'){
+						console.log('aqui')
+						for (var i = tabelaInicial; i <= tabelaFinal; i++) {
+							requestsMySql.push(querysql.queryGeral(`SELECT timestamp, descricao, AVG(valor) AS valor FROM log_${i} WHERE timestamp >= '${moment(datainicial).format('YYYY-MM-DD HH:mm:ss')}' AND timestamp <='${moment(datafinal).format('YYYY-MM-DD HH:mm:ss')}'GROUP BY HOUR(timestamp) ORDER BY timestamp ASC`)) 					
+						}
+					}
+					if(tipo=='maximo'){
+						for (var i = tabelaInicial; i <= tabelaFinal; i++) {
+							requestsMySql.push(querysql.queryGeral(`SELECT timestamp, descricao, MAX(valor) AS valor FROM log_${i} WHERE timestamp >= '${moment(datainicial).format('YYYY-MM-DD HH:mm:ss')}' AND timestamp <='${moment(datafinal).format('YYYY-MM-DD HH:mm:ss')}' ORDER BY timestamp ASC`)) 					
+						}
+					}
+					if(tipo=='minimo'){
+						for (var i = tabelaInicial; i <= tabelaFinal; i++) {
+							requestsMySql.push(querysql.queryGeral(`SELECT timestamp, descricao, MIN(valor) AS valor FROM log_${i} WHERE timestamp >= '${moment(datainicial).format('YYYY-MM-DD HH:mm:ss')}' AND timestamp <='${moment(datafinal).format('YYYY-MM-DD HH:mm:ss')}' ORDER BY timestamp ASC`)) 					
+						}
+					}
+
+					$q.all(requestsMySql).then(function(response){
+						if(response[0].data.length ==1){
+							vm.chartType = 'bar'
+						}else{
+							vm.chartType = 'line'
+						}
+						for (var j = 0; j < response[0].data.length; j++) {
+							vm.dadosEta2.push({
+								timestamp:response[0].data[j].timestamp,
+								filtro1:roundNum(response[0].data[j].valor,2),
+								filtro2:roundNum(response[1].data[j].valor,2),
+								filtro3:roundNum(response[2].data[j].valor,2),
+								filtro4:roundNum(response[3].data[j].valor,2),
+								filtro5:roundNum(response[4].data[j].valor,2),
+								filtro6:roundNum(response[5].data[j].valor,2),
+								filtro7:roundNum(response[6].data[j].valor,2),
+								filtro8:roundNum(response[7].data[j].valor,2),
+								maxTubidez:maxTubidez,
+								minTubidez:minTubidez,
+
+							})
+							if(vm.chartType == 'line'){
+								vm.dataChartEta.labels.push(moment(response[0].data[j].timestamp).format('DD-MM-YYYY HH:mm:ss'))
+							}else{
+								vm.dataChartEta.labels.push('Dados')
+							}
+							vm.dataChartEta.datasets[0].data.push(roundNum(response[0].data[j].valor,2))
+							vm.dataChartEta.datasets[1].data.push(roundNum(response[1].data[j].valor,2))
+							vm.dataChartEta.datasets[2].data.push(roundNum(response[2].data[j].valor,2))
+							vm.dataChartEta.datasets[3].data.push(roundNum(response[3].data[j].valor,2))
+							vm.dataChartEta.datasets[4].data.push(roundNum(response[4].data[j].valor,2))
+							vm.dataChartEta.datasets[5].data.push(roundNum(response[5].data[j].valor,2))
+							vm.dataChartEta.datasets[6].data.push(roundNum(response[6].data[j].valor,2))
+							vm.dataChartEta.datasets[7].data.push(roundNum(response[7].data[j].valor,2))
+							vm.dataChartEta.datasets[8].data.push(roundNum(maxTubidez,2))
+							vm.dataChartEta.datasets[9].data.push(roundNum(minTubidez,2))
+
+						}
+						console.log(vm.dataChartEta.labels)
+					})
+
+	
+				
+
+				}
+
+				vm.periodoClick = function(){
+					vm.dadosEta2 = []
+					vm.perInicio = moment(Date.now()).subtract(1, 'hours');
+					vm.perFim = moment().format('YYYY-MM-DD HH:mm:ss')
+				}
+
+
+				vm.agrupamentoClick = function(){
+					if(vm.filtro=='diario'){
+						dataInicial = moment().format('YYYY-MM-DD 00:00:00')
+						dataFinal = moment().format('YYYY-MM-DD 23:59:59')
+					}	
+
+					if(vm.filtro=='semanal'){
+						dataInicial = moment(Date.now()).subtract(7, 'days').format('YYYY-MM-DD 00:00:00')
+						dataFinal = moment().format('YYYY-MM-DD 23:59:59')
+					}	
+
+					if(vm.filtro=='mensal'){
+						dataInicial = moment(Date.now()).subtract(30, 'days').format('YYYY-MM-DD 00:00:00')
+						dataFinal = moment().format('YYYY-MM-DD 23:59:59')
+					}	
+
+					if(vm.filtro=='periodo'){
+						dataInicial = moment(vm.perInicio).format('YYYY-MM-DD HH:mm:ss')
+						dataFinal = moment(vm.perFim).format('YYYY-MM-DD HH:mm:ss')
+					}	
+					console.log(vm.filtro)
+					console.log(vm.agrupamento)
+					console.log(dataInicial)
+					console.log(dataFinal)
+					console.log('+++++++++++++++++')
+					realizaConsulta(vm.agrupamento,dataInicial,dataFinal,104,111)
+				}
+
+
+
+
+
 			})//Finaliza get usuario
 
 		}//Finaliza controller
