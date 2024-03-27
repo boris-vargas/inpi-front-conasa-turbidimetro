@@ -3,6 +3,7 @@ angular.module('intechApp').constant('consts', {
   version: '1.0',
   vsoftware: '1.2.1', //versão do front
   vfirmware: '1.2.1', //versão do back
+  vFolder:'.',
   owner: 'sirob',
   year: '2017',
   site: 'http://www.intech-automacao.com.br',
@@ -101,17 +102,17 @@ angular.module('intechApp').constant('consts', {
 }).run(['$rootScope', 'consts', 'trocaDados','$location', function($rootScope, consts, trocaDados, $location) {
   $rootScope.consts = consts
 
-   // const apiUrl = $location.$$protocol+'://'+$location.$$host+':'+10000+'/api/'
-   // const oapiUrl = $location.$$protocol+'://'+$location.$$host+':'+10000+'/oapi/'
-   // const noderedUrl = $location.$$protocol+'://'+$location.$$host+':'+ 1880
+  //  const apiUrl = $location.$$protocol+'://'+$location.$$host+':'+10000+'/api/'
+  //  const oapiUrl = $location.$$protocol+'://'+$location.$$host+':'+10000+'/oapi/'
+  //  const noderedUrl = $location.$$protocol+'://'+$location.$$host+':'+ 1880
 
      // const apiUrl = 'http://192.168.0.201:10000/api/'
      // const oapiUrl = 'http://192.168.0.201:10000/oapi/'
      // const noderedUrl = 'http://192.168.0.201:1880'
 
-     const apiUrl = 'http://128.0.0.181:10000/api/'
-     const oapiUrl = 'http://128.0.0.181:10000/oapi/'
-     const noderedUrl = 'http://128.0.0.181:1880'
+     const apiUrl = 'http://192.168.15.115:10000/api/'
+     const oapiUrl = 'http://192.168.15.115:10000/oapi/'
+     const noderedUrl = 'http://192.168.15.115:1880'
 
       // const apiUrl = 'http://erp.intech-automacao.com.br:10000/api/'
       // const oapiUrl = 'http://erp.intech-automacao.com.br:10000/oapi/'

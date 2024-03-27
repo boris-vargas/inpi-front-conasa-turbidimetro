@@ -993,14 +993,48 @@ input[type=radio] {
 
 .userfieldset1 {
   border: 1px solid lightgray;
-  width: 35%;
+  width: auto;
   margin: 15px;
 
 }
 
 .userfieldset2 {
   border: 1px solid lightgray;
-  width: 60%;
+  width: auto;
   margin: 15px;
 
+}
+
+.label-amostras-valor{
+  position: absolute;
+  right: 60px;
+  text-align: center;
+
+}
+.label-amostras-percent{
+  position: absolute;
+  right: 10px;
+
+}
+
+.div-label-amostras{
+  display: block;
+}
+
+.icon-p{
+  display: block;
+  position: absolute;
+  cursor: pointer;
+  font-size:12px; 
+  right: 10px;
+  top: 5px;
+}
+
+.icon2-p{
+  display: block;
+  position: absolute;
+  cursor: pointer;
+  font-size:12px; 
+  right: 30px;
+  top: 5px;
 }
