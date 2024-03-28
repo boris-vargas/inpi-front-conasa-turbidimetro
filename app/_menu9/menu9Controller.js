@@ -959,6 +959,7 @@
 						vm.objetosDinamicosLen = lodash.size(vm.objetosDinamicos);
 						updateCharts()
 						getAlmAllComp()
+						readModbusFunc()
 					})
 
 					$timeout(function () {

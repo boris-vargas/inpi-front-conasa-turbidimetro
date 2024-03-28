@@ -21,10 +21,11 @@
 		'$window',
 		'Excel',
 		'$state',
+		'$q',
 		menu2Controller
 		])
 
-	function menu2Controller($scope, $http, consts, msgs, $compile, $interval, $location, lodash, trocaDados, querysql, auth, Upload, $timeout, $rootScope, generalfunc, $uibModal, getsetmodbus, $window, Excel, $state) {
+	function menu2Controller($scope, $http, consts, msgs, $compile, $interval, $location, lodash, trocaDados, querysql, auth, Upload, $timeout, $rootScope, generalfunc, $uibModal, getsetmodbus, $window, Excel, $state, $q) {
 		var vm = this;
 		const url = trocaDados.getapiUrl()
 		const registroModbusPorComponente = 2;
@@ -964,6 +965,7 @@
 						vm.objetosDinamicosLen = lodash.size(vm.objetosDinamicos);
 						updateCharts()
 						getAlmAllComp()
+						readModbusFunc()
 					})
 
 					$timeout(function () {
@@ -1062,6 +1064,657 @@
 				vm.objetosDinamicosReset()
 				vm.objetosDinamicosFilaReset()
 				vm.querySistema(ID_SISTEMA_USER)
+
+
+				//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+				//Implementações para monitoramento dos turbidimetros
+
+				var requestsMySql = []
+				vm.dadosEta3 = []
+				vm.filtro = 'diario'
+				vm.agrupamento = 'todos'
+				vm.perInicio = moment(Date.now()).subtract(1, 'hours');
+				vm.perFim = moment().format('YYYY-MM-DD HH:mm:ss')
+				var dataInicial = moment().format('YYYY-MM-DD 00:00:00')
+				var dataFinal = moment().format('YYYY-MM-DD 23:59:59')
+				var chartType = 'line'
+				var maxTubidez = 1
+				var minTubidez = 0
+				vm.hideMaxMin = 'false'
+
+				//============================================================================================
+				//Função exportar tabela para xls
+				//============================================================================================
+				vm.xlsDowloadclickAnalises = function () {
+					var objectToExport = []
+						objectToExport.push({
+							"Título": 'ETA II',
+							"Período" : `${moment(dataInicial).format('DD/MM/YYYY HH:mm:ss')} - ${moment(dataFinal).format('DD/MM/YYYY HH:mm:ss')}`,							"Amostras": vm.DataCalc.numAmostras ,
+							"Percentil 95%": vm.DataCalc.percentil ,
+							"2,2 < X amostras": vm.DataCalc.calc01Value,
+							"2,2 < X percentual": vm.DataCalc.calc01Perc ,
+							"1,9 < X <= 2,2 amostras": vm.DataCalc.calc02Value ,
+							"1,9 < X <= 2,2 percentual": vm.DataCalc.calc02Perc ,
+							"1,6 < X <= 1,9 amostras": vm.DataCalc.calc03Value ,
+							"1,6 < X <= 1,9 percentual": vm.DataCalc.calc03Perc ,
+							"1,3 < X <= 1,6 amostras": vm.DataCalc.calc04Value ,
+							"1,3 < X <= 1,6 percentual": vm.DataCalc.calc04Perc ,
+							"1 < X <= 1,3 amostras": vm.DataCalc.calc05Value ,
+							"1 < X <= 1,3 percentual": vm.DataCalc.calc05Perc ,
+							"0,5 < X <= 1 amostras": vm.DataCalc.calc06Value ,
+							"0,5 < X <= 1 percentual":vm.DataCalc.calc06Perc ,
+							"0,3 < X <= 0,5 amostras": vm.DataCalc.calc07Value ,
+							"0,3 < X <= 0,5 percentual": vm.DataCalc.calc07Perc ,
+							"X <= 0,3 amostras": vm.DataCalc.calc08Value ,
+							"X <= 0,3 percentual": vm.DataCalc.calc08Perc ,
+
+					})
+					alasql('SELECT * INTO XLSX("analises_ETA3.xlsx",{headers:true}) FROM ?',[objectToExport]);
+				}
+
+				//============================================================================================
+				//Função exportar objeto Html para pdf (Chart)
+				//============================================================================================
+				vm.pdfDowloadclickChart = function(idElemento){
+					var periodoExport
+					periodoExport  = `${moment(dataInicial).format('DD/MM/YYYY HH:mm:ss')} - ${moment(dataFinal).format('DD/MM/YYYY HH:mm:ss')}`
+
+					html2canvas(document.getElementById(idElemento), {
+						onrendered: function (canvas) {
+							var data = canvas.toDataURL();
+							var docDefinition = {
+								pageOrientation: 'landscape',
+								header: [{ text: 'CONASA MORRETES - ETA 2 - Relatório gráfico turbidez', color: '#808080', alignment: 'center', fontSize: 22, margin: [0,10]}],
+								footer: {
+									text: [
+									{ text: 'in-Tech Automação e Sistemas\n', alignment: 'center', fontSize: 10,  color: '#808080' },
+									{ text: 'Av. N. Sra. Aparecida, 381, Seminário\n', alignment: 'center', fontSize: 10,  color: '#808080' },
+									{ text: 'www.intech-automacao.com.br', link: 'https://www.intech-automacao.com.br', alignment: 'center', fontSize: 10,  color: '#808080' }
+									]
+								},
+								content: [
+								{text:`Período: ${periodoExport}`, color: '#808080', alignment: 'left', fontSize: 10, margin:[10,10]},
+								{image: data, width: 760, margin: [0,70]},
+								{text:`impressão: ${moment().format("DD/MM/YYYY HH:mm:ss")}`, color: '#808080', alignment: 'left', fontSize: 10, margin:[0,0]},
+
+								]
+							};
+							pdfMake.createPdf(docDefinition).download("chart.pdf");
+						}
+					});
+				}
+				//============================================================================================
+				//Função exportar tabela para xls
+				//============================================================================================
+				vm.xlsDowloadclickRelatorio = function () {
+					var objectToExport = []
+					for (let i = 0; i < vm.dadosEta3.length; i++) {
+						objectToExport.push({
+							"Data hora": moment(vm.dadosEta3[i].timestamp).format("DD/MM/YYYY HH:mm:ss") ,
+							"Filtro 1 ETA3": vm.dadosEta3[i].filtro1 ,
+							"Filtro 2 ETA3": vm.dadosEta3[i].filtro2 ,
+							"Filtro 3 ETA3": vm.dadosEta3[i].filtro3 ,
+							"Filtro 4 ETA3": vm.dadosEta3[i].filtro4 ,
+							"Filtro 5 ETA3": vm.dadosEta3[i].filtro5 ,
+							"Filtro 6 ETA3": vm.dadosEta3[i].filtro6 ,
+							"Filtro 7 ETA3": vm.dadosEta3[i].filtro7 ,
+							"Decantador ETA3": vm.dadosEta3[i].filtro8 ,
+						})
+					}
+					alasql('SELECT * INTO XLSX("relatorio_ETA3.xlsx",{headers:true}) FROM ?',[objectToExport]);
+				}
+
+				const optionsSeries = {
+					fill: false,
+					lineTension: 0.4,
+					borderWidth:1,
+					borderCapStyle: 'butt',
+					borderDash: [],
+					borderDashOffset: 0.0,
+					borderJoinStyle: 'miter',
+					pointBackgroundColor: "#fff",
+					pointBorderWidth: 1,
+					pointHoverRadius: 5,
+					pointHoverBorderWidth: 2,
+					pointRadius: 1,
+					pointHitRadius: 5,
+
+				}
+
+
+
+
+				vm.dataChartEta = {
+					labels: [],
+					datasets: [
+						{
+							data: [],
+							label: "Filtro 1 ETA3",
+							fill: optionsSeries.fill,
+							lineTension: optionsSeries.lineTension,
+							borderWidth: optionsSeries.borderWidth,
+							backgroundColor: "rgba(255,0,0,0.4)",
+							borderColor: "rgba(255,0,0,1)",
+							borderCapStyle: optionsSeries.borderCapStyle,
+							borderDash: optionsSeries.borderDash,
+							borderDashOffset: optionsSeries.borderDashOffset,
+							borderJoinStyle: optionsSeries.borderJoinStyle,
+							pointBorderColor: "rgba(255,0,0,1)",
+							pointBackgroundColor: optionsSeries.pointBackgroundColor,
+							pointBorderWidth: optionsSeries.pointBorderWidth,
+							pointHoverRadius: optionsSeries.pointHoverRadius,
+							pointHoverBackgroundColor: "rgba(255,0,0,0.0)",
+							pointHoverBorderColor: "rgba(220,220,220,0.0)",
+							pointHoverBorderWidth: optionsSeries.pointHoverBorderWidth,
+							pointRadius: optionsSeries.pointRadius,
+							pointHitRadius: optionsSeries.pointHitRadius,
+							spanGaps: optionsSeries.spanGaps,
+						},
+						{
+							data: [],
+							label: "Filtro 2 ETA3",
+							fill: optionsSeries.fill,
+							lineTension: optionsSeries.lineTension,
+							borderWidth: optionsSeries.borderWidth,
+							backgroundColor: "rgba(0,255,0,0.4)",
+							borderColor: "rgba(0,255,0,1)",
+							borderCapStyle: optionsSeries.borderCapStyle,
+							borderDash: optionsSeries.borderDash,
+							borderDashOffset: optionsSeries.borderDashOffset,
+							borderJoinStyle: optionsSeries.borderJoinStyle,
+							pointBorderColor: "rgba(0,255,0,1)",
+							pointBackgroundColor: optionsSeries.pointBackgroundColor,
+							pointBorderWidth: optionsSeries.pointBorderWidth,
+							pointHoverRadius: optionsSeries.pointHoverRadius,
+							pointHoverBackgroundColor: "rgba(0,255,0,0.0)",
+							pointHoverBorderColor: "rgba(220,220,220,0.0)",
+							pointHoverBorderWidth: optionsSeries.pointHoverBorderWidth,
+							pointRadius: optionsSeries.pointRadius,
+							pointHitRadius: optionsSeries.pointHitRadius,
+							spanGaps: optionsSeries.spanGaps,
+						},
+						{
+							data: [],
+							label: "Filtro 3 ETA3",
+							fill: optionsSeries.fill,
+							lineTension: optionsSeries.lineTension,
+							borderWidth: optionsSeries.borderWidth,
+							backgroundColor: "rgba(0,0,255,0.4)",
+							borderColor: "rgba(0,0,255,1)",
+							borderCapStyle: optionsSeries.borderCapStyle,
+							borderDash: optionsSeries.borderDash,
+							borderDashOffset: optionsSeries.borderDashOffset,
+							borderJoinStyle: optionsSeries.borderJoinStyle,
+							pointBorderColor: "rgba(75,192,192,1)",
+							pointBackgroundColor: optionsSeries.pointBackgroundColor,
+							pointBorderWidth: optionsSeries.pointBorderWidth,
+							pointHoverRadius: optionsSeries.pointHoverRadius,
+							pointHoverBackgroundColor: "rgba(0,0,255,0.0)",
+							pointHoverBorderColor: "rgba(220,220,220,0.0)",
+							pointHoverBorderWidth: optionsSeries.pointHoverBorderWidth,
+							pointRadius: optionsSeries.pointRadius,
+							pointHitRadius: optionsSeries.pointHitRadius,
+							spanGaps: optionsSeries.spanGaps,
+						},
+						{
+							data: [],
+							label: "Filtro 4 ETA3",
+							fill: optionsSeries.fill,
+							lineTension: optionsSeries.lineTension,
+							borderWidth: optionsSeries.borderWidth,
+							backgroundColor: "rgba(128,128,128,0.4)",
+							borderColor: "rgba(128,128,128,1)",
+							borderCapStyle: optionsSeries.borderCapStyle,
+							borderDash: optionsSeries.borderDash,
+							borderDashOffset: optionsSeries.borderDashOffset,
+							borderJoinStyle: optionsSeries.borderJoinStyle,
+							pointBorderColor: "rgba(75,192,192,1)",
+							pointBackgroundColor: optionsSeries.pointBackgroundColor,
+							pointBorderWidth: optionsSeries.pointBorderWidth,
+							pointHoverRadius: optionsSeries.pointHoverRadius,
+							pointHoverBackgroundColor: "rgba(128,128,128,0)",
+							pointHoverBorderColor: "rgba(220,220,220,0)",
+							pointHoverBorderWidth: optionsSeries.pointHoverBorderWidth,
+							pointRadius: optionsSeries.pointRadius,
+							pointHitRadius: optionsSeries.pointHitRadius,
+							spanGaps: optionsSeries.spanGaps,
+						},
+						{
+							data: [],
+							label: "Filtro 5 ETA3",
+							fill: optionsSeries.fill,
+							lineTension: optionsSeries.lineTension,
+							borderWidth: optionsSeries.borderWidth,
+							backgroundColor: "rgba(64,64,64,0.4)",
+							borderColor: "rgba(64,64,64,1)",
+							borderCapStyle: optionsSeries.borderCapStyle,
+							borderDash: optionsSeries.borderDash,
+							borderDashOffset: optionsSeries.borderDashOffset,
+							borderJoinStyle: optionsSeries.borderJoinStyle,
+							pointBorderColor: "rgba(75,192,192,1)",
+							pointBackgroundColor: optionsSeries.pointBackgroundColor,
+							pointBorderWidth: optionsSeries.pointBorderWidth,
+							pointHoverRadius: optionsSeries.pointHoverRadius,
+							pointHoverBackgroundColor: "rgba(64,64,64,0)",
+							pointHoverBorderColor: "rgba(220,220,220,0)",
+							pointHoverBorderWidth: optionsSeries.pointHoverBorderWidth,
+							pointRadius: optionsSeries.pointRadius,
+							pointHitRadius: optionsSeries.pointHitRadius,
+							spanGaps: optionsSeries.spanGaps,
+						},
+						{
+							data: [],
+							label: "Filtro 6 ETA3",
+							fill: optionsSeries.fill,
+							lineTension: optionsSeries.lineTension,
+							borderWidth: optionsSeries.borderWidth,
+							backgroundColor: "rgba(128,28,0,0.4)",
+							borderColor: "rgba(128,28,0,1)",
+							borderCapStyle: optionsSeries.borderCapStyle,
+							borderDash: optionsSeries.borderDash,
+							borderDashOffset: optionsSeries.borderDashOffset,
+							borderJoinStyle: optionsSeries.borderJoinStyle,
+							pointBorderColor: "rgba(75,192,192,1)",
+							pointBackgroundColor: optionsSeries.pointBackgroundColor,
+							pointBorderWidth: optionsSeries.pointBorderWidth,
+							pointHoverRadius: optionsSeries.pointHoverRadius,
+							pointHoverBackgroundColor: "rgba(128,28,0,0)",
+							pointHoverBorderColor: "rgba(220,220,220,0)",
+							pointHoverBorderWidth: optionsSeries.pointHoverBorderWidth,
+							pointRadius: optionsSeries.pointRadius,
+							pointHitRadius: optionsSeries.pointHitRadius,
+							spanGaps: optionsSeries.spanGaps,
+						},
+						{
+							data: [],
+							label: "Filtro 7 ETA3",
+							fill: optionsSeries.fill,
+							lineTension: optionsSeries.lineTension,
+							borderWidth: optionsSeries.borderWidth,
+							backgroundColor: "rgba(255,128,64,0.4)",
+							borderColor: "rgba(255,128,64,1)",
+							borderCapStyle: optionsSeries.borderCapStyle,
+							borderDash: optionsSeries.borderDash,
+							borderDashOffset: optionsSeries.borderDashOffset,
+							borderJoinStyle: optionsSeries.borderJoinStyle,
+							pointBorderColor: "rgba(75,192,192,1)",
+							pointBackgroundColor: optionsSeries.pointBackgroundColor,
+							pointBorderWidth: optionsSeries.pointBorderWidth,
+							pointHoverRadius: optionsSeries.pointHoverRadius,
+							pointHoverBackgroundColor: "rgba(255,128,64,0)",
+							pointHoverBorderColor: "rgba(220,220,220,0)",
+							pointHoverBorderWidth: optionsSeries.pointHoverBorderWidth,
+							pointRadius: optionsSeries.pointRadius,
+							pointHitRadius: optionsSeries.pointHitRadius,
+							spanGaps: optionsSeries.spanGaps,
+						},
+						{
+							data: [],
+							label: "Decantador ETA3",
+							fill: optionsSeries.fill,
+							lineTension: optionsSeries.lineTension,
+							borderWidth: optionsSeries.borderWidth,
+							backgroundColor: "rgba(75,192,192,0.4)",
+							borderColor: "rgba(75,192,192,1)",
+							borderCapStyle: optionsSeries.borderCapStyle,
+							borderDash: optionsSeries.borderDash,
+							borderDashOffset: optionsSeries.borderDashOffset,
+							borderJoinStyle: optionsSeries.borderJoinStyle,
+							pointBorderColor: "rgba(75,192,192,1)",
+							pointBackgroundColor: optionsSeries.pointBackgroundColor,
+							pointBorderWidth: optionsSeries.pointBorderWidth,
+							pointHoverRadius: optionsSeries.pointHoverRadius,
+							pointHoverBackgroundColor: "rgba(75,192,192,1)",
+							pointHoverBorderColor: "rgba(220,220,220,1)",
+							pointHoverBorderWidth: optionsSeries.pointHoverBorderWidth,
+							pointRadius: optionsSeries.pointRadius,
+							pointHitRadius: optionsSeries.pointHitRadius,
+							spanGaps: optionsSeries.spanGaps,
+						},												
+						{
+							data: [],
+							label: "Lim. máximo",
+							fill: optionsSeries.fill,
+							lineTension: optionsSeries.lineTension,
+							borderWidth: optionsSeries.borderWidth,
+							backgroundColor: "rgba(22,200,100,0.4)",
+							borderColor: "rgba(22,200,100,1)",
+							borderCapStyle: optionsSeries.borderCapStyle,
+							borderDash: optionsSeries.borderDash,
+							borderDashOffset: optionsSeries.borderDashOffset,
+							borderJoinStyle: optionsSeries.borderJoinStyle,
+							pointBorderColor: "rgba(75,192,192,1)",
+							pointBackgroundColor: optionsSeries.pointBackgroundColor,
+							pointBorderWidth: optionsSeries.pointBorderWidth,
+							pointHoverRadius: optionsSeries.pointHoverRadius,
+							pointHoverBackgroundColor: "rgba(22,200,100,1)",
+							pointHoverBorderColor: "rgba(220,220,220,1)",
+							pointHoverBorderWidth: optionsSeries.pointHoverBorderWidth,
+							pointRadius: optionsSeries.pointRadius,
+							pointHitRadius: optionsSeries.pointHitRadius,
+							spanGaps: optionsSeries.spanGaps,
+							hidden: vm.hideMaxMin,
+						},												
+						{
+							data: [],
+							label: "Lim. mínimo",
+							fill: optionsSeries.fill,
+							lineTension: optionsSeries.lineTension,
+							borderWidth: optionsSeries.borderWidth,
+							backgroundColor: "rgba(223,223,192,0.4)",
+							borderColor: "rgba(223,223,192,1)",
+							borderCapStyle: optionsSeries.borderCapStyle,
+							borderDash: optionsSeries.borderDash,
+							borderDashOffset: optionsSeries.borderDashOffset,
+							borderJoinStyle: optionsSeries.borderJoinStyle,
+							pointBorderColor: "rgba(75,192,192,1)",
+							pointBackgroundColor: optionsSeries.pointBackgroundColor,
+							pointBorderWidth: optionsSeries.pointBorderWidth,
+							pointHoverRadius: optionsSeries.pointHoverRadius,
+							pointHoverBackgroundColor: "rgba(223,223,192,1)",
+							pointHoverBorderColor: "rgba(220,220,220,1)",
+							pointHoverBorderWidth: optionsSeries.pointHoverBorderWidth,
+							pointRadius: optionsSeries.pointRadius,
+							pointHitRadius: optionsSeries.pointHitRadius,
+							spanGaps: optionsSeries.spanGaps,
+							hidden: vm.hideMaxMin,															
+						}
+					]
+				};
+
+				vm.optionsChartEta =  {
+				  legend:{
+					display:true,
+					position:'top',
+					labels:{
+						boxWidth:10,
+						fontColor:'#606060',
+						fontSize:12,
+						pointStyle:'circle',
+						usePointStyle:true,
+						pointStyleWidth:0,
+						borderRadius:0,
+					}
+				  },
+				scales: {
+				        yAxes: [{
+				            ticks: {
+				                fontSize: 10,
+				                beginAtZero: true
+				            },
+				scaleLabel: {
+				        display: true,
+				        labelString: 'Turbidez NTU'
+				      }           
+				        }],
+
+				        xAxes: [{
+				            ticks: {
+				                fontSize: 10
+				            }
+				        }],
+				    }
+				}
+
+				vm.pluginsChartEta = [{
+
+				}];
+
+				vm.onChartClick = function (event) {
+					//console.log(event);
+				};
+
+				vm.showHideLimits = function(value){
+					vm.dataChartEta.datasets[8].hidden = !vm.dataChartEta.datasets[8].hidden
+					vm.dataChartEta.datasets[9].hidden = !vm.dataChartEta.datasets[9].hidden
+				}
+
+				
+
+				function getPercentil(percentile, arr) {
+					arr.sort(function (a, b) { return a - b; });
+				  
+					  var index = (percentile/100) * arr.length;
+					  if (Math.floor(index) == index) {
+						   return  (arr[index-1] + arr[index])/2;
+					  }
+					  else {
+						return  arr[Math.floor(index)];
+					  }
+					  return ;
+				  }
+
+
+				realizaConsulta(vm.agrupamento,dataInicial,dataFinal,113,120)
+
+				function roundNum(number,decimalPlaces){
+					return +(Math.round(number + "e+"+decimalPlaces) + "e-"+decimalPlaces);
+				}
+
+
+				function realizaConsulta(tipo, datainicial, datafinal,tabelaInicial,tabelaFinal){
+					// if((vm.filtro == 'semanal' || vm.filtro == 'mensal') && (tipo=='todos' || tipo=='media-minuto')  ){
+					// 	msgs.addError('Somente é possível ver todos os dados sem agrupamento se o período for diário!')
+					// 	return
+					// }
+					requestsMySql = []
+					vm.dadosEta3 = []
+					vm.dataChartEta.labels = []
+					vm.dataChartEta.datasets[0].data = []
+					vm.dataChartEta.datasets[1].data = []
+					vm.dataChartEta.datasets[2].data = []
+					vm.dataChartEta.datasets[3].data = []
+					vm.dataChartEta.datasets[4].data = []
+					vm.dataChartEta.datasets[5].data = []
+					vm.dataChartEta.datasets[6].data = []
+					vm.dataChartEta.datasets[7].data = []
+
+					if(tipo=='todos'){
+						for (var i = tabelaInicial; i <= tabelaFinal; i++) {
+							requestsMySql.push(querysql.queryGeral(`SELECT timestamp, descricao, valor FROM log_${i} WHERE timestamp >= '${moment(datainicial).format('YYYY-MM-DD HH:mm:ss')}' AND timestamp <='${moment(datafinal).format('YYYY-MM-DD HH:mm:ss')}' ORDER BY timestamp ASC`)) 					
+						}
+					}
+					if(tipo=='media-minuto'){
+						for (var i = tabelaInicial; i <= tabelaFinal; i++) {
+							requestsMySql.push(querysql.queryGeral(`SELECT timestamp, descricao, AVG(valor) AS valor FROM log_${i} WHERE timestamp >= '${moment(datainicial).format('YYYY-MM-DD HH:mm:ss')}' AND timestamp <='${moment(datafinal).format('YYYY-MM-DD HH:mm:ss')}'GROUP BY DAY(timestamp), HOUR(timestamp), MINUTE(timestamp) ORDER BY timestamp ASC`)) 					
+						}
+					}
+					if(tipo=='media-hora'){
+						for (var i = tabelaInicial; i <= tabelaFinal; i++) {
+							requestsMySql.push(querysql.queryGeral(`SELECT timestamp, descricao, AVG(valor) AS valor FROM log_${i} WHERE timestamp >= '${moment(datainicial).format('YYYY-MM-DD HH:mm:ss')}' AND timestamp <='${moment(datafinal).format('YYYY-MM-DD HH:mm:ss')}'GROUP BY DAY(timestamp), HOUR(timestamp) ORDER BY timestamp ASC`)) 					
+						}
+					}
+					if(tipo=='maximo'){
+						vm.dataChartEta.datasets[8].hidden = true
+						vm.dataChartEta.datasets[9].hidden = true
+						for (var i = tabelaInicial; i <= tabelaFinal; i++) {
+							requestsMySql.push(querysql.queryGeral(`SELECT timestamp, descricao, MAX(valor) AS valor FROM log_${i} WHERE timestamp >= '${moment(datainicial).format('YYYY-MM-DD HH:mm:ss')}' AND timestamp <='${moment(datafinal).format('YYYY-MM-DD HH:mm:ss')}' ORDER BY timestamp ASC`)) 					
+						}
+					}
+					if(tipo=='minimo'){
+						vm.dataChartEta.datasets[8].hidden = true
+						vm.dataChartEta.datasets[9].hidden = true
+						for (var i = tabelaInicial; i <= tabelaFinal; i++) {
+							requestsMySql.push(querysql.queryGeral(`SELECT timestamp, descricao, MIN(valor) AS valor FROM log_${i} WHERE timestamp >= '${moment(datainicial).format('YYYY-MM-DD HH:mm:ss')}' AND timestamp <='${moment(datafinal).format('YYYY-MM-DD HH:mm:ss')}' ORDER BY timestamp ASC`)) 					
+						}
+					}
+
+					$q.all(requestsMySql).then(function(response){
+						if(response[0].data.length ==1){
+							vm.chartType = 'bar'
+						}else{
+							vm.chartType = 'line'
+						}
+						for (var j = 0; j < response[0].data.length; j++) {
+							vm.dadosEta3.push({
+								timestamp:response[0].data[j].timestamp,
+								filtro1:roundNum(response[0].data[j].valor,2),
+								filtro2:roundNum(response[1].data[j].valor,2),
+								filtro3:roundNum(response[2].data[j].valor,2),
+								filtro4:roundNum(response[3].data[j].valor,2),
+								filtro5:roundNum(response[4].data[j].valor,2),
+								filtro6:roundNum(response[5].data[j].valor,2),
+								filtro7:roundNum(response[6].data[j].valor,2),
+								filtro8:roundNum(response[7].data[j].valor,2),
+								maxTubidez:maxTubidez,
+								minTubidez:minTubidez,
+
+							})
+							if(vm.chartType == 'line'){
+								vm.dataChartEta.labels.push(moment(response[0].data[j].timestamp).format('DD-MM-YYYY HH:mm:ss'))
+							}else{
+								vm.dataChartEta.labels.push('Dados')
+							}
+							vm.dataChartEta.datasets[0].data.push(roundNum(response[0].data[j].valor,2))
+							vm.dataChartEta.datasets[1].data.push(roundNum(response[1].data[j].valor,2))
+							vm.dataChartEta.datasets[2].data.push(roundNum(response[2].data[j].valor,2))
+							vm.dataChartEta.datasets[3].data.push(roundNum(response[3].data[j].valor,2))
+							vm.dataChartEta.datasets[4].data.push(roundNum(response[4].data[j].valor,2))
+							vm.dataChartEta.datasets[5].data.push(roundNum(response[5].data[j].valor,2))
+							vm.dataChartEta.datasets[6].data.push(roundNum(response[6].data[j].valor,2))
+							vm.dataChartEta.datasets[7].data.push(roundNum(response[7].data[j].valor,2))
+							vm.dataChartEta.datasets[8].data.push(roundNum(maxTubidez,2))
+							vm.dataChartEta.datasets[9].data.push(roundNum(minTubidez,2))
+
+						}
+						vm.DataCalc = {}
+						vm.DataCalc.numAmostras = vm.dataChartEta.labels.length * 8
+						vm.DataCalc.calc01Value = 0
+						vm.DataCalc.calc01Perc = 0
+						vm.DataCalc.calc02Value = 0
+						vm.DataCalc.calc02Perc = 0
+						vm.DataCalc.calc03Value = 0
+						vm.DataCalc.calc03Perc = 0
+						vm.DataCalc.calc04Value = 0
+						vm.DataCalc.calc04Perc = 0
+						vm.DataCalc.calc05Value = 0
+						vm.DataCalc.calc05Perc = 0
+						vm.DataCalc.calc06Value = 0
+						vm.DataCalc.calc06Perc = 0
+						vm.DataCalc.calc07Value = 0
+						vm.DataCalc.calc07Perc = 0
+						vm.DataCalc.calc08Value = 0
+						vm.DataCalc.calc08Perc = 0
+						vm.dataSetsToPercentil = []
+						for (let i = 0; i < vm.dataChartEta.labels.length; i++) {
+							vm.dataSetsToPercentil.push(vm.dataChartEta.datasets[0].data[i]) 
+							vm.dataSetsToPercentil.push(vm.dataChartEta.datasets[1].data[i]) 
+							vm.dataSetsToPercentil.push(vm.dataChartEta.datasets[2].data[i]) 
+							vm.dataSetsToPercentil.push(vm.dataChartEta.datasets[3].data[i]) 
+							vm.dataSetsToPercentil.push(vm.dataChartEta.datasets[4].data[i]) 
+							vm.dataSetsToPercentil.push(vm.dataChartEta.datasets[5].data[i]) 
+							vm.dataSetsToPercentil.push(vm.dataChartEta.datasets[6].data[i]) 
+							vm.dataSetsToPercentil.push(vm.dataChartEta.datasets[7].data[i]) 
+							for (let j = 0; j <= 7; j++) {
+								if (vm.dataChartEta.datasets[j].data[i]>2.2){
+									vm.DataCalc.calc01Value++
+								}
+								
+							}
+							vm.DataCalc.calc01Perc = vm.DataCalc.calc01Value / vm.DataCalc.numAmostras *100.0
+
+							for (let j = 0; j <= 7; j++) {
+								if (vm.dataChartEta.datasets[j].data[i]>1.9 && vm.dataChartEta.datasets[j].data[i]<=2.2){
+									vm.DataCalc.calc02Value++
+								}
+								
+							}						
+							vm.DataCalc.calc02Perc = vm.DataCalc.calc02Value / vm.DataCalc.numAmostras *100.0
+
+							for (let j = 0; j <= 7; j++) {
+								if (vm.dataChartEta.datasets[j].data[i]>1.6 && vm.dataChartEta.datasets[j].data[i]<=1.9){
+									vm.DataCalc.calc03Value++
+								}
+								
+							}						
+							vm.DataCalc.calc03Perc = vm.DataCalc.calc03Value / vm.DataCalc.numAmostras *100.0
+
+							for (let j = 0; j <= 7; j++) {
+								if (vm.dataChartEta.datasets[j].data[i]>1.3 && vm.dataChartEta.datasets[j].data[i]<=1.6){
+									vm.DataCalc.calc04Value++
+								}
+								
+							}						
+							vm.DataCalc.calc04Perc = vm.DataCalc.calc04Value / vm.DataCalc.numAmostras *100.0
+
+							for (let j = 0; j <= 7; j++) {
+								if (vm.dataChartEta.datasets[j].data[i]>1 && vm.dataChartEta.datasets[j].data[i]<=1.3){
+									vm.DataCalc.calc05Value++
+								}
+								
+							}						
+							vm.DataCalc.calc05Perc = vm.DataCalc.calc05Value / vm.DataCalc.numAmostras *100.0
+
+							for (let j = 0; j <= 7; j++) {
+								if (vm.dataChartEta.datasets[j].data[i]>0.5 && vm.dataChartEta.datasets[j].data[i]<=1){
+									vm.DataCalc.calc06Value++
+								}
+								
+							}						
+							vm.DataCalc.calc06Perc = vm.DataCalc.calc06Value / vm.DataCalc.numAmostras *100.0
+
+							for (let j = 0; j <= 7; j++) {
+								if (vm.dataChartEta.datasets[j].data[i]>0.3 && vm.dataChartEta.datasets[j].data[i]<=0.5){
+									vm.DataCalc.calc07Value++
+								}
+								
+							}						
+							vm.DataCalc.calc07Perc = vm.DataCalc.calc07Value / vm.DataCalc.numAmostras *100.0
+
+							for (let j = 0; j <= 7; j++) {
+								if (vm.dataChartEta.datasets[j].data[i]<= 0.3){
+									vm.DataCalc.calc08Value++
+								}
+								
+							}						
+							vm.DataCalc.calc08Perc = vm.DataCalc.calc08Value / vm.DataCalc.numAmostras *100.0
+
+							
+						}
+						
+						vm.DataCalc.percentil = getPercentil(95,vm.dataSetsToPercentil)
+
+					})
+				
+
+				}
+
+				vm.periodoClick = function(){
+					vm.dadosEta3 = []
+					vm.perInicio = moment(Date.now()).subtract(1, 'hours');
+					vm.perFim = moment().format('YYYY-MM-DD HH:mm:ss')
+				}
+
+
+				vm.agrupamentoClick = function(){
+					if(vm.filtro=='diario'){
+						dataInicial = moment().format('YYYY-MM-DD 00:00:00')
+						dataFinal = moment().format('YYYY-MM-DD 23:59:59')
+					}	
+
+					if(vm.filtro=='semanal'){
+						dataInicial = moment(Date.now()).subtract(7, 'days').format('YYYY-MM-DD 00:00:00')
+						dataFinal = moment().format('YYYY-MM-DD 23:59:59')
+					}	
+
+					if(vm.filtro=='mensal'){
+						dataInicial = moment(Date.now()).subtract(30, 'days').format('YYYY-MM-DD 00:00:00')
+						dataFinal = moment().format('YYYY-MM-DD 23:59:59')
+					}	
+
+					if(vm.filtro=='periodo'){
+						dataInicial = moment(vm.perInicio).format('YYYY-MM-DD HH:mm:ss')
+						dataFinal = moment(vm.perFim).format('YYYY-MM-DD HH:mm:ss')
+					}	
+					realizaConsulta(vm.agrupamento,dataInicial,dataFinal,113,120)
+				}
+
+
+
+
+
+
+
 			})//Finaliza get usuario
 
 		}//Finaliza controller

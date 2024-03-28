@@ -1,9 +1,320 @@
 <section class="content" ng-controller="DashController as dashCtrl">
 	<div class="box-header with-border" style="overflow:hidden;" id="exportthis">
-		<wait-api ng-if="!dashCtrl.componentes"></wait-api>
-    <div id="objetoDinamicoHtml"></div> 
-  </div>
+		<div class="col-xs-12 col-md-12">
+			<label class="control-label" style="font-size:24px; margin-bottom: 25px;">TURBIDEZ FILTROS ETA2 -ETA1</label>
+		</div>
+		<wait-api ng-if="(!dashCtrl.componentes)"></wait-api>
+		<div id="objetoDinamicoHtml"></div>
+
+		<wait-api
+			ng-if="(dashCtrl.dadosEta2.length==0 && dashCtrl.componentes && dashCtrl.filtro != 'periodo')"></wait-api>
+
+
+		<div class=" col-xs-12 col-md-6 userfieldset1">
+			<div class="col-xs-12 col-md-12">
+				<label class="control-label">Filtro</label>
+			</div>
+
+			<div class="col-xs-12 col-md-12 " style="padding: 0;" ng-if="dashCtrl.filtro == 'periodo'">
+				<div class="col-xs-12 col-md-4 ">
+					<label class="control-label">Período Inicio</label>
+					<div class="input-group" moment-picker="dashCtrl.perInicio" format="YYYY-MM-DD HH:mm:ss"
+						locale="pt-br">
+						<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+						<input class="form-control input-sm" placeholder="Selecione a data"
+							ng-model="dashCtrl.perInicio" ng-model-options="{ updateOn: 'blur' }">
+					</div>
+				</div>
+
+				<div class="col-xs-12 col-md-4">
+					<label class="control-label">Período Fim</label>
+					<div class="input-group" moment-picker="dashCtrl.perFim" format="YYYY-MM-DD HH:mm:ss"
+						locale="pt-br">
+						<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+						<input class="form-control input-sm" placeholder="Selecione a data" ng-model="dashCtrl.perFim"
+							ng-model-options="{ updateOn: 'blur' }">
+					</div>
+				</div>
+
+				<div class="col-xs-12 col-md-4">
+					<button ng-click="dashCtrl.agrupamentoClick()" class="btn btn-flat btn-sm btn-primary"
+						style="margin-top: 24px;">
+						<i class="fa fa-search"></i>
+					</button>
+				</div>
+
+			</div>
+
+			<div class="col-xs-12">
+				<div class="radio-inline">
+					<label class="toggle" style="margin-bottom: 0; margin-top: 5px;">
+						<input id="inputMensal" type="radio" name="filtro" value="mensal" ng-model="dashCtrl.filtro"
+							ng-change="dashCtrl.agrupamentoClick()"> <span class="label-text"></span><label
+							class="control-label" for="inputMensal"> Mês</label>
+					</label>
+				</div>
+				<div class="radio-inline">
+					<label class="toggle" style="margin-bottom: 0; margin-top: 5px;">
+						<input id="inputSemanal" type="radio" name="filtro" value="semanal" ng-model="dashCtrl.filtro"
+							ng-change="dashCtrl.agrupamentoClick()"> <span class="label-text"></span><label
+							class="control-label" for="inputSemanal"> Semana</label>
+					</label>
+				</div>
+
+				<div class="radio-inline">
+					<label class="toggle" style="margin-bottom: 0; margin-top: 5px;">
+						<input id="inputDiario" type="radio" name="filtro" value="diario" ng-model="dashCtrl.filtro"
+							ng-change="dashCtrl.agrupamentoClick()"> <span class="label-text"></span><label
+							class="control-label" for="inputDiario"> Dia</label>
+					</label>
+				</div>
+
+				<div class="radio-inline">
+					<label class="toggle" style="margin-bottom: 0; margin-top: 5px;">
+						<input id="inputPeriodo" type="radio" name="filtro" value="periodo" ng-model="dashCtrl.filtro"
+							ng-change="dashCtrl.periodoClick()"> <span class="label-text"></span><label
+							class="control-label" for="inputPeriodo"> Período</label>
+					</label>
+				</div>
+
+			</div>
+
+
+		</div>
+
+
+
+		<div class=" col-xs-12 col-md-6 userfieldset2">
+			<div class="col-xs-12 col-md-12">
+				<label class="control-label">Agrupamento</label>
+			</div>
+
+			<div class="col-xs-12 ">
+
+				<div class="radio-inline">
+					<label class="toggle" style="margin-bottom: 0; margin-top: 5px;">
+						<input id="inputTodos" type="radio" name="agrupamento" value="todos"
+							ng-model="dashCtrl.agrupamento" ng-change="dashCtrl.agrupamentoClick()"> <span
+							class="label-text"></span><label class="control-label" for="inputTodos"> Todos</label>
+					</label>
+				</div>
+
+				<!-- <div class="radio-inline">
+					<label class="toggle" style="margin-bottom: 0; margin-top: 5px;">
+						<input id="inputMediaMinuto" type="radio" name="agrupamento" value="media-minuto"
+							ng-model="dashCtrl.agrupamento" ng-change="dashCtrl.agrupamentoClick()"> <span
+							class="label-text"></span><label class="control-label" for="inputMediaMinuto"> Média -
+							minuto</label>
+					</label>
+				</div> -->
+				<div class="radio-inline">
+					<label class="toggle" style="margin-bottom: 0; margin-top: 5px;">
+						<input id="inputMediaHora" type="radio" name="agrupamento" value="media-hora"
+							ng-model="dashCtrl.agrupamento" ng-change="dashCtrl.agrupamentoClick()"> <span
+							class="label-text"></span><label class="control-label" for="inputMediaHora"> Média -
+							hora</label>
+					</label>
+				</div>
+				<div class="radio-inline">
+					<label class="toggle" style="margin-bottom: 0; margin-top: 5px;">
+						<input id="inputMaximo" type="radio" name="agrupamento" value="maximo"
+							ng-model="dashCtrl.agrupamento" ng-change="dashCtrl.agrupamentoClick()"> <span
+							class="label-text"></span><label class="control-label" for="inputMaximo"> Máximo</label>
+					</label>
+				</div>
+
+				<div class="radio-inline">
+					<label class="toggle" style="margin-bottom: 0; margin-top: 5px;">
+						<input id="inputMinimo" type="radio" name="agrupamento" value="minimo"
+							ng-model="dashCtrl.agrupamento" ng-change="dashCtrl.agrupamentoClick()"> <span
+							class="label-text"></span><label class="control-label" for="inputMinimo"> Mínímo</label>
+					</label>
+				</div>
+
+				<div class="radio-inline">
+					<label class="toggle" style="margin-bottom: 0; margin-top: 5px;">
+						<input id="inputLimitesMax" type="radio" name="limites" value="true"
+							ng-model="dashCtrl.hideMaxMin" ng-change="dashCtrl.showHideLimits()"> <span
+							class="label-text"></span><label class="control-label" for="inputLimitesMax"> Mostrar
+							Limites</label>
+					</label>
+				</div>
+
+				<div class="radio-inline">
+					<label class="toggle" style="margin-bottom: 0; margin-top: 5px;">
+						<input id="inputLimitesMin" type="radio" name="limites" value="false"
+							ng-model="dashCtrl.hideMaxMin" ng-change="dashCtrl.showHideLimits()"> <span
+							class="label-text"></span><label class="control-label" for="inputLimitesMin"> Esconder
+							Limites</label>
+					</label>
+				</div>
+
+
+			</div>
+
+		</div>
+
+		<div class="col-xs-12 col-md-12" id="chartFiltro" ng-if="(dashCtrl.dadosEta2.length > 0)">
+			<div class="box box-primary">
+				<div class="box-header with-border" style="height: 30px;">
+					<p style="font-size:12px; margin-top:-3px; text-align: center; ">ETA 2 - Gráficos</p>
+					<br>
+					<p class="icon-p" ng-click="dashCtrl.pdfDowloadclickChart('chartFiltro')"><i
+							class="fa fa-file-pdf-o fa-1x" aria-hidden="true"></i></p>
+				</div>
+				<div class="small-box bg-light" style="margin: 0px; padding: 0px;">
+					<div class="inner" style="width: 100%;">
+
+						<canvas tc-chartjs-line chart-data="dashCtrl.dataChartEta"
+							chart-options="dashCtrl.optionsChartEta" chart-plugins="dashCtrl.pluginsChartEta"
+							chart-click="dashCtrl.onChartClick(event)" width="500"
+							ng-if="dashCtrl.chartType=='line'"></canvas>
+
+						<canvas tc-chartjs-bar chart-data="dashCtrl.dataChartEta"
+							chart-options="dashCtrl.optionsChartEta" chart-plugins="dashCtrl.pluginsChartEta"
+							chart-click="dashCtrl.onChartClick(event)" width="500"
+							ng-if="dashCtrl.chartType=='bar'"></canvas>
+
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+
+
+
+		<div class="col-xs-12 col-md-3" id="relatorio" ng-if="(dashCtrl.dadosEta2.length > 0)">
+			<div class="box box-primary">
+				<div class="box-header with-border" style="height: 30px;">
+					<p style="font-size:12px; margin-top:-3px; text-align: center; ">ETA 2 - Análises</p>
+					<br>
+					<p ng-click="dashCtrl.xlsDowloadclickAnalises()" class="icon-p" uib-tooltip="Exportar para excel"><i
+							class="fa fa-file-excel-o" aria-hidden="true"></i></p>
+				</div>
+				<div class="small-box" style="pointer-events: none;">
+					<div class="inner" style="width: 100%; height: 70%;">
+						<div class="div-label-amostras">
+							<span class="control-label">Amostras</span>
+							<span class="control-label label-amostras-valor">{{dashCtrl.DataCalc.numAmostras}}</span>
+							<span class="control-label label-amostras-valor"></span>
+						</div>
+						<div class="div-label-amostras">
+							<span class="control-label">Percentil 95%</span>
+							<span class="control-label label-amostras-valor">{{dashCtrl.DataCalc.percentil |
+								number:2}}</span>
+							<span class="control-label label-amostras-percent"></span>
+						</div>
+						<div class="div-label-amostras">
+							<span class="control-label">2,2 &#60 X</span>
+							<span class="control-label label-amostras-valor">{{dashCtrl.DataCalc.calc01Value}}</span>
+							<span class="control-label label-amostras-percent">{{dashCtrl.DataCalc.calc01Perc |
+								number:1}}%</span>
+						</div>
+						<div class="div-label-amostras">
+							<span class="control-label">1,9 &#60 X &#60= 2,2</span>
+							<span class="control-label label-amostras-valor">{{dashCtrl.DataCalc.calc02Value}}</span>
+							<span class="control-label label-amostras-percent">{{dashCtrl.DataCalc.calc02Perc |
+								number:1}}%</span>
+						</div>
+						<div class="div-label-amostras">
+							<span class="control-label">1,6 &#60 X &#60= 1,9</span>
+							<span class="control-label label-amostras-valor">{{dashCtrl.DataCalc.calc03Value}}</span>
+							<span class="control-label label-amostras-percent">{{dashCtrl.DataCalc.calc03Perc |
+								number:1}}%</span>
+						</div>
+						<div class="div-label-amostras">
+							<span class="control-label">1,3 &#60 X &#60= 1,6</span>
+							<span class="control-label label-amostras-valor">{{dashCtrl.DataCalc.calc04Value}}</span>
+							<span class="control-label label-amostras-percent">{{dashCtrl.DataCalc.calc04Perc |
+								number:1}}%</span>
+						</div>
+						<div class="div-label-amostras">
+							<span class="control-label">1 &#60 X &#60= 1,3</span>
+							<span class="control-label label-amostras-valor">{{dashCtrl.DataCalc.calc05Value}}</span>
+							<span class="control-label label-amostras-percent">{{dashCtrl.DataCalc.calc05Perc |
+								number:1}}%</span>
+						</div>
+						<div class="div-label-amostras">
+							<span class="control-label">0,5 &#60 X &#60= 1</span>
+							<span class="control-label label-amostras-valor">{{dashCtrl.DataCalc.calc06Value}}</span>
+							<span class="control-label label-amostras-percent">{{dashCtrl.DataCalc.calc06Perc |
+								number:1}}%</span>
+						</div>
+						<div class="div-label-amostras">
+							<span class="control-label">0,3 &#60 X &#60= 0,5</span>
+							<span class="control-label label-amostras-valor">{{dashCtrl.DataCalc.calc07Value}}</span>
+							<span class="control-label label-amostras-percent">{{dashCtrl.DataCalc.calc07Perc |
+								number:1}}%</span>
+						</div>
+						<div class="div-label-amostras">
+							<span class="control-label">X &#60= 0,3</span>
+							<span class="control-label label-amostras-valor">{{dashCtrl.DataCalc.calc08Value}}</span>
+							<span class="control-label label-amostras-percent">{{dashCtrl.DataCalc.calc08Perc |
+								number:1}}%</span>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<div class="col-xs-12 col-md-12" id="relatorioFiltro" ng-if="(dashCtrl.dadosEta2.length > 0)">
+			<div class="box box-primary">
+				<div class="box-header with-border" style="height: 30px;">
+					<p style="font-size:12px; margin-top:-3px; text-align: center; ">ETA 2 - Relatório</p>
+					<br>
+					<!-- <p class="icon-p" ng-click="dashCtrl.pdfDowloadclickRelatorio('relatorioFiltro')"><i
+							class="fa fa-file-pdf-o fa-1x" aria-hidden="true"></i></p> -->
+					<p class="icon-p" ng-click="dashCtrl.xlsDowloadclickRelatorio('chartFiltro')"><i
+							class="fa fa-file-excel-o fa-1x" aria-hidden="true"></i></p>
+				</div>
+
+
+				<div class="col-xs-12 col-md-12">
+					<div class="box-body table-responsive no-padding">
+						<table id="filtroTable" class="table table-striped" style="margin-top: 5px;">
+							<tr class="info" style="font-size:12px;">
+								<th style="text-align: center;">Data Hora</th>
+								<th style="text-align: center;">Filtro 1 ETA2 <small>(NTU)</small></th>
+								<th style="text-align: center;">Filtro 2 ETA2 <small>(NTU)</small></th>
+								<th style="text-align: center;">Filtro 3 ETA2 <small>(NTU)</small></th>
+								<th style="text-align: center;">Filtro 4 ETA2 <small>(NTU)</small></th>
+								<th style="text-align: center;">Decantador ETA2 <small>(NTU)</small></th>
+								<th style="text-align: center;">Filtro 1..6 ETA1 <small>(NTU)</small></th>
+								<th style="text-align: center;">Filtro 7..12 ETA1 <small>(NTU)</small></th>
+								<th style="text-align: center;">Água tratada <small>(NTU)</small></th>
+
+							</tr>
+							<tr style="cursor: pointer;" ng-repeat="dados in dashCtrl.dadosEta2">
+								<td>{{dados.timestamp | utcBrasilShortDate}}</td>
+								<td>{{dados.filtro1 | number:2}}</td>
+								<td>{{dados.filtro2 | number:2}}</td>
+								<td>{{dados.filtro3 | number:2}}</td>
+								<td>{{dados.filtro4 | number:2}}</td>
+								<td>{{dados.filtro5 | number:2}}</td>
+								<td>{{dados.filtro6 | number:2}}</td>
+								<td>{{dados.filtro7 | number:2}}</td>
+								<td>{{dados.filtro8 | number:2}}</td>
+							</tr>
+						</table>
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+
+	</div>
+
+
+
+
+
+
+
+
 </section>
-
-
-

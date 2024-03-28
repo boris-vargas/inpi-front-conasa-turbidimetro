@@ -35,7 +35,7 @@ angular.module('intechApp').component('displayGauge', {
 
            <ng-gauge ng-if="$ctrl.fator!=1" size="150" type="semi" thick="14"
                    min="$ctrl.nivelmin" max="$ctrl.nivelmax" value="($ctrl.valor*$ctrl.fator)"
-                   cap="round" label="{{$ctrl.unidade}}" append="" fraction-size="1"
+                   cap="round" label="{{$ctrl.unidade}}" append="" fraction-size="2"
                    foreground-color="#ffcc66" background-color="#EEE"
                      thresholds="$ctrl.gatilho">
          </ng-gauge>
