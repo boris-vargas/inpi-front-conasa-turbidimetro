@@ -1094,6 +1094,7 @@
 			var maxTurbidez = 1
 			var minTurbidez = 0
 			vm.hideMaxMin = 'false'
+			vm.DataCalcFiltro = []
 
 			//============================================================================================
 			//Função exportar tabela para xls
@@ -1101,7 +1102,7 @@
 			vm.xlsDowloadclickAnalises = function () {
 				var objectToExport = []
 				objectToExport.push({
-					"Período" : `${moment(dataInicial).format('DD/MM/YYYY HH:mm:ss')} - ${moment(dataFinal).format('DD/MM/YYYY HH:mm:ss')}`,
+					"Período": `${moment(dataInicial).format('DD/MM/YYYY HH:mm:ss')} - ${moment(dataFinal).format('DD/MM/YYYY HH:mm:ss')}`,
 					"Amostras": vm.DataCalc.numAmostras,
 					"Percentil 95%": vm.DataCalc.percentil,
 					"2,2 < X amostras": vm.DataCalc.calc01Value,
@@ -1124,7 +1125,35 @@
 				})
 				alasql('SELECT * INTO XLSX("analises_ETA2.xlsx",{headers:true}) FROM ?', [objectToExport]);
 			}
+			//============================================================================================
+			//Função exportar tabela para xls por index
+			//============================================================================================
+			vm.xlsDowloadclickAnalisesPorIndex = function (index) {
+				var objectToExport = []
+				objectToExport.push({
+					"Período": `${moment(dataInicial).format('DD/MM/YYYY HH:mm:ss')} - ${moment(dataFinal).format('DD/MM/YYYY HH:mm:ss')}`,
+					"Amostras": vm.DataCalcFiltro[index].numAmostras,
+					"Percentil 95%": vm.DataCalcFiltro[index].percentil,
+					"2,2 < X amostras": vm.DataCalcFiltro[index].calc01Value,
+					"2,2 < X percentual": vm.DataCalcFiltro[index].calc01Perc,
+					"1,9 < X <= 2,2 amostras": vm.DataCalcFiltro[index].calc02Value,
+					"1,9 < X <= 2,2 percentual": vm.DataCalcFiltro[index].calc02Perc,
+					"1,6 < X <= 1,9 amostras": vm.DataCalcFiltro[index].calc03Value,
+					"1,6 < X <= 1,9 percentual": vm.DataCalcFiltro[index].calc03Perc,
+					"1,3 < X <= 1,6 amostras": vm.DataCalcFiltro[index].calc04Value,
+					"1,3 < X <= 1,6 percentual": vm.DataCalcFiltro[index].calc04Perc,
+					"1 < X <= 1,3 amostras": vm.DataCalcFiltro[index].calc05Value,
+					"1 < X <= 1,3 percentual": vm.DataCalcFiltro[index].calc05Perc,
+					"0,5 < X <= 1 amostras": vm.DataCalcFiltro[index].calc06Value,
+					"0,5 < X <= 1 percentual": vm.DataCalcFiltro[index].calc06Perc,
+					"0,3 < X <= 0,5 amostras": vm.DataCalcFiltro[index].calc07Value,
+					"0,3 < X <= 0,5 percentual": vm.DataCalcFiltro[index].calc07Perc,
+					"X <= 0,3 amostras": vm.DataCalcFiltro[index].calc08Value,
+					"X <= 0,3 percentual": vm.DataCalcFiltro[index].calc08Perc,
 
+				})
+				alasql('SELECT * INTO XLSX("analises_ETA2.xlsx",{headers:true}) FROM ?', [objectToExport]);
+			}
 			//============================================================================================
 			//Função exportar objeto Html para pdf (Chart)
 			//============================================================================================
@@ -1496,6 +1525,10 @@
 
 
 			realizaConsulta(vm.agrupamento, dataInicial, dataFinal, 104, 111)
+			//Auto update - 10min
+			$interval(function(){
+				realizaConsulta(vm.agrupamento, dataInicial, dataFinal, 104, 111)
+			}, 600000)
 
 			function roundNum(number, decimalPlaces) {
 				return +(Math.round(number + "e+" + decimalPlaces) + "e-" + decimalPlaces);
@@ -1503,11 +1536,6 @@
 
 
 			function realizaConsulta(tipo, datainicial, datafinal, tabelaInicial, tabelaFinal) {
-				// if ((vm.filtro == 'semanal' || vm.filtro == 'mensal') && (tipo == 'todos' || tipo == 'media-minuto')) {
-				// 	msgs.addError('Somente é possível ver todos os dados sem agrupamento se o período for diário!')
-				// 	return
-				// }
-
 				requestsMySql = []
 				vm.dadosEta2 = []
 				vm.dataChartEta.labels = []
@@ -1556,6 +1584,7 @@
 					} else {
 						vm.chartType = 'line'
 					}
+					//formata dados para gráfico
 					for (var j = 0; j < response[0].data.length; j++) {
 						vm.dadosEta2.push({
 							timestamp: response[0].data[j].timestamp,
@@ -1588,6 +1617,7 @@
 						vm.dataChartEta.datasets[9].data.push(roundNum(minTurbidez, 2))
 
 					}
+					//formata dados para análise geral
 					vm.DataCalc = {}
 					vm.DataCalc.numAmostras = vm.dataChartEta.labels.length * 8
 					vm.DataCalc.calc01Value = 0
@@ -1620,7 +1650,6 @@
 							if (vm.dataChartEta.datasets[j].data[i] > 2.2) {
 								vm.DataCalc.calc01Value++
 							}
-
 						}
 						vm.DataCalc.calc01Perc = vm.DataCalc.calc01Value / vm.DataCalc.numAmostras * 100.0
 
@@ -1628,68 +1657,121 @@
 							if (vm.dataChartEta.datasets[j].data[i] > 1.9 && vm.dataChartEta.datasets[j].data[i] <= 2.2) {
 								vm.DataCalc.calc02Value++
 							}
-
 						}
 						vm.DataCalc.calc02Perc = vm.DataCalc.calc02Value / vm.DataCalc.numAmostras * 100.0
-
 						for (let j = 0; j <= 7; j++) {
 							if (vm.dataChartEta.datasets[j].data[i] > 1.6 && vm.dataChartEta.datasets[j].data[i] <= 1.9) {
 								vm.DataCalc.calc03Value++
 							}
-
 						}
 						vm.DataCalc.calc03Perc = vm.DataCalc.calc03Value / vm.DataCalc.numAmostras * 100.0
-
 						for (let j = 0; j <= 7; j++) {
 							if (vm.dataChartEta.datasets[j].data[i] > 1.3 && vm.dataChartEta.datasets[j].data[i] <= 1.6) {
 								vm.DataCalc.calc04Value++
 							}
-
 						}
 						vm.DataCalc.calc04Perc = vm.DataCalc.calc04Value / vm.DataCalc.numAmostras * 100.0
-
 						for (let j = 0; j <= 7; j++) {
 							if (vm.dataChartEta.datasets[j].data[i] > 1 && vm.dataChartEta.datasets[j].data[i] <= 1.3) {
 								vm.DataCalc.calc05Value++
 							}
-
 						}
 						vm.DataCalc.calc05Perc = vm.DataCalc.calc05Value / vm.DataCalc.numAmostras * 100.0
-
 						for (let j = 0; j <= 7; j++) {
 							if (vm.dataChartEta.datasets[j].data[i] > 0.5 && vm.dataChartEta.datasets[j].data[i] <= 1) {
 								vm.DataCalc.calc06Value++
 							}
-
 						}
 						vm.DataCalc.calc06Perc = vm.DataCalc.calc06Value / vm.DataCalc.numAmostras * 100.0
-
 						for (let j = 0; j <= 7; j++) {
 							if (vm.dataChartEta.datasets[j].data[i] > 0.3 && vm.dataChartEta.datasets[j].data[i] <= 0.5) {
 								vm.DataCalc.calc07Value++
 							}
-
 						}
 						vm.DataCalc.calc07Perc = vm.DataCalc.calc07Value / vm.DataCalc.numAmostras * 100.0
-
 						for (let j = 0; j <= 7; j++) {
 							if (vm.dataChartEta.datasets[j].data[i] <= 0.3) {
 								vm.DataCalc.calc08Value++
 							}
-
 						}
 						vm.DataCalc.calc08Perc = vm.DataCalc.calc08Value / vm.DataCalc.numAmostras * 100.0
-
-
 					}
-
 					vm.DataCalc.percentil = getPercentil(95, vm.dataSetsToPercentil)
-
+					vm.DataCalcFiltro[0] = calcEstatisticasPorColuna(vm.dataChartEta,0)
+					vm.DataCalcFiltro[1] = calcEstatisticasPorColuna(vm.dataChartEta,1)
+					vm.DataCalcFiltro[2] = calcEstatisticasPorColuna(vm.dataChartEta,2)
+					vm.DataCalcFiltro[3] = calcEstatisticasPorColuna(vm.dataChartEta,3)
+					vm.DataCalcFiltro[4] = calcEstatisticasPorColuna(vm.dataChartEta,4)
+					vm.DataCalcFiltro[5] = calcEstatisticasPorColuna(vm.dataChartEta,5)
+					vm.DataCalcFiltro[6] = calcEstatisticasPorColuna(vm.dataChartEta,6)
+					vm.DataCalcFiltro[7] = calcEstatisticasPorColuna(vm.dataChartEta,7)
 				})
 
+				
 
 
+			}
 
+			//função para calcula de estatísticas por filtro/coluna
+			function calcEstatisticasPorColuna(dataArrayChar, indexData) {
+				var dataEstatistica = {}
+				dataEstatistica.numAmostras = dataArrayChar.labels.length * 1
+				dataEstatistica.calc01Value = 0
+				dataEstatistica.calc01Perc = 0
+				dataEstatistica.calc02Value = 0
+				dataEstatistica.calc02Perc = 0
+				dataEstatistica.calc03Value = 0
+				dataEstatistica.calc03Perc = 0
+				dataEstatistica.calc04Value = 0
+				dataEstatistica.calc04Perc = 0
+				dataEstatistica.calc05Value = 0
+				dataEstatistica.calc05Perc = 0
+				dataEstatistica.calc06Value = 0
+				dataEstatistica.calc06Perc = 0
+				dataEstatistica.calc07Value = 0
+				dataEstatistica.calc07Perc = 0
+				dataEstatistica.calc08Value = 0
+				dataEstatistica.calc08Perc = 0
+				var dataSetsToPercentil = []
+				for (let i = 0; i < dataArrayChar.labels.length; i++) {
+					dataSetsToPercentil.push(dataArrayChar.datasets[indexData].data[i])
+					if (dataArrayChar.datasets[indexData].data[i] > 2.2) {
+						dataEstatistica.calc01Value++
+					}
+					dataEstatistica.calc01Perc = dataEstatistica.calc01Value / dataEstatistica.numAmostras * 100.0
+
+					if (dataArrayChar.datasets[indexData].data[i] > 1.9 && dataArrayChar.datasets[indexData].data[i] <= 2.2) {
+						dataEstatistica.calc02Value++
+					}
+					dataEstatistica.calc02Perc = dataEstatistica.calc02Value / dataEstatistica.numAmostras * 100.0
+					if (dataArrayChar.datasets[indexData].data[i] > 1.6 && dataArrayChar.datasets[indexData].data[i] <= 1.9) {
+						dataEstatistica.calc03Value++
+					}
+					dataEstatistica.calc03Perc = dataEstatistica.calc03Value / dataEstatistica.numAmostras * 100.0
+					if (dataArrayChar.datasets[indexData].data[i] > 1.3 && dataArrayChar.datasets[indexData].data[i] <= 1.6) {
+						dataEstatistica.calc04Value++
+					}
+					dataEstatistica.calc04Perc = dataEstatistica.calc04Value / dataEstatistica.numAmostras * 100.0
+					if (dataArrayChar.datasets[indexData].data[i] > 1 && dataArrayChar.datasets[indexData].data[i] <= 1.3) {
+						dataEstatistica.calc05Value++
+					}
+					dataEstatistica.calc05Perc = dataEstatistica.calc05Value / dataEstatistica.numAmostras * 100.0
+					if (dataArrayChar.datasets[indexData].data[i] > 0.5 && dataArrayChar.datasets[indexData].data[i] <= 1) {
+						dataEstatistica.calc06Value++
+					}
+					dataEstatistica.calc06Perc = dataEstatistica.calc06Value / dataEstatistica.numAmostras * 100.0
+
+					if (dataArrayChar.datasets[indexData].data[i] > 0.3 && dataArrayChar.datasets[indexData].data[i] <= 0.5) {
+						dataEstatistica.calc07Value++
+					}
+					dataEstatistica.calc07Perc = dataEstatistica.calc07Value / dataEstatistica.numAmostras * 100.0
+					if (dataArrayChar.datasets[indexData].data[i] <= 0.3) {
+						dataEstatistica.calc08Value++
+					}
+					dataEstatistica.calc08Perc = dataEstatistica.calc08Value / dataEstatistica.numAmostras * 100.0
+				}
+				dataEstatistica.percentil = getPercentil(95, dataSetsToPercentil)
+				return dataEstatistica
 			}
 
 			vm.periodoClick = function () {
